@@ -1,0 +1,21 @@
+api_version = "2026-07"
+
+[[extensions]]
+name = "t:name"
+handle = "regional-discount-fn"
+type = "function"
+uid = "b6b92826-3987-3bbf-cc24-4a48282fe3267cb22e01"
+description = "t:description"
+
+  [[extensions.targeting]]
+  target = "purchase.order-discount.run"
+  input_query = "src/run.graphql"
+  export = "run"
+
+  [extensions.build]
+  command = ""
+  path = "dist/function.wasm"
+
+  [extensions.ui.paths]
+  create = "/"
+  details = "/"

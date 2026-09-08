@@ -1,0 +1,62 @@
+{% comment %}
+  Regional Discount Announcement & State Banner Block
+{% endcomment %}
+
+<div
+  class="regional-banner-container"
+  data-accent-color="{{ block.settings.accent_color | default: '#2563eb' }}"
+  style="background-color: {{ block.settings.bg_color | default: '#eff6ff' }}; border-color: {{ block.settings.border_color | default: '#bfdbfe' }};"
+>
+  <div class="regional-banner-inner">
+    <span class="regional-banner-flag">🇮🇳</span>
+    <div class="regional-banner-text-group">
+      <span class="regional-banner-heading">{{ block.settings.banner_heading | default: 'Special State Pricing' }}</span>
+      <span class="regional-banner-message" id="regional-banner-dynamic-msg">
+        {{ block.settings.custom_text | default: 'Delivering to India? Select your state for exclusive regional discounts at checkout.' }}
+      </span>
+    </div>
+    <button type="button" class="regional-banner-change-btn" id="regional-banner-trigger-btn">
+      <span id="regional-banner-btn-text">Select State</span>
+      <span class="regional-banner-btn-arrow">&rarr;</span>
+    </button>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Regional State Banner",
+  "target": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "banner_heading",
+      "label": "Heading",
+      "default": "Special State Pricing"
+    },
+    {
+      "type": "text",
+      "id": "custom_text",
+      "label": "Default Message",
+      "default": "Delivering to India? Select your state for exclusive regional discounts at checkout."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#eff6ff"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border Color",
+      "default": "#bfdbfe"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#2563eb"
+    }
+  ]
+}
+{% endschema %}

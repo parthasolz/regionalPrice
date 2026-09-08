@@ -1,0 +1,19 @@
+query RunInput {
+  cart {
+    attribute(key: "_customer_state") {
+      value
+    }
+    cost {
+      subtotalAmount {
+        amount
+        currencyCode
+      }
+    }
+  }
+  discountNode {
+    metafield(namespace: "$app:regional-discount-fn", key: "function-configuration") {
+      value
+    }
+  }
+}
+
