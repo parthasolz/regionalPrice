@@ -7,7 +7,6 @@ embedded = true
 
 [build]
 automatically_update_urls_on_dev = true
-include_config_on_deploy = true
 
 [webhooks]
 api_version = "2026-10"
@@ -27,6 +26,11 @@ scopes = "write_products,read_products,write_discounts,read_discounts,write_meta
 
 [auth]
 redirect_urls = [ "https://example.com/api/auth" ]
+
+[app_proxy]
+url = "https://example.com/api/state-discounts"
+subpath = "regional-price"
+prefix = "apps"
 
 [product.metafields.app.demo_info]
 type = "single_line_text_field"

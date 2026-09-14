@@ -16,15 +16,27 @@ export interface StateRuleConfig {
   stateName: string;
   discountType: "PERCENTAGE" | "FIXED_AMOUNT";
   discountValue: number;
+  adjustmentType?: "DECREASE" | "INCREASE";
+  includeCompareAt?: boolean;
   minOrderAmount?: number | null;
   isActive: boolean;
   customMessage?: string | null;
+}
+
+export interface ProductOverrideConfig {
+  stateCode: string;
+  productId: string;
+  variantId?: string | null;
+  customPrice?: number | null;
+  customCompareAtPrice?: number | null;
+  isIncluded?: boolean;
 }
 
 export interface FunctionConfiguration {
   isEnabled?: boolean;
   defaultDiscountTitle?: string;
   rules?: StateRuleConfig[];
+  productOverrides?: ProductOverrideConfig[];
 }
 
 function normalizeStateString(str: string): string {
@@ -89,13 +101,17 @@ export function run(input: RunInput): FunctionRunResult {
   }
 
   const isPercentage = matchedRule.discountType !== "FIXED_AMOUNT";
+  const formattedDiscountValue =
+    matchedRule.discountValue % 1 === 0
+      ? matchedRule.discountValue.toString()
+      : matchedRule.discountValue.toFixed(2);
   const discountValueStr = matchedRule.discountValue.toFixed(2);
 
   const discountMessage =
     matchedRule.customMessage ||
     (isPercentage
-      ? `${matchedRule.stateName} Discount (${matchedRule.discountValue}% OFF)`
-      : `${matchedRule.stateName} Discount (₹${matchedRule.discountValue} OFF)`);
+      ? `${matchedRule.stateName} Discount (${formattedDiscountValue}% OFF)`
+      : `${matchedRule.stateName} Discount (₹${formattedDiscountValue} OFF)`);
 
   return {
     discountApplicationStrategy: DiscountApplicationStrategy.First,

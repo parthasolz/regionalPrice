@@ -48,20 +48,43 @@ model ShopDiscountSetting {
 }
 
 model StateDiscountRule {
-  id                String              @id @default(cuid())
-  shop              String
-  shopSettingId     String
-  shopSetting       ShopDiscountSetting @relation(fields: [shopSettingId], references: [id], onDelete: Cascade)
-  stateCode         String              // e.g. WB, MH, DL, KA, TN
-  stateName         String              // e.g. West Bengal, Maharashtra
-  discountType      String              @default("PERCENTAGE") // PERCENTAGE | FIXED_AMOUNT
-  discountValue     Float               @default(0) // e.g. 50.0 for 50%
-  minOrderAmount    Float?              // optional minimum cart amount
-  isActive          Boolean             @default(true)
-  customMessage     String?
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
+  id                     String              @id @default(cuid())
+  shop                   String
+  shopSettingId          String
+  shopSetting            ShopDiscountSetting @relation(fields: [shopSettingId], references: [id], onDelete: Cascade)
+  stateCode              String              // e.g. WB, MH, DL, KA, TN
+  stateName              String              // e.g. West Bengal, Maharashtra
+  discountType           String              @default("PERCENTAGE") // PERCENTAGE | FIXED_AMOUNT
+  discountValue          Float               @default(0) // e.g. 50.0 for 50%
+  adjustmentType         String              @default("DECREASE") // DECREASE | INCREASE
+  includeCompareAt       Boolean             @default(true)
+  autoIncludeNewProducts Boolean             @default(true)
+  currency               String              @default("INR ₹")
+  minOrderAmount         Float?              // optional minimum cart amount
+  isActive               Boolean             @default(true)
+  customMessage          String?
+  createdAt              DateTime            @default(now())
+  updatedAt              DateTime            @updatedAt
 
   @@unique([shop, stateCode])
 }
+
+model ProductPriceOverride {
+  id                   String   @id @default(cuid())
+  shop                 String
+  stateCode            String   // e.g. WB, MH, or "ALL"
+  productId            String   // Shopify Product GID or ID
+  variantId            String?  // Optional Variant GID
+  productTitle         String
+  variantTitle         String?
+  imageUrl             String?
+  customPrice          Float?   // Override price in currency
+  customCompareAtPrice Float?   // Override compare-at price
+  isIncluded           Boolean  @default(true)
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@unique([shop, stateCode, productId])
+}
+
 
