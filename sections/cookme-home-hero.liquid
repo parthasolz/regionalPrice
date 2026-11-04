@@ -1,0 +1,533 @@
+{%- comment -%}
+  Cookme Home Hero
+  Desktop  : 992px+
+  Tablet   : 768px - 991px
+  Mobile   : <=767px
+{%- endcomment -%}
+
+<section class="hero" id="hero-{{ section.id }}" data-ck-location="{{ section.settings.target_location | default: 'all' }}">
+
+  <div
+    id="heroCarousel-{{ section.id }}"
+    class="carousel slide"
+    data-bs-ride="carousel"
+    data-bs-interval="{{ section.settings.autoplay_speed | default: 7000 }}"
+    data-bs-pause="false"
+  >
+
+    <div class="carousel-indicators">
+
+      {%- for block in section.blocks -%}
+
+        <button
+          type="button"
+          data-bs-target="#heroCarousel-{{ section.id }}"
+          data-bs-slide-to="{{ forloop.index0 }}"
+          class="{% if forloop.first %}active{% endif %}"
+          {% if forloop.first %}aria-current="true"{% endif %}
+          aria-label="Slide {{ forloop.index }}"
+        ></button>
+
+      {%- endfor -%}
+
+    </div>
+
+
+    <div class="carousel-inner">
+
+      {%- for block in section.blocks -%}
+
+        {%- liquid
+          assign btn_link = block.settings.button_link
+
+          if btn_link == blank
+            assign btn_link = routes.all_products_collection_url
+          endif
+
+          assign bg_desktop = blank
+
+          if block.settings.desktop_image != blank
+            assign bg_desktop = block.settings.desktop_image | image_url: width: 2200
+          endif
+
+          assign bg_tablet = blank
+
+          if block.settings.tablet_image != blank
+            assign bg_tablet = block.settings.tablet_image | image_url: width: 1600
+          endif
+
+          assign bg_mobile = blank
+
+          if block.settings.mobile_image != blank
+            assign bg_mobile = block.settings.mobile_image | image_url: width: 1200
+          endif
+
+          assign badge_img = blank
+
+          if block.settings.badge_image != blank
+            assign badge_img = block.settings.badge_image | image_url: width: 320
+          endif
+
+          assign pack_1 = blank
+
+          if block.settings.product_image_1 != blank
+            assign pack_1 = block.settings.product_image_1 | image_url: width: 520
+          endif
+
+          assign pack_2 = blank
+
+          if block.settings.product_image_2 != blank
+            assign pack_2 = block.settings.product_image_2 | image_url: width: 520
+          endif
+
+          assign pack_3 = blank
+
+          if block.settings.product_image_3 != blank
+            assign pack_3 = block.settings.product_image_3 | image_url: width: 520
+          endif
+
+          assign cluster_base = blank
+
+          if block.settings.bottom_image != blank
+            assign cluster_base = block.settings.bottom_image | image_url: width: 900
+          endif
+        -%}
+
+
+        <div
+          class="carousel-item{% if forloop.first %} active{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+
+
+          <!-- DESKTOP BANNER: 992px+ -->
+
+          <div
+            class="banner_inner hero-desktop-banner d-none d-lg-flex"
+            style="
+              {% if bg_desktop != blank %}
+                --bg-desktop: url('{{ bg_desktop }}');
+              {% endif %}
+            "
+          >
+
+            <div
+              class="container-xl hero-content"
+              style="max-width:1180px"
+            >
+
+              <div class="row align-items-center">
+
+
+                <!-- LEFT CONTENT -->
+
+                <div class="col-lg-5">
+
+                  <div class="hero-left-wrap">
+
+                    <div class="hero-left-content">
+
+                      {%- if block.settings.kicker != blank -%}
+
+                        <div class="hero-kicker">
+                          {{ block.settings.kicker }}
+                        </div>
+
+                      {%- endif -%}
+
+
+                      {%- if block.settings.hero_title != blank -%}
+
+                        <h1 class="hero-title">
+                          {{ block.settings.hero_title }}
+                        </h1>
+
+                      {%- endif -%}
+
+
+                      {%- if block.settings.sub != blank -%}
+
+                        <p class="hero-sub">
+                          {{ block.settings.sub }}
+                        </p>
+
+                      {%- endif -%}
+
+
+                      {%- if block.settings.button_label != blank -%}
+
+                        <div class="hero-cta-row">
+
+                          <a
+                            href="{{ btn_link }}"
+                            class="btn-pill btn-red"
+                          >
+
+                            {{ block.settings.button_label }}
+
+                            <span class="bc">
+                              <i class="bi bi-arrow-right"></i>
+                            </span>
+
+                          </a>
+
+                        </div>
+
+                      {%- endif -%}
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <!-- RIGHT VISUAL -->
+
+                <div class="col-lg-7">
+
+                  <div class="hero-visual">
+
+
+                    {%- if badge_img != blank -%}
+
+                      <div class="hero-badge">
+
+                        <img
+                          src="{{ badge_img }}"
+                          alt="{{ block.settings.badge_alt | escape }}"
+                          loading="lazy"
+                        >
+
+                      </div>
+
+                    {%- endif -%}
+
+
+                    {%- if pack_1 != blank -%}
+
+                      <img
+                        class="hero-pack p1 slide-in-l" id="pack1"
+                        src="{{ pack_1 }}"
+                        alt="{{ block.settings.pack_1_alt | escape }}"
+                        loading="lazy"
+                      >
+
+                    {%- endif -%}
+
+
+                    {%- if pack_2 != blank -%}
+
+                      <img
+                        class="hero-pack p2 slide-in-c" id="pack2"
+                        src="{{ pack_2 }}"
+                        alt="{{ block.settings.pack_2_alt | escape }}"
+                        loading="lazy"
+                      >
+
+                    {%- endif -%}
+
+
+                    {%- if pack_3 != blank -%}
+
+                      <img
+                        class="hero-pack p3 slide-in-r" id="pack3"
+                        src="{{ pack_3 }}"
+                        alt="{{ block.settings.pack_3_alt | escape }}"
+                        loading="lazy"
+                      >
+
+                    {%- endif -%}
+
+
+                    {%- if cluster_base != blank -%}
+
+                      <div class="bowl-cluster">
+
+                        <img
+                          src="{{ cluster_base }}"
+                          alt="{{ block.settings.bottom_alt | escape }}"
+                          loading="lazy"
+                        >
+
+                      </div>
+
+                    {%- endif -%}
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- TABLET BANNER: 768px - 991px -->
+
+          {%- if bg_tablet != blank -%}
+
+            <div class="hero-tablet-banner d-none d-md-block d-lg-none">
+
+              <img
+                src="{{ bg_tablet }}"
+                alt="{{ block.settings.hero_title | strip_html | escape }}"
+                loading="lazy"
+              >
+
+            </div>
+
+          {%- endif -%}
+
+
+          <!-- MOBILE BANNER: <=767px -->
+
+          {%- if bg_mobile != blank -%}
+
+            <div class="hero-mobile-banner d-block d-md-none">
+
+              <img
+                src="{{ bg_mobile }}"
+                alt="{{ block.settings.hero_title | strip_html | escape }}"
+                loading="lazy"
+              >
+
+            </div>
+
+          {%- endif -%}
+
+
+        </div>
+
+      {%- endfor -%}
+
+    </div>
+
+
+    {%- if section.blocks.size > 1 -%}
+
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#heroCarousel-{{ section.id }}"
+        data-bs-slide="prev"
+      >
+
+        <span
+          class="carousel-control-prev-icon"
+          aria-hidden="true"
+        ></span>
+
+        <span class="visually-hidden">
+          Previous
+        </span>
+
+      </button>
+
+
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#heroCarousel-{{ section.id }}"
+        data-bs-slide="next"
+      >
+
+        <span
+          class="carousel-control-next-icon"
+          aria-hidden="true"
+        ></span>
+
+        <span class="visually-hidden">
+          Next
+        </span>
+
+      </button>
+
+    {%- endif -%}
+
+  </div>
+
+
+  <a href="#categories" class="scroll-cue" id="scrollCue">
+    <span class="scroll-cue-label">Scroll</span>
+    <span class="scroll-cue-ring"><i class="bi bi-chevron-down"></i></span>
+  </a>
+
+</section>
+
+
+{% schema %}
+
+{
+  "name": "Hero Section",
+  "max_blocks": 6,
+
+  "settings": [
+
+    {
+      "type": "select",
+      "id": "target_location",
+      "label": "Location Visibility",
+      "options": [
+        { "value": "all", "label": "All Locations" },
+        { "value": "wb", "label": "West Bengal Only" },
+        { "value": "india", "label": "Out of West Bengal (Rest of India)" }
+      ],
+      "default": "all"
+    },
+
+    {
+      "type": "text",
+      "id": "autoplay_speed",
+      "label": "Autoplay speed (ms)",
+      "default": "7000"
+    }
+
+  ],
+
+  "blocks": [
+
+    {
+      "type": "slide",
+      "name": "Slide",
+
+      "settings": [
+
+        {
+          "type": "image_picker",
+          "id": "desktop_image",
+          "label": "Desktop background"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "tablet_image",
+          "label": "Tablet banner (768–991px)"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile banner (767px and below)"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "badge_image",
+          "label": "Badge image"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "product_image_1",
+          "label": "Right product PNG 1"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "product_image_2",
+          "label": "Right product PNG 2"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "product_image_3",
+          "label": "Right product PNG 3"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "bottom_image",
+          "label": "Bottom support image"
+        },
+
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker"
+        },
+
+        {
+          "type": "textarea",
+          "id": "hero_title",
+          "label": "Hero Title"
+        },
+
+        {
+          "type": "textarea",
+          "id": "sub",
+          "label": "Sub text"
+        },
+
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+
+        {
+          "type": "text",
+          "id": "badge_alt",
+          "label": "Badge alt text"
+        },
+
+        {
+          "type": "text",
+          "id": "pack_1_alt",
+          "label": "Product image 1 alt"
+        },
+
+        {
+          "type": "text",
+          "id": "pack_2_alt",
+          "label": "Product image 2 alt"
+        },
+
+        {
+          "type": "text",
+          "id": "pack_3_alt",
+          "label": "Product image 3 alt"
+        },
+
+        {
+          "type": "text",
+          "id": "bottom_alt",
+          "label": "Bottom image alt"
+        }
+
+      ]
+    }
+
+  ],
+
+  "presets": [
+
+    {
+      "name": "Cookme Home Hero",
+
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+
+    }
+
+  ],
+
+  "enabled_on": {
+    "templates": ["index"]
+  }
+
+}
+
+{% endschema %}

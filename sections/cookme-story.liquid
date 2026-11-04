@@ -1,0 +1,351 @@
+{%- comment -%}
+  Cookme Story — brand heritage section.
+
+  DESKTOP 992px+
+  - Main story image is NOT clickable.
+  - Only CTA button is clickable.
+
+  MOBILE / TABLET BELOW 992px
+  - Main story image is clickable.
+  - Uses the SAME CTA link as the button.
+  - Floating images and badge are NOT clickable.
+{%- endcomment -%}
+
+{%- liquid
+  assign img = section.settings.image
+  assign pack1 = section.settings.pack_image_1
+  assign pack2 = section.settings.pack_image_2
+  assign story_link = section.settings.cta_link | default: routes.root_url
+-%}
+
+
+<section
+  class="story"
+  id="story-{{ section.id }}"
+  data-ck-location="{{ section.settings.target_location | default: 'all' }}"
+>
+
+  <div class="container">
+
+    <div class="row align-items-center g-5 story-grid">
+
+
+      <!-- =====================================================
+           STORY CONTENT
+           ===================================================== -->
+
+      <div class="col-lg-6 reveal show">
+
+        <div class="story-content">
+
+
+          <!-- KICKER -->
+
+          {%- if section.settings.kicker != blank -%}
+
+            <div class="eyebrow">
+              {{ section.settings.kicker }}
+            </div>
+
+          {%- endif -%}
+
+
+          <!-- TITLE -->
+
+          {%- if section.settings.title != blank -%}
+            <h2 class="story-title">
+              {{ section.settings.title }}
+            </h2>
+          {%- endif -%}
+
+
+          <!-- DESCRIPTION -->
+
+          {%- if section.settings.text != blank -%}
+
+            <p class="story-text">
+              {{ section.settings.text }}
+            </p>
+
+          {%- endif -%}
+
+
+          <!-- CTA BUTTON -->
+
+          {%- if section.settings.cta_label != blank -%}
+
+            <a
+              href="{{ story_link }}"
+              class="btn-pill btn-red"
+            >
+
+              {{ section.settings.cta_label }}
+
+              <span class="bc">
+                <i class="bi bi-arrow-right"></i>
+              </span>
+
+            </a>
+
+          {%- endif -%}
+
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           STORY VISUAL
+           ===================================================== -->
+
+      <div class="col-lg-6">
+
+        <div class="story-visual">
+
+
+          <!-- =================================================
+               MAIN STORY IMAGE
+
+               Desktop:
+               Anchor exists but click is disabled.
+
+               Below 992px:
+               Entire image becomes clickable.
+
+               Same CTA link is used.
+               ================================================= -->
+
+          {%- if img -%}
+
+            <a
+              href="{{ story_link }}"
+              class="story-mobile-image-link"
+              aria-label="{{ section.settings.cta_label | default: shop.name | escape }}"
+            >
+
+              <img
+                src="{{ img | image_url: width: 900 }}"
+                alt="{{ section.settings.title_em | default: shop.name | escape }}"
+                class="story-main-img"
+                loading="lazy"
+              >
+
+            </a>
+
+          {%- else -%}
+
+            <a
+              href="{{ story_link }}"
+              class="story-mobile-image-link"
+              aria-label="{{ section.settings.cta_label | default: section.settings.title_em | default: shop.name | escape }}"
+            >
+
+              <img
+                src="{{ 'our-story-img.webp' | asset_url }}"
+                alt="{{ shop.name | escape }}"
+                class="story-main-img"
+                loading="lazy"
+              >
+
+            </a>
+
+          {%- endif -%}
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================================================
+     STORY IMAGE CLICK BEHAVIOUR
+     ========================================================= -->
+
+<style>
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+.story-mobile-image-link {
+  display: block;
+  width: 100%;
+  line-height: 0;
+  text-decoration: none;
+}
+
+
+/* =========================================================
+   MAIN IMAGE
+   ========================================================= */
+
+.story-mobile-image-link .story-main-img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+
+/* =========================================================
+   DESKTOP — 992px AND ABOVE
+
+   Main image:
+   NOT clickable
+
+   CTA button:
+   clickable
+   ========================================================= */
+
+@media (min-width: 992px) {
+
+  .story-mobile-image-link {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .story-mobile-image-link .story-main-img {
+    pointer-events: none;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET + MOBILE — BELOW 992px
+
+   Main image:
+   FULLY CLICKABLE
+
+   Uses same CTA link.
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+  .story-mobile-image-link {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  .story-mobile-image-link .story-main-img {
+    pointer-events: auto;
+  }
+
+}
+
+
+/* =========================================================
+   REMOVE DEFAULT LINK EFFECT
+   ========================================================= */
+
+.story-mobile-image-link:hover,
+.story-mobile-image-link:focus,
+.story-mobile-image-link:active {
+  text-decoration: none;
+  outline: none;
+}
+
+
+/* =========================================================
+   MOBILE / TABLET
+
+   No zoom
+   No movement
+   No transform
+   ========================================================= */
+
+@media (max-width: 991.98px) {
+
+  .story-mobile-image-link .story-main-img {
+    transform: none;
+    transition: none;
+  }
+
+}
+
+</style>
+
+
+{% schema %}
+
+{
+  "name": "Story",
+
+  "settings": [
+
+    {
+      "type": "select",
+      "id": "target_location",
+      "label": "Location Visibility",
+      "options": [
+        { "value": "all", "label": "All Locations" },
+        { "value": "wb", "label": "West Bengal Only" },
+        { "value": "india", "label": "Out of West Bengal (Rest of India)" }
+      ],
+      "default": "all"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Main image"
+    },
+
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker",
+      "default": "Our story"
+    },
+
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Born in <em>Kolkata.</em><br>Trusted for 175 Years."
+    },
+
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "For over 175 years, Krishna Chandra Dutta Spice Pvt Ltd has crafted authentic Bengali spice blends — slow-ground, small-batch, and full of flavour."
+    },
+
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Read Our Story"
+    },
+
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA link"
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Cookme Story"
+    }
+  ],
+
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  }
+
+}
+
+{% endschema %}

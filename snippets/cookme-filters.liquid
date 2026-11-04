@@ -1,0 +1,159 @@
+{%- comment -%}
+  Cookme collection filters.
+  Add the matching checkbox settings to the parent Collection section schema.
+  Missing settings default to visible.
+{%- endcomment -%}
+
+{%- assign configured_categories = section.settings.filter_collections -%}
+
+{%- if section.settings.show_category_filter != false -%}
+  <div class="filter-block filter-category-block" data-filter-accordion data-category-filter>
+    <button type="button" class="filter-block-heading" aria-expanded="true">
+      <span>Category</span>
+      <i class="bi bi-chevron-up" aria-hidden="true"></i>
+    </button>
+    <div class="filter-block-body">
+      {%- if configured_categories != blank -%}
+        {%- for cat in configured_categories -%}
+          <label class="filter-option category-filter-option">
+            <span class="label">
+              <input type="checkbox"
+                     data-category-handle="{{ cat.handle }}"
+                     data-category-url="{{ cat.url }}"
+                     data-category-filter-input
+                     {% if collection.handle == cat.handle %}checked{% endif %}>
+              {{ cat.title }}
+            </span>
+          </label>
+        {%- endfor -%}
+        <button type="button" class="category-filter-clear" data-category-filter-clear hidden>Clear category</button>
+      {%- else -%}
+        <span class="filter-empty">Select collections in the Collection Page section settings.</span>
+      {%- endif -%}
+    </div>
+  </div>
+{%- endif -%}
+
+{%- assign rendered_filter_count = 0 -%}
+
+{%- for filter in collection.filters -%}
+  {%- liquid
+    assign label_down = filter.label | downcase
+    assign param_down = filter.param_name | downcase
+    assign is_availability_filter = false
+    assign is_price_filter = false
+    assign is_swatch = false
+
+    if param_down contains 'availability' or label_down contains 'availability'
+      assign is_availability_filter = true
+    endif
+    if filter.type == 'price_range'
+      assign is_price_filter = true
+    endif
+    if label_down contains 'size' or label_down contains 'pack' or label_down contains 'weight'
+      assign is_swatch = true
+    endif
+
+    assign show_this_filter = true
+    if is_availability_filter and section.settings.show_availability_filter == false
+      assign show_this_filter = false
+    elsif is_price_filter and section.settings.show_price_filter == false
+      assign show_this_filter = false
+    elsif is_availability_filter == false and is_price_filter == false and section.settings.show_other_filters == false
+      assign show_this_filter = false
+    endif
+  -%}
+
+  {%- if show_this_filter -%}
+    {%- assign rendered_filter_count = rendered_filter_count | plus: 1 -%}
+    <div class="filter-block" data-filter-accordion data-filter-label="{{ filter.label | escape }}">
+      <button type="button" class="filter-block-heading" aria-expanded="true">
+        <span>{{ filter.label }}</span>
+        <i class="bi bi-chevron-up" aria-hidden="true"></i>
+      </button>
+      <div class="filter-block-body">
+        {%- case filter.type -%}
+          {%- when 'price_range' -%}
+            {%- liquid
+              assign range_min = filter.range_min | money_without_currency | replace: ',', ''
+              assign range_max = filter.range_max | money_without_currency | replace: ',', ''
+              assign current_max = filter.max_value.value | money_without_currency | replace: ',', ''
+              if current_max == blank or current_max == '0' or current_max == range_min
+                assign current_max = range_max
+              endif
+              assign current_min = filter.min_value.value | money_without_currency | replace: ',', ''
+              if current_min == blank or current_min == '0' or current_min == range_min
+                assign current_min = range_min
+              endif
+            -%}
+            <form class="filter-price-form" method="get" action="{{ collection.url }}" data-price-filter-form>
+              {%- unless collection.sort_by == blank or collection.sort_by == 'manual' -%}
+                <input type="hidden" name="sort_by" value="{{ collection.sort_by }}">
+              {%- endunless -%}
+              {%- for other_filter in collection.filters -%}
+                {%- if other_filter.type != 'price_range' -%}
+                  {%- for active_value in other_filter.active_values -%}
+                    <input type="hidden" name="{{ active_value.param_name }}" value="{{ active_value.value | escape }}">
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
+              <div class="price-range" data-dual-range data-range-min="{{ range_min }}" data-range-max="{{ range_max }}">
+                <input type="range" name="filter.v.price.gte" min="{{ range_min }}" max="{{ range_max }}" value="{{ current_min }}" step="1" data-price-slider-min aria-label="Minimum price">
+                <input type="range" name="filter.v.price.lte" min="{{ range_min }}" max="{{ range_max }}" value="{{ current_max }}" step="1" data-price-slider-max aria-label="Maximum price">
+              </div>
+              <div class="price-inputs">
+                <span data-price-min>₹{{ current_min }}</span>
+                <span data-price-max>₹{{ current_max }}</span>
+              </div>
+            </form>
+
+          {%- when 'boolean' -%}
+            {%- for value in filter.values -%}
+              <label class="filter-option">
+                <span class="label">
+                  <input type="checkbox" {% if value.active %}checked{% endif %} data-filter-param="{{ value.param_name }}" data-filter-value="{{ value.value | escape }}" data-multi-filter-input>
+                  {{ value.label }}
+                </span>
+                <span class="count">{{ value.count }}</span>
+              </label>
+            {%- endfor -%}
+
+          {%- when 'list' -%}
+            {%- if is_swatch -%}
+              <div class="swatch-row">
+                {%- for value in filter.values -%}
+                  <a href="{% if value.active %}{{ value.url_to_remove }}{% else %}{{ value.url_to_add }}{% endif %}" class="swatch{% if value.active %} on{% endif %}{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                    {{ value.label }}
+                  </a>
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              {%- for value in filter.values -%}
+                <label class="filter-option">
+                  <span class="label">
+                    <input type="checkbox" {% if value.active %}checked{% endif %} data-filter-param="{{ value.param_name }}" data-filter-value="{{ value.value | escape }}" data-multi-filter-input>
+                    {{ value.label }}
+                  </span>
+                </label>
+              {%- endfor -%}
+            {%- endif -%}
+        {%- endcase -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if rendered_filter_count == 0 and section.settings.show_category_filter == false -%}
+  <p class="ck-filter-none">{{ 'collections.general.no_filter' | t | default: 'No filters available.' }}</p>
+{%- endif -%}
+
+<div class="plp-promo desktop">
+  <div>
+    <h4>Pan India Free Delivery</h4>
+    <p>Free delivery on orders above <span class="code">₹199</span> <span>(COD Available)</span></p>
+  </div>
+  {% comment %} <a href="/collections" class="btn-pill btn-ghost">
+    Shop the offer <span class="bc"><i class="bi bi-arrow-right"></i></span>
+  </a> {% endcomment %}
+</div>
+

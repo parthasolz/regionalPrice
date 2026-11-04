@@ -1,0 +1,46 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "inner_page_banner_VKteF9": {
+      "type": "inner-page-banner",
+      "name": "Inner Page Banner",
+      "settings": {
+        "banner_image_desktop": "shopify://shop_images/hero-bg-v2-new.webp",
+        "banner_image_tablet": "shopify://shop_images/Get_in_Touch__Spice_Flavor.png",
+        "banner_image_mobile": "shopify://shop_images/cookme_contact_banner_800x540_text_fixed.png",
+        "breadcrumb_title": "",
+        "eyebrow": "get In touch",
+        "title": "We'd Love to<br>hear form <span class=\"it\">You</span>",
+        "description": "Have a question, suggestion or feedback?<br>\nWe are here to help. Reach out to us anytime."
+      }
+    },
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "inner_page_banner_VKteF9",
+    "main",
+    "form"
+  ]
+}

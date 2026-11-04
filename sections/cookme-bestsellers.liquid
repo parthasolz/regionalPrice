@@ -1,0 +1,111 @@
+{%- comment -%}
+  Cookme Bestsellers — show 5 products from selected/bestseller collection,
+  otherwise fall back to latest products.
+{%- endcomment -%}
+{%- liquid
+  assign source_collection = section.settings.collection
+  assign using_latest = false
+
+  if source_collection == blank and collections['bestsellers'] != blank and collections['bestsellers'].products_count > 0
+    assign source_collection = collections['bestsellers']
+  endif
+
+  assign latest_products = collections.all.products | sort: 'created_at' | reverse
+  assign max_products = section.settings.products_to_show | default: 5
+
+  if source_collection == blank or source_collection.products_count == 0
+    assign using_latest = true
+  endif
+-%}
+<section class="products d-md-flex" id="products-{{ section.id }}" data-ck-location="{{ section.settings.target_location | default: 'all' }}">
+  <div class="products-bg"></div>
+  <div class="container">
+    <div class="products-header">
+      <div class="eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="section-title">{{ section.settings.title }}</h2>      
+    </div>
+
+    <div class="best-carousel">
+      <div class="best-track-wrap">
+        <div class="row g-2 g-md-4 best-track" id="bestTrack">
+          {%- if using_latest -%}
+            {%- for product in latest_products limit: max_products -%}
+              {% render 'cookme-product-card', product: product, card_class: 'col-6 col-md-4 col-lg-3', show_rating: true, rating_text: section.settings.rating_text, show_desc: true, show_wish: true, quick_add: true %}
+            {%- else -%}
+              <p class="ck-tab-empty">{{ section.settings.empty_text }}</p>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for product in source_collection.products limit: max_products -%}
+              {% render 'cookme-product-card', product: product, card_class: 'col-6 col-md-4 col-lg-3', show_rating: true, rating_text: section.settings.rating_text, show_desc: true, show_wish: true, quick_add: true %}
+            {%- else -%}
+              <p class="ck-tab-empty">{{ section.settings.empty_text }}</p>
+            {%- endfor -%}
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    {%- if section.settings.show_view_all -%}
+
+      <div class="text-center mt-5 best-view-all">
+
+        <a
+          href="{{ section.settings.view_all_link }}"
+          class="btn-pill btn-red"
+        >
+          {{ section.settings.view_all_text }}
+          <span class="bc">
+            <i class="bi bi-arrow-right"></i>
+          </span>
+        </a>
+
+      </div>
+
+    {%- endif -%}
+    
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Feature Products",
+  "settings": [
+    {
+      "type": "select",
+      "id": "target_location",
+      "label": "Location Visibility",
+      "options": [
+        { "value": "all", "label": "All Locations" },
+        { "value": "wb", "label": "West Bengal Only" },
+        { "value": "india", "label": "Out of West Bengal (Rest of India)" }
+      ],
+      "default": "all"
+    },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Leave empty to use a collection with handle 'bestsellers', otherwise latest products will be shown." },
+    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 4, "max": 8, "step": 1, "default": 5 },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our bestsellers" },    
+    { "type": "textarea", "id": "title", "label": "Title", "default": "Most <span class=\"it\">Loved</span> Masalas" },
+    { "type": "text", "id": "rating_text", "label": "Default rating text", "default": "4.8 (128)" },    
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show View All Products button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "Button text",
+      "default": "View All Products"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "Button link"
+    },
+    { "type": "text", "id": "empty_text", "label": "Empty text", "default": "No products yet." }
+  ],
+  "presets": [{ "name": "Cookme Bestsellers" }],
+  "enabled_on": { "templates": ["index"] }
+}
+{% endschema %}

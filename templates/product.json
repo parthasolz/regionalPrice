@@ -1,0 +1,109 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "cookme-main-product",
+      "blocks": {
+        "r1": {
+          "type": "review",
+          "settings": {
+            "name": "Ritika S.",
+            "date": "May 20, 2024",
+            "text": "Just like homemade! The taste is authentic and brings the real Bengali Alur Dom flavor to my kitchen.",
+            "helpful": "12"
+          }
+        },
+        "r2": {
+          "type": "review",
+          "settings": {
+            "name": "Arindam D.",
+            "date": "May 18, 2024",
+            "text": "Amazing aroma and perfect blend of spices. My family loved it, and the flavour stayed beautifully balanced.",
+            "helpful": "9"
+          }
+        },
+        "r3": {
+          "type": "review",
+          "settings": {
+            "name": "Pooja M.",
+            "date": "May 15, 2024",
+            "text": "Very fresh and tasty masala. Highly recommended for everyday Bengali cooking and weekend family meals.",
+            "helpful": "7"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
+      "settings": {
+        "option_label": "Pack Size",
+        "rating_value": "4.8",
+        "rating_count": "128",
+        "fallback_desc": "Authentic Bengali spice blend crafted by Krishna Chandra Dutta Spice Pvt Ltd.",
+        "tax_note": "MRP inclusive of all taxes · Ships in 24–48 hrs",
+        "trust_1": "100% Natural — no artificial colours, flavours or preservatives",
+        "trust_2": "FSSAI Certified · Lic. No. 10014031001052",
+        "trust_3": "Free Pan-India delivery on orders above ₹299",
+        "service_1_title": "No Returns",
+        "service_2_title": "Cash on Delivery",
+        "service_3_title": "Cookme Assured",
+        "description_text": "",
+        "ingredients_text": "Red Chilli, Coriander, Tomato, Cumin, Ginger, Mango, Aniseed (Small), Turmeric, Cinnmon, Cardamom (Small), Asafoetida, Common Salt, Bay Leaf, Clove",
+        "storage_text": "Potato 250 g, Cookme Alurdom Mix 2 tsp, Sugar and Salt to taste.",
+        "shipping_text": "Take a bowl and add ‘Cookme Alurdom Mix’ with water to make thick paste and keep aside. Boil 250 g potato and keep aside. Fry the boiled potatoes in a pan till golden brown. Add the paste made with ‘Cookme Alurdom Mix’ and stir for a while. Add sugar and salt to taste and water as per requirement and cook on a low flame till the gravy thickens. Serve hot.",
+        "rev_eyebrow": "What people say"
+      }
+    },
+    "related": {
+      "type": "cookme-related-products",
+      "settings": {
+        "max_products": 8,
+        "eyebrow": "Pairs well together",
+        "title_before": "You May Also",
+        "title_em": "Like",
+        "rating_text": "4.8 (128)"
+      }
+    },
+    "product_compliance_mNgt6d": {
+      "type": "product-compliance",
+      "disabled": true,
+      "name": "Product Compliance",
+      "settings": {
+        "ingredients_title": "Ingredients",
+        "requirements_title": "Requirements",
+        "how_to_cook_title": "How to Cook",
+        "nutrition_title": "Nutritional Information",
+        "customer_title": "Customer Care",
+        "customer_description": "<p>For feedback, complaints or queries, contact our Customer Care Executive</p>",
+        "customer_phone": "+91 98754 301385",
+        "customer_email": "care@cookme.in",
+        "customer_timing": "Mon – Sat (10:00 AM to 6:00 PM)",
+        "trademark_title": "Registered Trademark",
+        "trademark_description": "<p>© COOKME is a registered trademark of</p>",
+        "trademark_owner": "Krishna Chandra Dutta Spice Pvt. Ltd.",
+        "trademark_registration": "Registration No. 1234567",
+        "marketed_title": "Marketed By",
+        "marketed_company": "Krishna Chandra Dutta Spice Pvt. Ltd.",
+        "marketed_address": "123, B.B.D. Bag (E), Kolkata - 700001, West Bengal, India",
+        "marketed_fssai": "FSSAI Lic. No. 10014031001052",
+        "label_eyebrow": "PRODUCT INFORMATION",
+        "label_title": "Product Label & Packaging"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related",
+    "product_compliance_mNgt6d"
+  ]
+}

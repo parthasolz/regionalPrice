@@ -1,0 +1,966 @@
+/* ============================================================
+   COOKME CART — EXACT SCREENSHOT DESIGN
+   ============================================================ */
+
+.template-cart {
+  background: #fff !important;
+  color: #171717;
+}
+
+.template-cart .content-for-layout {
+  background: #fff;
+}
+
+/* ============================================================
+   MAIN CART
+   ============================================================ */
+
+.template-cart .shopify-section-group-header-group,
+.template-cart .shopify-section-group-footer-group {
+  position: relative;
+  z-index: 1;
+}
+
+.template-cart .shopify-section.inner-page-banner,
+.template-cart .inner-page-banner,
+.template-cart [id*='inner_page_banner'] {
+  display: none !important;
+}
+
+.template-cart .cookme-cart-count {
+  color: #7f776f;
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 13px;
+  font-weight: 500;
+  margin-left: 6px;
+}
+
+.template-cart cart-items {
+  display: block;
+  background: #fff;
+  padding: 32px 0 0 !important;
+}
+
+.template-cart cart-items > .page-width {
+  max-width: 1180px;
+  padding: 0 !important;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   TITLE ROW
+   ============================================================ */
+
+.template-cart .title-wrapper-with-link {
+  width: 576px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 18px;
+  padding: 0;
+}
+
+.template-cart .title-wrapper-with-link .title {
+  margin: 0;
+  padding: 0;
+  color: #151515;
+  font-family: var(--display, "Cormorant Garamond", serif);
+  font-size: 31px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.template-cart .title-wrapper-with-link .title::first-letter {
+  letter-spacing: 0;
+}
+
+.template-cart .title-wrapper-with-link .underlined-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 125px;
+  height: 34px;
+  min-width: 125px;
+
+  padding: 0;
+
+  border: 1px solid #e32c34;
+  border-radius: 999px;
+
+  color: #d3262f;
+  background: #fff;
+
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  text-transform: uppercase;
+
+  text-decoration: none;
+}
+
+.template-cart .title-wrapper-with-link .underlined-link:hover {
+  background: #d3262f;
+  color: #fff;
+}
+
+
+/* ============================================================
+   CART TABLE
+   ============================================================ */
+
+.template-cart .cart-items {
+  width: 576px !important;
+  margin: 0 !important;
+
+  border-collapse: separate !important;
+  border-spacing: 0 11px !important;
+
+  table-layout: fixed;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.template-cart .cart-items thead th {
+  height: 22px;
+
+  padding: 0 14px !important;
+
+  border: 0 !important;
+  background: transparent !important;
+
+  color: #77716c;
+
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.template-cart .cart-items thead th:first-child {
+  padding-left: 14px !important;
+  text-align: left;
+}
+
+.template-cart .cart-items thead th:nth-child(4) {
+  text-align: center;
+}
+
+.template-cart .cart-items thead th:last-child {
+  padding-right: 20px !important;
+  text-align: right;
+}
+
+
+/* ============================================================
+   CART ITEM
+   ============================================================ */
+
+.template-cart .cart-items tbody tr.cart-item {
+  height: 104px;
+
+  background: #fff;
+
+  box-shadow:
+    0 3px 12px rgba(0,0,0,.035),
+    0 1px 2px rgba(0,0,0,.025);
+}
+
+.template-cart .cart-items tbody td {
+  height: 104px;
+
+  padding: 10px 8px !important;
+
+  background: #fff;
+
+  border-top: 1px solid #eeeae6 !important;
+  border-bottom: 1px solid #eeeae6 !important;
+
+  vertical-align: middle;
+}
+
+.template-cart .cart-items tbody td:first-child {
+  border-left: 1px solid #eeeae6 !important;
+  border-radius: 15px 0 0 15px;
+}
+
+.template-cart .cart-items tbody td:last-child {
+  border-right: 1px solid #eeeae6 !important;
+  border-radius: 0 15px 15px 0;
+}
+
+
+/* ============================================================
+   PRODUCT IMAGE
+   ============================================================ */
+
+.template-cart .cart-item__media {
+  width: 92px !important;
+
+  padding-left: 14px !important;
+  padding-right: 0 !important;
+}
+
+.template-cart .cart-item__image-container {
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #faf7f2;
+
+  border: 1px solid #eee9e3;
+  border-radius: 9px;
+
+  overflow: hidden;
+}
+
+.template-cart .cart-item__image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  border-radius: 8px;
+}
+
+
+/* ============================================================
+   PRODUCT DETAILS
+   ============================================================ */
+
+.template-cart .cart-item__details {
+  padding: 0 5px !important;
+}
+
+.template-cart .cart-item__title {
+  margin: 0;
+}
+
+.template-cart .cart-item__name {
+  display: block;
+
+  margin: 0 0 5px;
+
+  color: #151515;
+
+  font-family: var(--display, "Cormorant Garamond", serif);
+  font-size: 19px;
+  line-height: 1.05;
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.template-cart .cart-item__name:hover {
+  color: #d3262f;
+}
+
+.template-cart .cart-item__details > .product-option {
+  margin: 0;
+
+  color: #59534e;
+
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.template-cart .cart-item__details dl {
+  margin: 1px 0 0;
+}
+
+.template-cart .cart-item__details dl .product-option {
+  margin: 0;
+
+  color: #24201e;
+
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.template-cart .cart-item__details dt {
+  display: inline;
+  font-weight: 600;
+}
+
+.template-cart .cart-item__details dd {
+  display: inline;
+  margin: 0;
+}
+
+
+/* ============================================================
+   QUANTITY
+   ============================================================ */
+
+.template-cart .cart-item__quantity {
+  width: 130px !important;
+
+  padding: 0 !important;
+
+  text-align: center;
+}
+
+.template-cart .cart-item__quantity-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 22px;
+}
+
+.template-cart .quantity-popover-container {
+  display: flex;
+  align-items: center;
+}
+
+.template-cart quantity-input.quantity {
+  width: 80px;
+  height: 36px;
+  min-height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 3px;
+
+  border: 1px solid #ece6de;
+  border-radius: 999px;
+
+  background: #fffaf5;
+
+  box-shadow: none;
+}
+
+.template-cart quantity-input.quantity::before,
+.template-cart quantity-input.quantity::after {
+  display: none !important;
+}
+
+.template-cart .quantity__button {
+  width: 25px;
+  height: 30px;
+  min-width: 25px;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #302c29;
+
+  cursor: pointer;
+}
+
+.template-cart .quantity__button:hover {
+  color: #d3262f;
+}
+
+.template-cart .quantity__button .svg-wrapper {
+  width: 10px;
+  height: 10px;
+}
+
+.template-cart .quantity__input {
+  width: 25px;
+  min-width: 25px;
+
+  padding: 0;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  color: #171717;
+
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+
+  text-align: center;
+}
+
+.template-cart .quantity__input:focus {
+  box-shadow: none;
+}
+
+
+/* ============================================================
+   REMOVE
+   ============================================================ */
+
+.template-cart cart-remove-button {
+  display: block;
+}
+
+.template-cart cart-remove-button a {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid #eee9e3;
+  border-radius: 50%;
+
+  background: #fff;
+
+  color: #6d6762;
+
+  transition: all .2s ease;
+}
+
+.template-cart cart-remove-button a:hover {
+  color: #d3262f;
+  border-color: #d3262f;
+  background: #fff8f8;
+}
+
+.template-cart cart-remove-button .svg-wrapper {
+  width: 13px;
+  height: 13px;
+}
+
+
+/* ============================================================
+   TOTAL
+   ============================================================ */
+
+.template-cart .cart-item__totals.right.small-hide {
+  width: 105px !important;
+
+  padding-right: 18px !important;
+}
+
+.template-cart .cart-item__price-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.template-cart .cart-item__price-wrapper .price {
+  color: #151515;
+
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 17px;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.template-cart .cart-item__price-wrapper .price::before {
+  content: "Rs.";
+
+  display: block;
+
+  margin-bottom: 2px;
+
+  color: #222;
+
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+
+/* ============================================================
+   BENEFIT STRIP
+   ============================================================ */
+
+.template-cart .cookme-cart-benefits {
+  width: 576px;
+  height: 74px;
+
+  display: flex;
+  align-items: center;
+
+  margin-top: 5px;
+
+  border: 1px solid #e8e3dd;
+  border-radius: 14px;
+
+  background: #fff;
+}
+
+.template-cart .cookme-benefit {
+  flex: 1;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 0 12px;
+}
+
+.template-cart .cookme-benefit + .cookme-benefit {
+  border-left: 1px solid #e5dfd9;
+}
+
+.template-cart .cookme-benefit-icon {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex: 0 0 30px;
+
+  color: #171717;
+
+  font-size: 23px;
+}
+
+.template-cart .cookme-benefit span:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.template-cart .cookme-benefit strong {
+  color: #202020;
+
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 9px;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.template-cart .cookme-benefit small {
+  color: #202020;
+
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+
+/* ============================================================
+   RIGHT SIDE SUMMARY
+   ============================================================ */
+
+@media screen and (min-width: 990px) {
+
+  .template-cart #main-cart-footer {
+    position: absolute;
+
+    top: 66px;
+    right: 0;
+
+    width: 264px;
+
+    margin: 0 !important;
+
+    background: transparent;
+
+    z-index: 10;
+  }
+
+  .template-cart #main-cart-footer > .page-width {
+    width: 264px;
+    max-width: 264px;
+
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .template-cart #main-cart-footer .cart__footer {
+    width: 264px;
+
+    padding: 20px 18px !important;
+
+    margin: 0 !important;
+
+    border: 1px solid #ebe6e0;
+    border-radius: 15px;
+
+    background: #fff;
+
+    box-shadow:
+      0 5px 18px rgba(0,0,0,.045),
+      0 1px 3px rgba(0,0,0,.025);
+  }
+
+  .template-cart #main-cart-footer .cart__blocks {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .template-cart .cart-summary-title {
+    margin: 0 0 21px;
+
+    color: #151515;
+
+    font-family: var(--display, "Cormorant Garamond", serif);
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .template-cart .cookme-summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 7px 0;
+
+    color: #5e5853;
+
+    font-family: var(--body, "DM Sans", sans-serif);
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  .template-cart .cookme-summary-row strong {
+    color: #403c38;
+    font-weight: 500;
+  }
+
+  .template-cart .cookme-summary-row span:last-child {
+    text-align: right;
+  }
+
+  .template-cart .cookme-summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    gap: 8px;
+
+    margin-top: 9px;
+    padding-top: 14px;
+
+    border-top: 1px solid #ddd8d2;
+
+    color: #171717;
+
+    font-family: var(--body, "DM Sans", sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .template-cart .cookme-summary-total strong {
+    max-width: 100px;
+
+    color: #171717;
+
+    font-size: 14px;
+    line-height: 1.2;
+
+    text-align: right;
+  }
+
+  .template-cart .cart-summary-box .cart__ctas {
+    margin-top: 17px;
+  }
+
+  .template-cart .cart-summary-box .cart__checkout-button {
+    width: 100%;
+    height: 38px;
+    min-height: 38px;
+
+    border: 0;
+    border-radius: 999px;
+
+    background: #d3262f;
+    color: #fff;
+
+    font-family: var(--body, "DM Sans", sans-serif);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+
+    box-shadow: none;
+  }
+
+  .template-cart .cart-summary-box .cart__checkout-button:hover {
+    background: #b71920;
+  }
+
+  .template-cart .cart-summary-box .tax-note {
+    display: block;
+
+    margin: 15px 8px 0;
+
+    color: #77716b;
+
+    font-family: var(--body, "DM Sans", sans-serif);
+    font-size: 8.5px;
+    line-height: 1.5;
+
+    text-align: center;
+  }
+
+}
+
+/* ============================================================
+   DESKTOP POSITION FIX
+   ============================================================ */
+
+@media screen and (min-width: 1200px) {
+
+  .template-cart .cart-items,
+  .template-cart .title-wrapper-with-link,
+  .template-cart .cookme-cart-benefits {
+    margin-left: 0;
+  }
+
+  .template-cart cart-items > .page-width {
+    position: relative;
+    min-height: 515px;
+  }
+}
+
+
+/* ============================================================
+   TABLET
+   ============================================================ */
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+
+  .template-cart cart-items > .page-width {
+    padding: 0 30px !important;
+  }
+
+  .template-cart .title-wrapper-with-link,
+  .template-cart .cart-items,
+  .template-cart .cookme-cart-benefits {
+    width: 100% !important;
+  }
+
+  .template-cart #main-cart-footer {
+    position: static !important;
+    margin-top: 20px !important;
+  }
+
+  .template-cart #main-cart-footer > .page-width {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .template-cart #main-cart-footer .cart__footer {
+    width: 100%;
+    max-width: 500px;
+    margin-left: auto !important;
+  }
+}
+
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
+
+@media screen and (max-width: 749px) {
+
+  .template-cart cart-items {
+    padding: 25px 0 0 !important;
+  }
+
+  .template-cart cart-items > .page-width {
+    padding: 0 16px !important;
+  }
+
+  .template-cart .title-wrapper-with-link {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .template-cart .title-wrapper-with-link .title {
+    font-size: 30px;
+  }
+
+  .template-cart .title-wrapper-with-link .underlined-link {
+    width: 140px;
+    height: 35px;
+  }
+
+  .template-cart .cart-items {
+    width: 100% !important;
+    display: block;
+    border-spacing: 0 !important;
+  }
+
+  .template-cart .cart-items thead {
+    display: none;
+  }
+
+  .template-cart .cart-items tbody,
+  .template-cart .cart-items tr,
+  .template-cart .cart-items td {
+    display: block;
+    width: 100%;
+  }
+
+  .template-cart .cart-items tbody tr.cart-item {
+    position: relative;
+
+    height: auto;
+
+    margin-bottom: 12px;
+    padding: 13px;
+
+    border: 1px solid #eee9e3;
+    border-radius: 14px;
+
+    box-shadow: 0 4px 15px rgba(0,0,0,.035);
+  }
+
+  .template-cart .cart-items tbody td {
+    height: auto;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .template-cart .cart-item__media {
+    width: 78px !important;
+    display: inline-flex !important;
+    vertical-align: top;
+  }
+
+  .template-cart .cart-item__image-container {
+    width: 65px;
+    height: 65px;
+  }
+
+  .template-cart .cart-item__details {
+    width: calc(100% - 83px) !important;
+
+    display: inline-block !important;
+    vertical-align: top;
+  }
+
+  .template-cart .cart-item__name {
+    font-size: 18px;
+  }
+
+  .template-cart .cart-item__quantity {
+    width: 100% !important;
+    margin-top: 13px;
+  }
+
+  .template-cart .cart-item__quantity-wrapper {
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .template-cart .cart-item__totals.right.small-hide {
+    display: none !important;
+  }
+
+  .template-cart .cart-item__totals.medium-hide.large-up-hide {
+    display: block !important;
+
+    position: absolute;
+    top: 15px;
+    right: 14px;
+
+    width: auto !important;
+
+    padding: 0 !important;
+  }
+
+  .template-cart .cart-item__totals.medium-hide.large-up-hide .price {
+    font-size: 15px;
+  }
+
+  .template-cart .cookme-cart-benefits {
+    width: 100%;
+    height: auto;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    padding: 5px 0;
+  }
+
+  .template-cart .cookme-benefit {
+    min-height: 58px;
+    height: auto;
+
+    justify-content: flex-start;
+
+    padding: 10px 18px;
+  }
+
+  .template-cart .cookme-benefit + .cookme-benefit {
+    border-top: 1px solid #e5dfd9;
+    border-left: 0;
+  }
+
+  .template-cart #main-cart-footer {
+    position: static !important;
+    width: 100%;
+
+    margin-top: 18px !important;
+  }
+
+  .template-cart #main-cart-footer > .page-width {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 16px !important;
+  }
+
+  .template-cart #main-cart-footer .cart__footer {
+    width: 100%;
+    padding: 20px 17px !important;
+
+    border: 1px solid #ebe6e0;
+    border-radius: 15px;
+  }
+
+}
+
+
+.template-cart .cookme-cart-note-field {
+  margin-bottom: 16px;
+}
+
+.template-cart .cookme-cart-note-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #312c28;
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.template-cart .cookme-cart-note-field .field__input,
+.template-cart .cookme-cart-note-field .text-area {
+  min-height: 96px;
+  border-radius: 12px;
+  border: 1px solid #e5dfd9;
+  background: #fffdf9;
+  color: #2a2623;
+  font-family: var(--body, "DM Sans", sans-serif);
+  font-size: 12px;
+  box-shadow: none;
+}
+
+.template-cart .discounts__discount--position {
+  margin-top: 8px;
+  color: #b71920;
+  font-size: 10px;
+}

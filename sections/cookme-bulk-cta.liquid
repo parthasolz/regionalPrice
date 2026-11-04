@@ -1,0 +1,606 @@
+{%- comment -%}
+  Cookme Bulk / B2B CTA band
+
+  Desktop:
+  - Dynamic desktop background
+  - Content + 3 product images
+
+  Mobile <= 991px:
+  - Dynamic mobile background only
+  - No content
+  - No product images
+  - Full image visible
+  - No crop
+
+  Bulk Benefits:
+  - Dynamic Shopify blocks
+  - Add / remove / reorder benefits from Theme Editor
+  - Maximum 10 benefits
+{%- endcomment -%}
+
+<section class="bulk" data-ck-location="{{ section.settings.target_location | default: 'all' }}">
+  <div class="container">
+
+    <div
+      class="bulk-panel"
+      style="
+        {% if section.settings.desktop_background != blank %}
+          --bulk-desktop-bg: url('{{ section.settings.desktop_background | image_url: width: 2400 }}');
+        {% endif %}
+
+        {% if section.settings.mobile_background != blank %}
+          --bulk-mobile-bg: url('{{ section.settings.mobile_background | image_url: width: 2000 }}');
+          --bulk-mobile-ratio: {{ section.settings.mobile_background.width }} / {{ section.settings.mobile_background.height }};
+        {% endif %}
+      "
+    >
+
+      <div class="row g-0 align-items-center">
+
+        <!-- LEFT IMAGES -->
+        <div class="col-lg-5">
+          <div class="bulk-left">
+
+            {% if section.settings.image_1 != blank %}
+              <img
+                class="bulk-p1"
+                src="{{ section.settings.image_1 | image_url: width: 800 }}"
+                alt="{{ section.settings.image_1.alt | default: section.settings.title | strip_html | escape }}"
+                loading="lazy"
+                width="{{ section.settings.image_1.width }}"
+                height="{{ section.settings.image_1.height }}"
+              >
+            {% endif %}
+
+            {% if section.settings.image_2 != blank %}
+              <img
+                class="bulk-p2"
+                src="{{ section.settings.image_2 | image_url: width: 800 }}"
+                alt="{{ section.settings.image_2.alt | default: section.settings.title | strip_html | escape }}"
+                loading="lazy"
+                width="{{ section.settings.image_2.width }}"
+                height="{{ section.settings.image_2.height }}"
+              >
+            {% endif %}
+
+            {% if section.settings.image_3 != blank %}
+              <img
+                class="bulk-p3"
+                src="{{ section.settings.image_3 | image_url: width: 800 }}"
+                alt="{{ section.settings.image_3.alt | default: section.settings.title | strip_html | escape }}"
+                loading="lazy"
+                width="{{ section.settings.image_3.width }}"
+                height="{{ section.settings.image_3.height }}"
+              >
+            {% endif %}
+
+          </div>
+        </div>
+
+
+        <!-- RIGHT CONTENT -->
+        <div class="col-lg-7">
+          <div class="bulk-copy">
+
+            {% if section.settings.kicker != blank %}
+              <div class="bulk-kicker">
+                {{ section.settings.kicker }}
+              </div>
+            {% endif %}
+
+
+            {% if section.settings.title != blank %}
+              <h2 class="bulk-title">
+                {{ section.settings.title }}
+              </h2>
+            {% endif %}
+
+
+            {% if section.settings.text != blank %}
+              <p>
+                {{ section.settings.text }}
+              </p>
+            {% endif %}
+
+
+            <!-- BULK BENEFITS -->
+            {% if section.blocks.size > 0 %}
+              <div class="bulk-meta">
+
+                {% for block in section.blocks %}
+                  {% case block.type %}
+
+                    {% when 'benefit' %}
+
+                      {% if block.settings.text != blank %}
+                        <span
+                          class="bulk-benefit"
+                          {{ block.shopify_attributes }}
+                        >
+
+                          {% if block.settings.icon != blank %}
+                            <i class="{{ block.settings.icon }}"></i>
+                          {% else %}
+                            <i class="bi bi-check-circle-fill"></i>
+                          {% endif %}
+
+                          <span>
+                            {{ block.settings.text }}
+                          </span>
+
+                        </span>
+                      {% endif %}
+
+                  {% endcase %}
+                {% endfor %}
+
+              </div>
+            {% endif %}
+
+
+            <!-- CTA -->
+            {% if section.settings.cta_label != blank %}
+
+              <a
+                href="{{ section.settings.cta_link | default: routes.root_url }}"
+                class="btn-pill btn-ghost"
+              >
+
+                {{ section.settings.cta_label }}
+
+                <span class="bc">
+                  <i class="bi bi-arrow-right"></i>
+                </span>
+
+              </a>
+
+            {% endif %}
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<style>
+
+  /* ==========================================
+     DESKTOP
+  ========================================== */
+
+  .bulk-panel {
+    position: relative;
+
+    background-image: var(--bulk-desktop-bg);
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    border-radius: 32px;
+    overflow: visible;
+
+    box-shadow: 0 24px 56px rgba(0, 0, 0, .16);
+  }
+
+
+  .bulk-panel::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, .08),
+      transparent 40%
+    );
+
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+
+  /* ==========================================
+     LEFT IMAGES
+  ========================================== */
+
+  .bulk-left {
+    position: relative;
+    min-height: 300px;
+  }
+
+
+  .bulk-p1 {
+    position: absolute;
+    top: -65px;
+    height: auto;
+  }
+
+
+  .bulk-p2 {
+    position: absolute;
+    left: 30%;
+    width: 60%;
+    top: 16px;
+
+    filter: drop-shadow(
+      0 24px 40px rgba(0, 0, 0, .4)
+    );
+
+    z-index: 3;
+    height: auto;
+  }
+
+
+  img.bulk-p3 {
+    position: absolute;
+    left: 51%;
+    width: 48%;
+    top: 150px;
+
+    filter: drop-shadow(
+      0 24px 40px rgba(0, 0, 0, .4)
+    );
+
+    z-index: 3;
+    height: auto;
+  }
+
+
+  /* ==========================================
+     CONTENT
+  ========================================== */
+
+  .bulk-copy {
+    position: relative;
+    z-index: 2;
+    padding: 52px 52px 48px 12px;
+  }
+
+
+  .bulk-kicker {
+    font-size: 10px;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .42);
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+
+  .bulk-title {
+    font-family: var(--display);
+    font-size: clamp(
+      2rem,
+      4vw,
+      3.35rem
+    );
+
+    line-height: .92;
+    margin: 0 0 16px;
+    font-weight: 700;
+  }
+
+
+  .bulk-title em {
+    color: var(--red2);
+    font-style: italic;
+  }
+
+
+  .bulk-copy p {
+    color: rgba(255, 255, 255, .64);
+    line-height: 1.85;
+    font-size: 14px;
+    margin-bottom: 18px;
+    max-width: 500px;
+  }
+
+
+  /* ==========================================
+     BULK BENEFITS
+  ========================================== */
+
+  .bulk-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    margin: 16px 0 22px;
+  }
+
+
+  .bulk-benefit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 12px;
+    color: rgba(255, 255, 255, .7);
+  }
+
+
+  .bulk-benefit i {
+    color: var(--gold);
+    flex: 0 0 auto;
+  }
+
+
+  .bulk-benefit span {
+    display: inline-block;
+  }
+
+
+  /* ==========================================
+     CTA
+  ========================================== */
+
+  .bulk-copy .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+
+  /* ==========================================
+     MOBILE / TABLET
+     <= 991px
+  ========================================== */
+
+  @media (max-width: 991.98px) {
+
+    .bulk .container {
+      width: 100%;
+      max-width: 100%;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+
+
+    .bulk {
+      padding: 0 16px 0 !important;
+    }
+
+
+    .bulk-panel {
+      background-image: var(--bulk-mobile-bg);
+
+      background-size: 100% 100%;
+      background-position: center center;
+      background-repeat: no-repeat;
+
+      aspect-ratio: var(--bulk-mobile-ratio);
+
+      width: 100%;
+      height: auto;
+      min-height: 0;
+
+      overflow: hidden;
+
+      box-shadow: none;
+    }
+
+
+    /*
+     * Hide all desktop content
+     */
+    .bulk-panel > .row {
+      display: none !important;
+    }
+
+
+    /*
+     * Hide desktop overlay
+     */
+    .bulk-panel::before {
+      display: none !important;
+      content: none !important;
+    }
+
+  }
+
+
+  /* ==========================================
+     SMALL MOBILE
+  ========================================== */
+
+  @media (max-width: 575.98px) {
+
+  }
+
+</style>
+
+
+{% schema %}
+
+{
+  "name": "Bulk CTA",
+
+  "settings": [
+
+    {
+      "type": "select",
+      "id": "target_location",
+      "label": "Location Visibility",
+      "options": [
+        { "value": "all", "label": "All Locations" },
+        { "value": "wb", "label": "West Bengal Only" },
+        { "value": "india", "label": "Out of West Bengal (Rest of India)" }
+      ],
+      "default": "all"
+    },
+
+    {
+      "type": "header",
+      "content": "Content"
+    },
+
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Top Title",
+      "default": "For families & businesses"
+    },
+
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Order in <em>Bulk.</em><br>Save Significantly"
+    },
+
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "Ideal for large households, restaurants, caterers and resellers who want consistent taste, reliable supply and better value on every order."
+    },
+
+
+    {
+      "type": "header",
+      "content": "CTA"
+    },
+
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Enquire About Bulk"
+    },
+
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button link"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Desktop Product Images"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Product Image 1"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Product Image 2"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Product Image 3"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Background Images"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "desktop_background",
+      "label": "Desktop Background Image",
+      "info": "Shown above 991px."
+    },
+
+    {
+      "type": "image_picker",
+      "id": "mobile_background",
+      "label": "Mobile Background Image",
+      "info": "Shown at 991px and below. Full image is displayed without cropping."
+    }
+
+  ],
+
+
+  "blocks": [
+
+    {
+      "type": "benefit",
+      "name": "Bulk Benefit",
+      "limit": 10,
+
+      "settings": [
+
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Benefit",
+          "default": "Custom pack sizes"
+        },
+
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Bootstrap Icon Class",
+          "default": "bi bi-check-circle-fill",
+          "info": "Example: bi bi-check-circle-fill"
+        }
+
+      ]
+    }
+
+  ],
+
+
+  "presets": [
+
+    {
+      "name": "Cookme Bulk CTA",
+
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "text": "Custom pack sizes",
+            "icon": "bi bi-check-circle-fill"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "text": "Priority fulfilment",
+            "icon": "bi bi-check-circle-fill"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "text": "Direct invoicing",
+            "icon": "bi bi-check-circle-fill"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "text": "Dedicated support",
+            "icon": "bi bi-check-circle-fill"
+          }
+        }
+      ]
+    }
+
+  ],
+
+
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  }
+
+}
+
+{% endschema %}

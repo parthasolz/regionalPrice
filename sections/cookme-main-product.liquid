@@ -1,0 +1,850 @@
+{%- comment -%}
+  Cookme Product Details page — dynamic gallery, variant selector, AJAX cart,
+  static reviews and per-product metafield driven trust/service/accordion content.
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  if v == blank
+    assign v = product.variants.first
+  endif
+
+  assign first_media = product.featured_media | default: v.featured_media
+  assign on_sale = false
+  if v.compare_at_price > v.price
+    assign on_sale = true
+  endif
+
+  assign rating_value = product.metafields.reviews.rating.value.rating | default: product.metafields.custom.rating.value | default: section.settings.rating_value
+  assign rating_count = product.metafields.reviews.rating_count.value | default: product.metafields.custom.review_count.value | default: section.settings.rating_count
+
+  assign badge_text = product.metafields.custom.pdp_badge.value
+  unless v.available
+    assign badge_text = 'Sold Out'
+  else
+  if badge_text == blank and product.tags contains 'Bestseller'
+    assign badge_text = 'Bestseller'
+  endif
+  if badge_text == blank and on_sale
+    assign badge_text = 'Sale'
+  endif
+  endunless
+
+  assign short_desc_mf = product.metafields.custom.pdp_short_description
+  if short_desc_mf == blank
+    assign short_desc_mf = product.metafields.custom.short_description
+  endif
+
+  assign ingredients_details = product.metafields.custom.ingredients_details.value
+  assign requirements_details = product.metafields.custom.requirements_details.value
+  assign receipe_details = product.metafields.custom.receipe_details.value
+  assign fssai_license = product.metafields.custom.fssai_certified_lic_no.value | default: '10014031001052'
+
+  assign choose_loc_value = product.metafields.custom.choose_location.value | default: product.metafields.custom.choose_location
+  assign choose_loc_str = ''
+  if choose_loc_value != blank
+    capture choose_loc_str
+      if choose_loc_value.first != blank
+        for loc_item in choose_loc_value
+          echo loc_item | downcase | strip | append: ' '
+        endfor
+      else
+        echo choose_loc_value | downcase | strip
+      endif
+    endcapture
+  endif
+
+  assign has_wb = false
+  assign has_others = false
+  if choose_loc_str contains 'west bengal' or choose_loc_str contains 'wb'
+    assign has_wb = true
+  endif
+  if choose_loc_str contains 'other' or choose_loc_str contains 'india'
+    assign has_others = true
+  endif
+
+  assign pdp_product_loc = 'all'
+  if has_wb and has_others == false
+    assign pdp_product_loc = 'wb'
+  elsif has_others and has_wb == false
+    assign pdp_product_loc = 'india'
+  endif
+
+  capture ck_default_media_json
+    echo '['
+    for media in product.media
+      if forloop.index0 > 0
+        echo ','
+      endif
+      echo '{'
+      echo '"type":'
+      if media.media_type == 'video' or media.media_type == 'external_video'
+        echo '"video"'
+      else
+        echo '"image"'
+      endif
+      echo ',"src":'
+      echo media.preview_image | image_url: width: 900 | json
+      echo ',"full":'
+      echo media.preview_image | image_url: width: 1600 | json
+      echo ',"alt":'
+      echo media.alt | default: product.title | escape | json
+      echo ',"video_url":'
+      if media.media_type == 'video'
+        capture media_video_url
+          for source in media.sources
+            if source.format == 'mp4'
+              echo source.url
+              break
+            endif
+          endfor
+        endcapture
+        echo media_video_url | strip | json
+      else
+        echo '""'
+      endif
+      echo '}'
+    endfor
+    echo ']'
+  endcapture
+
+  capture ck_variant_media_json
+    echo '{'
+
+    for variant in product.variants
+      if forloop.index0 > 0
+        echo ','
+      endif
+
+      echo '"'
+      echo variant.id
+      echo '":'
+      echo '{'
+
+      echo '"id":'
+      echo variant.id | json
+
+      echo ',"title":'
+      echo variant.title | json
+
+      echo ',"price_display":'
+      echo variant.price | money | json
+
+      echo ',"compare_display":'
+      if variant.compare_at_price > variant.price
+        echo variant.compare_at_price | money | json
+      else
+        echo '""'
+      endif
+
+      echo ',"available":'
+      echo variant.available | json
+
+      echo ',"inventory_management":'
+      echo variant.inventory_management | json
+
+      echo ',"inventory_policy":'
+      echo variant.inventory_policy | json
+
+      echo ',"inventory_quantity":'
+      if variant.inventory_management
+        echo variant.inventory_quantity | default: 0
+      else
+        echo 'null'
+      endif
+
+      echo ',"quantity_rule_max":'
+      if variant.quantity_rule.max != blank
+        echo variant.quantity_rule.max | json
+      else
+        echo 'null'
+      endif
+
+      echo ',"unit_price_display":'
+      if variant.unit_price_measurement
+        capture unit_price_display
+          echo variant.unit_price | money
+          echo '/'
+          if variant.unit_price_measurement.reference_value != 1
+            echo variant.unit_price_measurement.reference_value
+          endif
+          echo variant.unit_price_measurement.reference_unit
+        endcapture
+        echo unit_price_display | strip | json
+      else
+        echo '""'
+      endif
+
+      echo ',"featured_image":'
+      if variant.featured_media != blank
+        echo variant.featured_media.preview_image | image_url: width: 900 | json
+      else
+        echo '""'
+      endif
+
+      echo ',"gallery":['
+
+      assign variant_gallery = variant.metafields.custom.variant_gallery_images.value
+      if variant_gallery == blank
+        assign variant_gallery = variant.metafields.custom.variant_media.value
+      endif
+
+      if variant_gallery != blank
+        for gallery_item in variant_gallery
+          if forloop.index0 > 0
+            echo ','
+          endif
+
+          echo '{'
+          echo '"type":'
+          if gallery_item.media_type != blank
+            echo gallery_item.media_type | json
+          elsif gallery_item.type != blank
+            echo gallery_item.type | json
+          elsif gallery_item.content_type != blank and gallery_item.content_type contains 'video'
+            echo '"video"'
+          else
+            echo '"image"'
+          endif
+          echo ',"src":'
+          if gallery_item.preview_image != blank
+            echo gallery_item.preview_image | image_url: width: 900 | json
+          elsif gallery_item.image != blank
+            echo gallery_item.image | image_url: width: 900 | json
+          elsif gallery_item != blank
+            echo gallery_item | image_url: width: 900 | json
+          else
+            echo '""'
+          endif
+          echo ',"full":'
+          if gallery_item.preview_image != blank
+            echo gallery_item.preview_image | image_url: width: 1600 | json
+          elsif gallery_item.image != blank
+            echo gallery_item.image | image_url: width: 1600 | json
+          elsif gallery_item != blank
+            echo gallery_item | image_url: width: 1600 | json
+          else
+            echo '""'
+          endif
+          echo ',"alt":'
+          echo gallery_item.alt | default: variant.title | json
+          echo ',"video_url":'
+          if gallery_item.media_type == 'video' or gallery_item.type == 'video' or gallery_item.content_type contains 'video'
+            if gallery_item.sources != blank
+              capture gallery_video_url
+                for source in gallery_item.sources
+                  if source.format == 'mp4'
+                    echo source.url
+                    break
+                  endif
+                endfor
+              endcapture
+              echo gallery_video_url | strip | json
+            elsif gallery_item.url != blank
+              echo gallery_item.url | json
+            else
+              echo '""'
+            endif
+          else
+            echo '""'
+          endif
+          echo '}'
+        endfor
+      elsif variant.featured_media != blank
+        echo '{'
+        echo '"type":'
+        if variant.featured_media.media_type == 'video' or variant.featured_media.media_type == 'external_video'
+          echo '"video"'
+        else
+          echo '"image"'
+        endif
+        echo ',"src":'
+        echo variant.featured_media.preview_image | image_url: width: 900 | json
+        echo ',"full":'
+        echo variant.featured_media.preview_image | image_url: width: 1600 | json
+        echo ',"alt":'
+        echo variant.title | json
+        echo ',"video_url":'
+        if variant.featured_media.media_type == 'video'
+          capture featured_video_url
+            for source in variant.featured_media.sources
+              if source.format == 'mp4'
+                echo source.url
+                break
+              endif
+            endfor
+          endcapture
+          echo featured_video_url | strip | json
+        else
+          echo '""'
+        endif
+        echo '}'
+      endif
+
+      echo ']'
+      echo '}'
+    endfor
+
+    echo '}'
+  endcapture
+-%}
+<section class="ck-pdp-page has-mobile-cta" data-pdp-location="{{ pdp_product_loc }}">
+  {% comment %} <div class="shop-breadcrumb">
+    <div class="container">
+      <a href="{{ routes.root_url }}">Home</a> <i class="bi bi-chevron-right"></i>
+      <a href="{{ collection.url | default: routes.all_products_collection_url }}">
+        {{- collection.title | default: 'Products' -}}
+      </a>
+      <i class="bi bi-chevron-right"></i>
+      <span>{{ product.title }}</span>
+    </div>
+  </div> {% endcomment %}
+
+  <section class="container pdp-section">
+    <div class="container">
+      <div class="pdp-grid">
+        <div class="pdp-gallery" id="pdpGallery">
+          <div class="pdp-gallery-main" id="pdpGalleryMain">
+            <span
+              class="pc-badge{% unless v.available %} out{% endunless %}"
+              id="ckPdpBadge"
+              data-custom-badge="{{ product.metafields.custom.pdp_badge.value | escape }}"
+              data-bestseller="{% if product.tags contains 'Bestseller' %}true{% else %}false{% endif %}"
+              {% if badge_text == blank %}hidden{% endif %}
+            >{{ badge_text }}</span>
+            <button
+              type="button"
+              class="pdp-wishlist-btn"
+              aria-label="Add to wishlist"
+              data-wish
+              data-id="{{ product.id }}"
+              data-title="{{ product.title | escape }}"
+              data-price="{{ v.price | money | escape }}"
+              data-image="{{ first_media | image_url: width: 200 }}"
+              data-url="{{ product.url }}"
+            >
+              <i class="bi bi-heart"></i>
+            </button>
+            <div class="pdp-zoom-viewport" id="pdpZoomViewport">
+              <div class="pdp-img-slide" id="pdpImgSlide">
+                {%- if first_media -%}
+                  <img
+                    id="mainImage"
+                    src="{{ first_media | image_url: width: 900 }}"
+                    alt="{{ product.title | escape }}"
+                  >
+                {%- else -%}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- endif -%}
+              </div>
+            </div>
+            <a href="#reviews" class="pdp-rating-mobile">
+              <span class="count">{{ section.settings.rating_value }}</span>
+              <span class="stars"> ★ </span>
+              <span class="divider">|</span>
+              <span class="reviews">{{ section.settings.rating_count }}</span>
+            </a>
+          </div>
+
+          <div class="pdp-dash-row d-lg-none" id="pdpDashRow"></div>
+          <div class="pdp-thumbs-shell d-none d-lg-flex" id="pdpThumbsShell">
+            <div class="pdp-thumbs" id="pdpThumbs"></div>
+            <button type="button" class="pdp-thumb-arrow left" id="pdpThumbsPrev" aria-label="Scroll thumbnails left">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <button type="button" class="pdp-thumb-arrow right" id="pdpThumbsNext" aria-label="Scroll thumbnails right">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="pdp-lightbox" id="pdpLightbox">
+          <div class="pdp-lightbox-backdrop" id="pdpLightboxBackdrop"></div>
+          <div class="pdp-lightbox-inner">
+            <button class="pdp-lightbox-close" id="pdpLightboxClose" aria-label="Close">
+              <i class="bi bi-x-lg"></i>
+            </button>
+            <button class="pdp-lightbox-arrow left" id="pdpLightboxPrev" aria-label="Previous image">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <div class="pdp-lightbox-track" id="pdpLightboxTrack"></div>
+            <button class="pdp-lightbox-arrow right" id="pdpLightboxNext" aria-label="Next image">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="pdp-info">
+          {% comment %} <span class="brand-tag">{{ product.type | default: 'Cookme' }}</span> {% endcomment %}
+          <h1>{{ product.title }}</h1>
+
+          {%- unless product.has_only_default_variant -%}
+            <div class="option-block">
+              {% comment %} <div class="opt-label">
+                <b>{{ section.settings.option_label }}</b><span>Selected: <span id="ckSelTitle">{{ v.title }}</span></span>
+              </div> {% endcomment %}
+              <div class="pdp-unit" id="ckPdpUnit" {% unless v.unit_price_measurement %} style="display:none" {% endunless %} >
+                {%- if v.unit_price_measurement -%}
+                  {% render 'unit-price', price: v.unit_price, measurement: v.unit_price_measurement %}
+                {%- endif -%}
+              </div>
+              <div class="weight-row">
+                {%- for variant in product.variants -%}
+                  <button
+                    type="button"
+                    class="weight-opt{% if variant.id == v.id %} selected{% endif %}{% unless variant.available %} is-sold-out{% endunless %}"
+                    data-variant-id="{{ variant.id }}"
+                    data-price-display="{{ variant.price | money | escape }}"
+                    data-price-cents="{{ variant.price }}"
+                    data-compare-cents="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price }}{% else %}0{% endif %}"
+                    data-compare-display="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}"
+                    data-unit-price-display="{% if variant.unit_price_measurement %}{{ variant.unit_price | money | append: '/' | append: variant.unit_price_measurement.reference_value | append: variant.unit_price_measurement.reference_unit | replace: '/1', '/' | escape }}{% endif %}"
+                    data-available="{{ variant.available }}"
+                    data-title="{{ variant.title | escape }}"
+                  >
+                    {{ variant.title -}}
+                    {%- if variant.price -%}
+                      <small>{{ variant.price | money }}</small>
+                    {%- endif %}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endunless -%}          
+
+          <div class="pdp-rating">
+            <span class="stars">★★★★★</span>
+            {{ rating_value }} out of 5 &nbsp;·&nbsp; <a href="#reviews">{{ rating_count }} reviews</a>
+          </div>
+
+          <div class="pdp-price-row">
+            <span class="now" id="ckPdpPrice">{{ v.price | money }}</span>
+            <span class="was" id="ckPdpCompare" {% unless on_sale %} style="display:none" {% endunless %} >
+              {%- if on_sale %}{{ v.compare_at_price | money }}{% endif -%}
+            </span>
+            <span class="off" id="ckPdpOff" {% unless on_sale %} style="display:none" {% endunless %} >
+              {%- if on_sale -%}
+                Save {{ v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round }}%
+              {%- endif -%}
+            </span>
+          </div>
+          <div class="pdp-stock-status{% unless v.available %} is-out{% endunless %}" id="ckPdpStockStatus">
+            {% if v.available -%}
+              <i class="bi bi-check-circle-fill"></i> In stock
+            {%- else -%}
+              <i class="bi bi-x-circle-fill"></i> Out of stock
+            {%- endif %}
+          </div>
+          {%- if pdp_product_loc == 'wb' -%}
+            <div class="pdp-loc-badge" data-ck-location="india" style="margin:10px 0;padding:10px 14px;background:#fff4f4;border:1px solid #ffd5d5;border-radius:8px;font-size:13px;color:#c01c28;display:flex;align-items:center;gap:8px">
+              <i class="bi bi-geo-alt-fill"></i>
+              <span>This product is exclusively available for delivery in <strong>West Bengal</strong>.</span>
+            </div>
+            <div class="pdp-loc-badge" data-ck-location="wb" style="margin:10px 0;padding:8px 12px;background:#f0faf3;border:1px solid #c9ebd4;border-radius:8px;font-size:13px;color:#177a3e;display:flex;align-items:center;gap:8px">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Available for delivery to your location in <strong>West Bengal</strong>.</span>
+            </div>
+          {%- elsif pdp_product_loc == 'india' -%}
+            <div class="pdp-loc-badge" data-ck-location="wb" style="margin:10px 0;padding:10px 14px;background:#fff4f4;border:1px solid #ffd5d5;border-radius:8px;font-size:13px;color:#c01c28;display:flex;align-items:center;gap:8px">
+              <i class="bi bi-geo-alt-fill"></i>
+              <span>This product is exclusively available for delivery <strong>outside West Bengal</strong>.</span>
+            </div>
+            <div class="pdp-loc-badge" data-ck-location="india" style="margin:10px 0;padding:8px 12px;background:#f0faf3;border:1px solid #c9ebd4;border-radius:8px;font-size:13px;color:#177a3e;display:flex;align-items:center;gap:8px">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>Available for delivery to your location (<strong>Rest of India</strong>).</span>
+            </div>
+          {%- endif -%}
+          {% comment %} <div class="pdp-unit" id="ckPdpUnit" {% unless v.unit_price_measurement %} style="display:none" {% endunless %} >
+            {%- if v.unit_price_measurement -%}
+              {% render 'unit-price', price: v.unit_price, measurement: v.unit_price_measurement %}
+            {%- endif -%}
+          </div> {% endcomment %}
+
+          <div class="pdp-desc-wrap" id="productDescWrap">
+            <div class="pdp-desc-text collapsed" id="productDesc">
+              {%- if short_desc_mf != blank -%}
+                {{ short_desc_mf | metafield_tag }}
+              {%- elsif product.description != blank -%}
+                {{ product.description | strip_html }}
+              {%- else -%}
+                {{ section.settings.fallback_desc }}
+              {%- endif -%}
+            </div>
+
+            <button
+              type="button"
+              class="pdp-desc-toggle"
+              id="productDescToggle"
+              hidden
+            >
+              More
+            </button>
+          </div>
+
+          <div class="qty-cart-row d-none d-lg-flex">
+            <div class="qty-stepper-lg">
+              <button type="button" aria-label="Decrease quantity">&minus;</button>
+              <span class="val">1</span>
+              <button type="button" aria-label="Increase quantity">+</button>
+            </div>
+            {%- if v.available -%}
+              <button type="submit" form="ckPdpForm" class="btn-pill btn-red pdp-add-btn" id="ckPdpAddBtn">
+                <i class="bi bi-bag"></i> Add to Cart
+              </button>
+            {%- else -%}
+              <button type="button" class="btn-pill btn-red pdp-add-btn is-disabled" id="ckPdpAddBtn" disabled>
+                Sold Out
+              </button>
+            {%- endif -%}
+          </div>
+
+          <form
+            id="ckPdpForm"
+            action="{{ routes.cart_add_url }}"
+            method="post"
+            enctype="multipart/form-data"
+            novalidate
+          >
+            <input type="hidden" name="id" id="ckPdpVariantId" value="{{ v.id }}">
+            <input type="hidden" name="quantity" id="ckPdpQty" value="1">
+          </form>
+
+            <div class="trust-mini">
+                <div class="row">                  
+                    <i class="bi bi-truck icon icon"></i>
+                    <span>
+                      Free Pan-India delivery on orders above ₹99
+                    </span>
+                </div>
+
+                <div class="row">                  
+                    <i class="bi bi-shield-check icon icon"></i>
+                    <span>
+                      FSSAI Certified · Lic. No. {{ fssai_license }}
+                    </span>
+                </div>
+
+                {% comment %} <div class="row">                  
+                    <i class="bi bi-check-circle-fill icon icon"></i>
+                    <span>
+                      100% Natural — no artificial colours, flavours or preservatives
+                    </span>
+                </div> {% endcomment %}
+            </div>
+         
+          <div class="service-strip">
+              <div class="service-item">
+                  <div class="service-icon">
+                    <i class="bi bi-truck"></i>
+                  </div>
+                  <div class="service-content">
+                    <h4>No Returns</h4>
+                  </div>
+              </div>
+
+              <div class="service-item">
+                  <div class="service-icon">
+                    <i class="bi bi-box-seam"></i>
+                  </div>
+                  <div class="service-content">
+                    <h4>Cash on Delivery</h4>
+                  </div>
+              </div>
+
+              <div class="service-item">
+                  <div class="service-icon">
+                    <i class="bi bi-shield-lock"></i>
+                  </div>
+                  <div class="service-content">
+                    <h4>Cookme Assured</h4>
+                  </div>
+              </div>
+          </div>          
+
+          {%- if ingredients_details != blank or requirements_details != blank or receipe_details != blank -%}
+
+            <div class="pdp-accordion">
+
+              {%- if ingredients_details != blank -%}
+                <details class="acc-item acc-open" open>
+                  <summary>
+                    Ingredients
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 5v14M5 12h14" />
+                    </svg>
+                  </summary>
+
+                  <div class="acc-body">
+                    {{ ingredients_details }}
+                  </div>
+                </details>
+              {%- endif -%}
+
+
+              {%- if requirements_details != blank -%}
+                <details class="acc-item">
+                  <summary>
+                    Requirements
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 5v14M5 12h14" />
+                    </svg>
+                  </summary>
+
+                  <div class="acc-body">
+                    {{ requirements_details }}
+                  </div>
+                </details>
+              {%- endif -%}
+
+
+              {%- if receipe_details != blank -%}
+                <details class="acc-item">
+                  <summary>
+                    Receipe
+                    <svg viewBox="0 0 24 24">
+                      <path d="M12 5v14M5 12h14" />
+                    </svg>
+                  </summary>
+
+                  <div class="acc-body">
+                    {{ receipe_details }}
+                  </div>
+                </details>
+              {%- endif -%}
+
+            </div>
+
+          {%- endif -%}
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container reviews-section" id="reviews">
+    <div class="container">
+      <div class="section-head-row">
+        <div>
+          <div class="eyebrow">{{ section.settings.rev_eyebrow }}</div>
+          <h2 class="section-title" style="font-size:clamp(1.7rem,3.4vw,2.6rem)">
+            Customer <span class="it">Reviews</span>
+          </h2>
+        </div>
+        <div class="review-details-section">
+          {% comment %} <a href="#" class="btn-outline-dark" id="writeReviewBtn">Write a Review</a>
+          <a href="#" class="btn-outline-dark desktop" id="seeAllReviewsBtn">See All Reviews</a> {% endcomment %}
+        </div>
+      </div>
+      <div class="review-section">
+        <div class="review-summary">
+          <div class="review-score">
+            <div class="num">{{ section.settings.rating_value }}</div>
+            <div class="review-star-count">
+              <div class="stars">★★★★★</div>
+              <div class="count">Based on {{ section.settings.rating_count }} reviews</div>
+            </div>
+          </div>
+          <div>
+            <div class="bar-row">
+              5 ★
+              <div class="bar"><span style="width:78%"></span></div>
+              78%
+            </div>
+            <div class="bar-row">
+              4 ★
+              <div class="bar"><span style="width:15%"></span></div>
+              15%
+            </div>
+            <div class="bar-row">
+              3 ★
+              <div class="bar"><span style="width:5%"></span></div>
+              5%
+            </div>
+            <div class="bar-row">
+              2 ★
+              <div class="bar"><span style="width:1%"></span></div>
+              1%
+            </div>
+            <div class="bar-row">
+              1 ★
+              <div class="bar"><span style="width:1%"></span></div>
+              1%
+            </div>
+          </div>
+        </div>
+        <div class="review-carousel-shell">
+          <div class="review-arrows">
+            <button class="review-arrow" id="reviewPrev" aria-label="Previous review">
+              <i class="bi bi-arrow-left"></i>
+            </button>
+            <button class="review-arrow" id="reviewNext" aria-label="Next review">
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </div>
+          <div class="review-track" id="reviewTrack">
+            {%- assign revs = section.blocks | where: 'type', 'review' -%}
+            {%- for rev in revs limit: 3 -%}
+              <article class="review-card">
+                <div class="top">
+                  <div>
+                    <div class="name-row">
+                      <div class="name">{{ rev.settings.name }}</div>
+                      <span class="verified"><i class="bi bi-patch-check-fill"></i></span>
+                    </div>
+                  </div>
+                  <div class="date">{{ rev.settings.date }}</div>
+                </div>
+                <p>{{ rev.settings.text }}</p>
+                <div class="bottom">
+                  <div class="review-helpful"><i class="bi bi-hand-thumbs-up"></i> {{ rev.settings.helpful }}</div>
+                </div>
+              </article>
+            {%- endfor -%}
+          </div>
+          <div class="review-see-all-wrap">
+            <a href="#" class="btn-outline-dark mobile" id="seeAllReviewsBtnM">See All Reviews</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/json" id="ckPdpMedia">
+    {{ ck_default_media_json }}
+  </script>
+  <script type="application/json" id="ckPdpVariantMedia">
+    {{ ck_variant_media_json }}
+  </script>
+</section>
+
+<div class="pdp-mobile-cta d-lg-none" data-pdp-location="{{ pdp_product_loc }}">
+  <div class="qty-stepper-mob">
+    <button type="button" id="mobQtyMinus" aria-label="Decrease quantity">&minus;</button>
+    <span class="val" id="mobQtyVal">1</span>
+    <button type="button" id="mobQtyPlus" aria-label="Increase quantity">+</button>
+  </div>
+  {%- if v.available -%}
+    <button type="submit" form="ckPdpForm" class="pdp-mobile-cta-outline" id="mobAddToCart">Add to cart</button>
+  {%- else -%}
+    <button type="button" class="pdp-mobile-cta-outline is-disabled" id="mobAddToCart" disabled>Sold Out</button>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Cookme Product Page",
+  "settings": [
+    { "type": "text", "id": "option_label", "label": "Variant label", "default": "Pack Size" },
+    { "type": "text", "id": "rating_value", "label": "Rating value (static)", "default": "4.8" },
+    { "type": "text", "id": "rating_count", "label": "Review count (static)", "default": "128" },
+    {
+      "type": "text",
+      "id": "fallback_desc",
+      "label": "Fallback short description",
+      "default": "Authentic Bengali spice blend crafted by Krishna Chandra Dutta Spice Pvt Ltd."
+    },
+    { "type": "header", "content": "Trust strip defaults" },
+    {
+      "type": "text",
+      "id": "trust_1",
+      "label": "Trust line 1",
+      "default": "100% Natural — no artificial colours, flavours or preservatives"
+    },
+    {
+      "type": "text",
+      "id": "trust_2",
+      "label": "Trust line 2",
+      "default": "FSSAI Certified · Lic. No. 10014031001052"
+    },
+    {
+      "type": "text",
+      "id": "trust_3",
+      "label": "Trust line 3",
+      "default": "Free Pan-India delivery on orders above ₹299"
+    },
+    { "type": "header", "content": "Service strip defaults" },
+    { "type": "text", "id": "service_1_title", "label": "Service title 1", "default": "No Returns" },
+    { "type": "text", "id": "service_2_title", "label": "Service title 2", "default": "Cash on Delivery" },
+    { "type": "text", "id": "service_3_title", "label": "Service title 3", "default": "Cookme Assured" },
+    { "type": "header", "content": "Accordion defaults" },
+    {
+      "type": "textarea",
+      "id": "description_text",
+      "label": "Description fallback",
+      "default": "Cookme Biryani Masala is a hand-blended mix of over a dozen whole spices — roasted, cooled and ground in small batches to preserve their essential oils."
+    },
+    {
+      "type": "textarea",
+      "id": "ingredients_text",
+      "label": "Ingredients fallback",
+      "default": "Coriander, cumin, cinnamon, cardamom, star anise, bay leaf, black pepper, cloves and select aromatic spices."
+    },
+    {
+      "type": "textarea",
+      "id": "storage_text",
+      "label": "Storage & FSSAI fallback",
+      "default": "Store in a cool, dry place away from direct sunlight. Reseal the pack tightly after each use. FSSAI Lic. No. 10014031001052."
+    },
+    {
+      "type": "textarea",
+      "id": "shipping_text",
+      "label": "Shipping & returns fallback",
+      "default": "Free delivery across West Bengal and the rest of India on orders above ₹299. Dispatched within 24–48 hours."
+    },
+    { "type": "header", "content": "Reviews (static per brief)" },
+    { "type": "text", "id": "rev_eyebrow", "label": "Eyebrow", "default": "What people say" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "name", "label": "Customer name", "default": "Ritika S." },
+        { "type": "text", "id": "date", "label": "Date", "default": "May 20, 2024" },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review text",
+          "default": "Just like homemade! The taste is authentic and brings the real Bengali flavour to my kitchen."
+        },
+        { "type": "text", "id": "helpful", "label": "Helpful count", "default": "12" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cookme Product Page",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "name": "Ritika S.",
+            "date": "May 20, 2024",
+            "text": "Just like homemade! The taste is authentic and brings the real Bengali Alur Dom flavor to my kitchen.",
+            "helpful": "12"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Arindam D.",
+            "date": "May 18, 2024",
+            "text": "Amazing aroma and perfect blend of spices. My family loved it, and the flavour stayed beautifully balanced.",
+            "helpful": "9"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "name": "Pooja M.",
+            "date": "May 15, 2024",
+            "text": "Very fresh and tasty masala. Highly recommended for everyday Bengali cooking and weekend family meals.",
+            "helpful": "7"
+          }
+        }
+      ]
+    }
+  ],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

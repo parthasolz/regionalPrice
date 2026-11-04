@@ -1,0 +1,123 @@
+{%- comment -%}
+  Cookme Related Products — matched with product tags, with graceful fallback.
+{%- endcomment -%}
+{%- liquid
+  assign max_items = section.settings.max_products | default: 8 | times: 2 | at_least: 16
+  assign shown = 0
+  assign rendered_handles = ',' | append: product.handle | append: ','
+-%}
+<section class="related-section">
+  <div class="container">
+    <div class="section-head-row">
+      <div>
+        <div class="eyebrow">{{ section.settings.eyebrow }}</div>
+        <h2 class="section-title" style="font-size:clamp(1.7rem,3.4vw,2.6rem)">{{ section.settings.title_before }} <span class="it">{{ section.settings.title_em }}</span></h2>
+      </div>
+    </div>
+    <div class="related-carousel-shell">
+      <div class="related-arrows">
+        <button class="review-arrow" id="relatedPrev" aria-label="Previous product"><i class="bi bi-arrow-left"></i></button>
+        <button class="review-arrow" id="relatedNext" aria-label="Next product"><i class="bi bi-arrow-right"></i></button>
+      </div>
+      <div class="related-track" id="relatedTrack">
+        {%- comment -%} Step 1: Match by tags across product collections {%- endcomment -%}
+        {%- if product.tags.size > 0 -%}
+          {%- for col in product.collections -%}
+            {%- for p in col.products -%}
+              {%- if shown >= max_items -%}{%- break -%}{%- endif -%}
+              {%- assign handle_check = ',' | append: p.handle | append: ',' -%}
+              {%- if rendered_handles contains handle_check -%}{%- continue -%}{%- endif -%}
+              {%- assign match_found = false -%}
+              {%- for cur_tag in product.tags -%}
+                {%- assign clean_cur_tag = cur_tag | strip | downcase -%}
+                {%- if clean_cur_tag == blank -%}{%- continue -%}{%- endif -%}
+                {%- for p_tag in p.tags -%}
+                  {%- assign clean_p_tag = p_tag | strip | downcase -%}
+                  {%- if clean_cur_tag == clean_p_tag -%}
+                    {%- assign match_found = true -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if match_found -%}{%- break -%}{%- endif -%}
+              {%- endfor -%}
+              {%- if match_found -%}
+                {% render 'cookme-product-card', product: p, card_class: 'related-item', show_rating: true, rating_text: section.settings.rating_text, show_desc: false, show_wish: true, quick_add: true %}
+                {%- assign rendered_handles = rendered_handles | append: p.handle | append: ',' -%}
+                {%- assign shown = shown | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if shown >= max_items -%}{%- break -%}{%- endif -%}
+          {%- endfor -%}
+
+          {%- comment -%} Step 2: Match by tags across collections.all {%- endcomment -%}
+          {%- if shown < max_items and collections.all.products.size > 0 -%}
+            {%- for p in collections.all.products -%}
+              {%- if shown >= max_items -%}{%- break -%}{%- endif -%}
+              {%- assign handle_check = ',' | append: p.handle | append: ',' -%}
+              {%- if rendered_handles contains handle_check -%}{%- continue -%}{%- endif -%}
+              {%- assign match_found = false -%}
+              {%- for cur_tag in product.tags -%}
+                {%- assign clean_cur_tag = cur_tag | strip | downcase -%}
+                {%- if clean_cur_tag == blank -%}{%- continue -%}{%- endif -%}
+                {%- for p_tag in p.tags -%}
+                  {%- assign clean_p_tag = p_tag | strip | downcase -%}
+                  {%- if clean_cur_tag == clean_p_tag -%}
+                    {%- assign match_found = true -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                {%- if match_found -%}{%- break -%}{%- endif -%}
+              {%- endfor -%}
+              {%- if match_found -%}
+                {% render 'cookme-product-card', product: p, card_class: 'related-item', show_rating: true, rating_text: section.settings.rating_text, show_desc: false, show_wish: true, quick_add: true %}
+                {%- assign rendered_handles = rendered_handles | append: p.handle | append: ',' -%}
+                {%- assign shown = shown | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- comment -%} Step 3: Fallback filling if fewer items matched tags {%- endcomment -%}
+        {%- if shown < max_items -%}
+          {%- for col in product.collections -%}
+            {%- for p in col.products -%}
+              {%- if shown >= max_items -%}{%- break -%}{%- endif -%}
+              {%- assign handle_check = ',' | append: p.handle | append: ',' -%}
+              {%- if rendered_handles contains handle_check -%}{%- continue -%}{%- endif -%}
+              {% render 'cookme-product-card', product: p, card_class: 'related-item', show_rating: true, rating_text: section.settings.rating_text, show_desc: false, show_wish: true, quick_add: true %}
+              {%- assign rendered_handles = rendered_handles | append: p.handle | append: ',' -%}
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endfor -%}
+            {%- if shown >= max_items -%}{%- break -%}{%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- if shown < max_items -%}
+          {%- for p in collections.all.products -%}
+            {%- if shown >= max_items -%}{%- break -%}{%- endif -%}
+            {%- assign handle_check = ',' | append: p.handle | append: ',' -%}
+            {%- if rendered_handles contains handle_check -%}{%- continue -%}{%- endif -%}
+            {% render 'cookme-product-card', product: p, card_class: 'related-item', show_rating: true, rating_text: section.settings.rating_text, show_desc: false, show_wish: true, quick_add: true %}
+            {%- assign rendered_handles = rendered_handles | append: p.handle | append: ',' -%}
+            {%- assign shown = shown | plus: 1 -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Related Products",
+  "settings": [
+    { "type": "range", "id": "max_products", "label": "Products to show", "min": 4, "max": 12, "step": 2, "default": 8 },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Pairs well together" },
+    { "type": "text", "id": "title_before", "label": "Title before highlight", "default": "You May Also " },
+    { "type": "text", "id": "title_em", "label": "Title highlight", "default": "Like" },
+    { "type": "text", "id": "rating_text", "label": "Default rating text", "default": "4.8 (128)" }
+  ],
+  "presets": [{ "name": "Cookme Related Products" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

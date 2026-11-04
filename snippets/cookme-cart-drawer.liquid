@@ -1,0 +1,30 @@
+{%- comment -%}
+  Cookme AJAX cart drawer (works on every page, any cart_type).
+{%- endcomment -%}
+<aside class="ck-cart-drawer" id="ckCartDrawer" aria-hidden="true">
+  <div class="ck-drawer-bd" id="ckCartBd"></div>
+  <div class="ck-drawer-panel" role="dialog" aria-modal="true" aria-label="Cart">
+    <div class="ck-drawer-head">
+      <h4>Your Cart</h4>
+      <button type="button" class="ck-drawer-close" id="ckCartClose" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="ck-cart-items" id="ckCartItems"></div>
+    <div class="ck-cart-empty" id="ckCartEmpty">Your cart is empty.</div>
+    <div class="ck-cart-foot" id="ckCartFoot" style="display:none">
+      <div class="ck-cart-subtotal">
+        <span>Subtotal</span>
+        <span id="ckCartSubtotal">₹0</span>
+      </div>
+      <p class="ck-cart-note">Shipping &amp; taxes calculated at checkout.</p>
+      <a href="{{ routes.cart_url }}" class="btn-pill btn-red ck-cart-view">
+        View Cart <span class="bc"><i class="bi bi-arrow-right"></i></span
+      ></a>
+      <form action="{{ routes.cart_url }}" method="post">
+        <button type="submit" name="checkout" class="ck-checkout btn-pill btn-outline">
+          {{ 'sections.cart.checkout' | t }}
+          <span class="bc"><i class="bi bi-lock"></i></span>
+        </button>
+      </form>
+    </div>
+  </div>
+</aside>

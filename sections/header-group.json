@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header-group.name",
+  "type": "header",
+  "sections": {
+    "cookme-header": {
+      "type": "cookme-header",
+      "blocks": {
+        "p1": {
+          "type": "pincode",
+          "settings": {
+            "label": "Kolkata 700001",
+            "code": "700001"
+          }
+        },
+        "p2": {
+          "type": "pincode",
+          "settings": {
+            "label": "Ballygunge 700019",
+            "code": "700019"
+          }
+        },
+        "p3": {
+          "type": "pincode",
+          "settings": {
+            "label": "Howrah 711101",
+            "code": "711101"
+          }
+        },
+        "p4": {
+          "type": "pincode",
+          "settings": {
+            "label": "North Kol 700006",
+            "code": "700006"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "menu": "main-menu",
+        "logo": "shopify://shop_images/logo.png",
+        "logo_width": 150,
+        "sticky": true,
+        "cta_label": "Order Now",
+        "cta_link": "",
+        "account_label": "Login",
+        "show_pincode": true,
+        "pincode_label": "Delivery to",
+        "pincode_default": "Select Pincode",
+        "pincode_placeholder": "e.g. 700001",
+        "pincode_apply": "Apply"
+      }
+    }
+  },
+  "order": [
+    "cookme-header"
+  ]
+}

@@ -1,0 +1,173 @@
+{%- comment -%}
+  Cookme Collection / Product Listing page — breadcrumb, heading,
+  server-side filters, sorting and AJAX load-more pagination.
+{%- endcomment -%}
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign total = collection.products_count
+-%}
+<section class="ck-plp-section" id="ProductGridContainer-{{ section.id }}" style="min-height:60vh">
+  <div class="container">
+    <div class="plp-layout">
+      <div class="filter-backdrop d-lg-none" id="filterBackdrop"></div>
+      <aside class="filter-panel" id="filterPanel" aria-label="Filters">
+        <div class="filter-panel-head">
+          <h6>{{ section.settings.filter_label }}</h6>
+          {%- if collection.filters.size > 0 or section.settings.filter_collections != blank -%}
+            <a href="{{ collection.url }}" class="filter-clear-all">Clear all</a>
+          {%- endif -%}
+          <button type="button" class="filter-close d-lg-none" id="filterCloseBtn" aria-label="Close filters">&times;</button>
+        </div>
+        {%- if collection.filters.size > 0 or section.settings.filter_collections != blank -%}
+          {% render 'cookme-filters' %}
+        {%- else -%}
+          <p class="ck-filter-none">{{ collection.title }} has no filters yet. Add product options or tags to filter by.</p>
+        {%- endif -%}
+      </aside>
+
+      <div class="plp-main">
+        <div class="plp-toolbar">
+          <div class="left">
+            <button type="button" class="mobile-filter-btn" id="mobileFilterBtn"><i class="bi bi-sliders"></i> {{ section.settings.filter_label }}</button>
+            {%- for collection_filter in collection.filters -%}
+              {%- for value in collection_filter.active_values -%}
+                <span class="plp-chip">{{ value.label }} <a href="{{ value.url_to_remove }}" aria-label="remove">×</a></span>
+              {%- endfor -%}
+              {%- if collection_filter.type == 'price_range' and collection_filter.max_value.value != nil -%}
+                <span class="plp-chip">
+                  ₹{{ collection_filter.min_value.value | default: collection_filter.range_min | money_without_currency }}–₹{{ collection_filter.max_value.value | default: collection_filter.range_max | money_without_currency }}
+                  <a href="{{ collection.url }}" aria-label="remove">×</a>
+                </span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+          <div class="plp-sort">
+            Sort by:
+            <form method="get" action="{{ collection.url }}">
+              {%- if request.query_string contains 'ck_category=' -%}
+                <input type="hidden" name="ck_category" value="{{ request.query_string | split: 'ck_category=' | last | split: '&' | first | escape }}">
+              {%- endif -%}
+              {%- for collection_filter in collection.filters -%}
+                {%- if collection_filter.active_values.size > 0 -%}
+                  {%- for value in collection_filter.active_values -%}
+                    <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if collection_filter.type == 'price_range' -%}
+                  {%- if collection_filter.min_value.value -%}
+                    <input type="hidden" name="filter.v.price.gte" value="{{ collection_filter.min_value.value | money_without_currency | replace: ',', '' }}">
+                  {%- endif -%}
+                  {%- if collection_filter.max_value.value -%}
+                    <input type="hidden" name="filter.v.price.lte" value="{{ collection_filter.max_value.value | money_without_currency | replace: ',', '' }}">
+                  {%- endif -%}
+                {%- endif -%}
+              {%- endfor -%}              
+              <select name="sort_by" aria-label="Sort by" onchange="this.form.submit()">
+                <option value="title-ascending" {% if sort_by == 'title-ascending' %}selected{% endif %}>
+                  Alphabetically, A–Z
+                </option>
+                <option value="title-descending" {% if sort_by == 'title-descending' %}selected{% endif %}>
+                  Alphabetically, Z–A
+                </option>
+                <option value="best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>
+                  Best selling
+                </option>
+                <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>
+                  Price, low to high
+                </option>
+                <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>
+                  Price, high to low
+                </option>
+              </select>
+            </form>
+          </div>
+        </div>
+
+        {%- paginate collection.products by section.settings.products_per_page -%}
+          <div class="row g-4" id="ProductGrid-{{ section.id }}">
+            {%- for product in collection.products -%}
+              {% render 'cookme-product-card', product: product, card_class: section.settings.card_class, show_rating: true, rating_text: section.settings.rating_text, show_desc: true, show_wish: true, quick_add: true, filter_collection_handles: product.collections, map: 'handle', join: ',' %}
+            {%- else -%}
+              <div class="col-12"><p class="ck-tab-empty">{{ section.settings.empty_text }}</p></div>
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 and paginate.next -%}
+            <div class="plp-load-more-wrap" data-ck-pagination
+                 data-page="{{ paginate.current_page | plus: 1 }}"
+                 data-url="{{ collection.url }}"
+                 data-section="{{ section.id }}">
+              <div class="plp-loader" style="display:none"><span class="plp-loader-dot"></span><span class="plp-loader-dot"></span><span class="plp-loader-dot"></span></div>
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Page",
+  "settings": [
+    { "type": "range", "id": "products_per_page", "label": "Products per page", "min": 6, "max": 24, "step": 6, "default": 12 },
+    { "type": "text", "id": "filter_label", "label": "Filter button label", "default": "Filter & Sort" },
+    {
+      "type": "header",
+      "content": "Collection Sidebar Filters"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_filter",
+      "label": "Show Category filter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_availability_filter",
+      "label": "Show Availability filter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price_filter",
+      "label": "Show Price filter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_other_filters",
+      "label": "Show other filters",
+      "default": true
+    },
+    { "type": "collection_list", "id": "filter_collections", "label": "Category collections", "info": "Choose the collections to show as multi-select Category filters on the product listing page.", "limit": 50 },
+    { "type": "text", "id": "rating_text", "label": "Default rating text", "default": "4.8 (128)" },
+    { "type": "text", "id": "empty_text", "label": "Empty collection text", "default": "No products in this collection yet." },
+    { "type": "select", "id": "card_class", "label": "Grid columns", "options": [ { "value": "col-6 col-md-4 col-lg-4", "label": "3 per row" }, { "value": "col-6 col-md-4 col-lg-3", "label": "4 per row" } ], "default": "col-6 col-md-4 col-lg-4" }
+  ],
+  "presets": [{ "name": "Cookme Collection Page" }],
+  "enabled_on": { "templates": ["collection"] }
+}
+{% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {% render 'cookme-product-card',
+                    product: product,
+                    card_class: section.settings.card_class,
+                    show_rating: true,
+                    rating_text: section.settings.rating_text,
+                    show_desc: true,
+                    show_wish: true,
+                    quick_add: true,
+                    filter_collection_handles: product.collections | map: 'handle' | join: ',' %}
+  to: "{% render 'cookme-product-card', product: product, card_class: section.settings.card_class,
+    show_rating: true, rating_text: section.settings.rating_text, show_desc: true,
+    show_wish: true, quick_add: true, filter_collection_handles: product.collections,
+    map: 'handle', join: ',' %}"
+  position: 5331..5611
+{% endcomment %}

@@ -1,0 +1,76 @@
+{%- comment -%}
+  Cookme Trust Bar — icon + title + text items, dynamic blocks.
+{%- endcomment -%}
+{%- assign default_icons = '100-Natural-icon,Free-Pan-India-Delivery-icon,FSSAI-Certified-icon,Bundle-Savings-icon' | split: ',' -%}
+<section class="light-section-wrap" data-ck-location="{{ section.settings.target_location | default: 'all' }}">
+  <section class="trust-bar">
+    <div class="container">
+      <div class="trust-bar-inner">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign idx = forloop.index0
+            assign icon = block.settings.icon
+            if icon == blank
+              assign icon_name = default_icons[idx]
+              assign icon_url = icon_name | append: '.webp' | asset_url
+            else
+              assign icon_url = icon | image_url: width: 120
+            endif
+          -%}
+          <div class="trust-item">
+            {%- if icon_url -%}
+              <div class="trust-icon-wrap"><img src="{{ icon_url }}" alt="{{ block.settings.title | escape }}" loading="lazy"></div>
+            {%- endif -%}
+            <div class="trust-text">
+              <h6>{{ block.settings.title }}</h6>
+              <p>{{ block.settings.text }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+</section>
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "select",
+      "id": "target_location",
+      "label": "Location Visibility",
+      "options": [
+        { "value": "all", "label": "All Locations" },
+        { "value": "wb", "label": "West Bengal Only" },
+        { "value": "india", "label": "Out of West Bengal (Rest of India)" }
+      ],
+      "default": "all"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Trust item",
+      "settings": [
+        { "type": "image_picker", "id": "icon", "label": "Icon (optional, auto-fallback)" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Natural Ingredients" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Pure spices, nothing artificial." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cookme Trust Bar",
+      "blocks": [
+        { "type": "trust", "settings": { "title": "Natural Ingredients", "text": "Hand-picked spices, free from artificial colours and flavours." } },
+        { "type": "trust", "settings": { "title": "Pan-India Delivery", "text": "Free shipping on orders above ₹299 across India." } },
+        { "type": "trust", "settings": { "title": "Certified", "text": "Lic. No. 10014031001052 — strict food-safety standards." } },
+        { "type": "trust", "settings": { "title": "Savings", "text": "Value packs and combo offers on everyday favourites." } }
+      ]
+    }
+  ],
+  "enabled_on": { "templates": ["index"] }
+}
+{% endschema %}

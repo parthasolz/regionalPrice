@@ -1,0 +1,1553 @@
+{{ 'component-cart.css' | asset_url | stylesheet_tag }}
+{{ 'component-cart-items.css' | asset_url | stylesheet_tag }}
+{{ 'component-totals.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+{{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  /* ============================================================
+   COOKME CART — COMBINED CART SECTION
+   ============================================================ */
+
+  .cookme-cart-section {
+    background: #fff;
+    padding: 34px 0 60px;
+  }
+
+  .cookme-cart-section .page-width {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  /* ============================================================
+   CART HEADER
+   ============================================================ */
+
+  .cookme-cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 16px;
+  }
+
+  .cookme-cart-title {
+    margin: 0;
+    color: #151515;
+    line-height: 1.15;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    font-family: var(--display);
+  }
+
+  .cookme-cart-count {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    color: #555;
+    vertical-align: middle;
+    font-family: Poppins, sans-serif;
+  }
+
+  .cookme-continue-shopping {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 138px;
+    height: 40px;
+    padding: 0 20px;
+    border: 1px solid #df2a2a;
+    border-radius: 25px;
+    color: #df2a2a;
+    background: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    transition: all 0.25s ease;
+  }
+
+  .cookme-continue-shopping:hover {
+    background: #df2a2a;
+    color: #fff;
+  }
+
+  /* ============================================================
+   MAIN GRID
+   ============================================================ */
+
+  .cookme-cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: 30px;
+    align-items: start;
+  }
+
+  .cookme-cart-items-column {
+    min-width: 0;
+  }
+
+  .cookme-cart-sidebar {
+    min-width: 0;
+  }
+
+  /* ============================================================
+   TABLE HEADER
+   ============================================================ */
+
+  .cookme-cart-table-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 150px 110px;
+    align-items: center;
+    padding: 0 14px 9px;
+    color: #858585;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .cookme-cart-table-head .cookme-head-qty {
+    text-align: center;
+  }
+
+  .cookme-cart-table-head .cookme-head-total {
+    text-align: right;
+  }
+
+  /* ============================================================
+   CART ITEM
+   ============================================================ */
+
+  .cookme-cart-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 150px 110px;
+    align-items: center;
+    gap: 12px;
+    min-height: 90px;
+    margin-bottom: 10px;
+    padding: 12px 14px;
+    border: 1px solid #e9e9e9;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.045);
+    transition: box-shadow 0.2s ease;
+  }
+
+  .cookme-cart-item:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  }
+
+  /* ============================================================
+   PRODUCT
+   ============================================================ */
+
+  .cookme-product-info {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr);
+    align-items: center;
+    gap: 50px;
+    min-width: 0;
+  }
+
+  .cookme-product-image {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-decoration: none;
+    border-right: 1px solid #dddddd;
+  }
+
+  .cookme-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .cookme-product-details {
+    min-width: 0;
+  }
+
+  .cookme-product-title {
+    display: block;
+    margin: 0 0 7px;
+    color: #1d1d1d;
+    font-family: var(--display);
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .cookme-product-title:hover {
+    color: #df2a2a;
+    text-decoration: none;
+  }
+
+  .cookme-product-price {
+    margin: 0;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .cookme-product-price s {
+    margin-right: 5px;
+    color: #999;
+  }
+
+  .cookme-product-price strong {
+    color: #222;
+  }
+
+  .cookme-product-options {
+    margin-top: 4px;
+    color: #202020;
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .cookme-product-options .product-option {
+    margin: 1px 0;
+  }
+  .product-option {
+    word-break: break-word;
+    line-height: calc(1 + 0.5 / var(--font-body-scale));
+    color: #555;
+    font-size: 15px;
+  }
+  .cookme-product-discounts {
+    margin-top: 5px;
+  }
+
+  .cookme-product-discounts .discounts__discount {
+    font-size: 10px;
+  }
+
+  /* ============================================================
+   QUANTITY
+   ============================================================ */
+
+  .cookme-cart-quantity {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cookme-cart-quantity .quantity-popover-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cookme-cart-quantity quantity-input.quantity {
+    display: inline-flex;
+    border: 1px solid #e5d6bf;
+    border-radius: 10px;
+    background: #fff;
+    padding: 2px;
+    width: 80px;
+    min-height: 30px;
+  }
+
+  .cookme-cart-quantity .quantity__button {
+    width: 25px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #444;
+  }
+
+  .cookme-cart-quantity .quantity__button:hover {
+    color: #d52323;
+  }
+
+  .cookme-cart-quantity .quantity__button .svg-wrapper {
+    width: 11px;
+    height: 11px;
+  }
+
+  .cookme-cart-quantity .quantity__input {
+    width: 20px;
+    min-width: 20px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    text-align: center;
+    color: #1c1c1c;
+    font-size: 12px;
+    font-weight: 500;
+    -moz-appearance: textfield;
+  }
+
+  .cookme-cart-quantity .quantity__input::-webkit-outer-spin-button,
+  .cookme-cart-quantity .quantity__input::-webkit-inner-spin-button {
+    margin: 0;
+    -webkit-appearance: none;
+  }
+
+  /* ============================================================
+   REMOVE
+   ============================================================ */
+
+  .cookme-remove-button {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cookme-remove-button a {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    border: 1px solid #e8e8e8 !important;
+    border-radius: 50% !important;
+    background: #fff !important;
+    color: #555 !important;
+    box-shadow: none !important;
+  }
+
+  .cookme-remove-button a:hover {
+    border-color: #df2a2a !important;
+    color: #df2a2a !important;
+  }
+
+  /* ============================================================
+   TOTAL
+   ============================================================ */
+
+  .cookme-item-total {
+    text-align: right;
+  }
+
+  .cookme-item-total .price {
+    display: block;
+    color: #181818;
+    font-size: 15px;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+
+  .cookme-item-total s.price {
+    margin-bottom: 2px;
+    color: #999;
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  /* ============================================================
+   BENEFITS
+   ============================================================ */
+
+  .cookme-cart-benefits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 14px;
+    padding: 22px 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 11px;
+    background: #fff;
+  }
+
+  .cookme-benefit {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 15px;
+    border-right: 1px solid #e4e4e4;
+  }
+
+  .cookme-benefit:last-child {
+    border-right: 0;
+  }
+
+  .cookme-benefit-icon {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #222;
+    font-size: 30px;
+  }
+
+  .cookme-benefit span:last-child {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+
+  .cookme-benefit strong {
+    color: #292929;
+    font-weight: 600;
+  }
+
+  .cookme-benefit small {
+    margin-top: 2px;
+    color: #333;
+    font-size: 13px;
+  }
+
+  /* ============================================================
+   SUMMARY
+   ============================================================ */
+
+  @media screen and (min-width: 990px) {
+    .cookme-cart-sidebar {
+      position: sticky;
+      top: 20px;
+    }
+  }
+
+  .cookme-summary-box {
+    padding: 18px 16px 17px;
+    border: 1px solid #e9e9e9;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.055);
+  }
+
+  .cookme-summary-title {
+    margin: 0 0 21px;
+    color: #1a1a1a;
+    line-height: 1.2;
+    font-weight: bold;
+    font-family: var(--display);
+  }
+
+  .cookme-summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+
+  .cookme-summary-row span:last-child {
+    text-align: right;
+    color: #555;
+  }
+
+  .cookme-summary-divider {
+    height: 1px;
+    margin: 18px 0 14px;
+    background: #e4e4e4;
+  }
+
+  .cookme-summary-total {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    color: #191919;
+    font-weight: 600;
+    border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+    padding-top: 15px;
+  }
+
+  .cookme-tax-note {
+    display: block;
+    margin-top: 19px;
+    text-align: center;
+  }
+  .unit-price {
+    display: block;
+    font-size: 15px;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+  /* ============================================================
+   CHECKOUT
+   ============================================================ */
+
+  .cookme-checkout-button {
+    margin-top: 17px;
+  }
+  /* 
+.cookme-checkout-button:hover {
+  background: #bc1515 !important;
+}
+
+.cookme-checkout-button i {
+  font-size: 11px;
+} */
+
+  /* ============================================================
+   EMPTY CART
+   ============================================================ */
+
+  .cookme-empty-cart {
+    padding: 70px 20px;
+    text-align: center;
+  }
+
+  .cookme-empty-cart h2 {
+    margin: 0 0 12px;
+    font-family: var(--font-heading-family);
+    font-size: 28px;
+    font-weight: 500;
+  }
+
+  .cookme-empty-cart p {
+    margin: 0 0 22px;
+    color: #666;
+    font-size: 14px;
+  }
+
+  /* ============================================================
+   CART NOTE
+   ============================================================ */
+
+  .cookme-cart-note {
+    margin-top: 18px;
+  }
+
+  .cookme-cart-note label {
+    display: block;
+    margin-bottom: 7px;
+    color: #444;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .cookme-cart-note textarea {
+    width: 100%;
+    min-height: 80px;
+  }
+
+  /* ============================================================
+   DISCOUNTS
+   ============================================================ */
+
+  .cookme-summary-box .discounts {
+    margin: -4px 0 12px;
+  }
+
+  .cookme-summary-box .discounts__discount {
+    font-size: 9px;
+    color: #555;
+  }
+
+  /* ============================================================
+   LOADING
+   ============================================================ */
+
+  #main-cart-items.cart__items--disabled {
+    pointer-events: none;
+    opacity: 0.65;
+  }
+
+  /* ============================================================
+   TABLET
+   ============================================================ */
+
+  @media screen and (max-width: 991px) {
+    .cookme-cart-layout {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .cookme-cart-sidebar {
+      max-width: 500px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  /* ============================================================
+   MOBILE
+   ============================================================ */
+
+  @media screen and (max-width: 749px) {
+    .cookme-benefit {
+      padding: 22px 16px;
+    }
+    .cookme-remove-button a {
+      min-width: auto;
+      min-height: auto;
+    }
+
+    .cookme-cart-item {
+      align-items: self-start;
+    }
+
+    .cookme-cart-section {
+      padding: 22px 0 35px;
+    }
+
+    .cookme-cart-section .page-width {
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+
+    .cookme-cart-header {
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .cookme-cart-count {
+      font-size: 11px;
+    }
+
+    .cookme-continue-shopping {
+      min-width: auto;
+      height: 34px;
+      padding: 0 12px;
+      font-size: 8px;
+      white-space: nowrap;
+    }
+
+    .cookme-cart-table-head {
+      display: none;
+    }
+
+    .cookme-cart-item {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'product total'
+        'quantity quantity';
+      gap: 10px;
+      padding: 12px;
+    }
+
+    .cookme-product-info {
+      grid-area: product;
+      grid-template-columns: 65px minmax(0, 1fr);
+      gap: 40px;
+    }
+
+    .cookme-product-image {
+      width: 80px;
+      height: 80px;
+    }
+
+    .cookme-product-price {
+      font-size: 12px;
+    }
+
+    .cookme-item-total {
+      grid-area: total;
+    }
+
+    .cookme-cart-quantity {
+      grid-area: quantity;
+      justify-content: flex-end;
+      padding-top: 0;
+      margin-top: -50px;
+    }
+
+    .cookme-cart-quantity .quantity-popover-wrapper {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .cookme-cart-benefits {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding: 8px;
+    }
+
+    .cookme-benefit {
+      min-height: 48px;
+      justify-content: flex-start;
+      border-right: 0;
+      border-bottom: 1px solid #e4e4e4;
+    }
+
+    .cookme-benefit:last-child {
+      border-bottom: 0;
+    }
+
+    .cookme-summary-box {
+      padding: 18px 15px;
+    }
+
+    .cookme-summary-title {
+      font-size: 20px;
+    }
+  }
+
+  /* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
+  @media screen and (max-width: 420px) {
+    .cookme-continue-shopping {
+      align-self: flex-start;
+    }
+
+    .cookme-product-info {
+      grid-template-columns: 58px minmax(0, 1fr);
+    }
+
+    .cookme-product-image {
+      width: 58px;
+      height: 58px;
+    }
+
+    .cookme-product-title {
+      font-size: 18px;
+    }
+    .cookme-product-info {
+      gap: 20px;
+    }
+    .cookme-cart-quantity .quantity-popover-wrapper {
+      gap: 0;
+    }
+    .cart-item cart-remove-button {
+      margin: 0;
+    }
+  }
+{%- endstyle -%}
+
+{%- unless settings.cart_type == 'drawer' -%}
+  <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+
+<script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+
+<cart-items
+  class="cookme-cart-section gradient color-{{ section.settings.color_scheme }}"
+  id="main-cart-items"
+  data-id="{{ section.id }}"
+  view-event-payload="{{ cart | standard_event_data: 'view', context: 'page' | escape }}"
+>
+  <div class="container">
+    <div class="js-contents">
+      {%- if cart == empty -%}
+        <div class="cookme-empty-cart">
+          <h2>
+            {{ 'sections.cart.empty' | t }}
+          </h2>
+
+          <p>Your cart is currently empty.</p>
+
+          <a
+            href="{{ routes.all_products_collection_url }}"
+            class="cookme-continue-shopping"
+          >
+            Continue Shopping
+          </a>
+
+          {%- if shop.customer_accounts_enabled and customer == null -%}
+            <p class="cart__login-paragraph">
+              {{ 'sections.cart.login.paragraph_html' | t: link: routes.account_login_url }}
+            </p>
+          {%- endif -%}
+        </div>
+
+      {%- else -%}
+        <!--
+          ==================================================
+          CART HEADER
+          ==================================================
+        -->
+
+        <div class="cookme-cart-header">
+          <h1 class="cookme-cart-title">
+            Your cart
+
+            <span class="cookme-cart-count">
+              ({{ cart.item_count }}
+
+              {% if cart.item_count == 1 %}
+                item
+              {% else %}
+                items
+              {% endif -%}
+              )
+            </span>
+          </h1>
+
+          <a
+            href="{{ routes.all_products_collection_url }}"
+            class="cookme-continue-shopping"
+          >
+            Continue Shopping
+          </a>
+        </div>
+
+        <!--
+          ==================================================
+          MAIN CART LAYOUT
+          ==================================================
+        -->
+
+        <div class="cookme-cart-layout">
+          <!--
+            ==================================================
+            LEFT CART ITEMS
+            ==================================================
+          -->
+
+          <div class="cookme-cart-items-column">
+            <div class="cookme-cart-table-head">
+              <span> Product </span>
+
+              <span class="cookme-head-qty"> Quantity </span>
+
+              <span class="cookme-head-total"> Total </span>
+            </div>
+
+            <form
+              action="{{ routes.cart_url }}"
+              method="post"
+              id="cart"
+              class="cart__contents"
+            >
+              <div
+                class="cart__items"
+                id="main-cart-items-inner"
+              >
+                {%- for item in cart.items -%}
+                  {%- liquid
+                    assign has_qty_rules = false
+
+                    if item.variant.quantity_rule.increment > 1
+                      assign has_qty_rules = true
+                    elsif item.variant.quantity_rule.min > 1
+                      assign has_qty_rules = true
+                    elsif item.variant.quantity_rule.max != null
+                      assign has_qty_rules = true
+                    endif
+
+                    assign has_vol_pricing = false
+
+                    if item.variant.quantity_price_breaks.size > 0
+                      assign has_vol_pricing = true
+                    endif
+                  -%}
+
+                  <div
+                    class="cookme-cart-item cart-item"
+                    id="CartItem-{{ item.index | plus: 1 }}"
+                  >
+                    <!-- PRODUCT -->
+
+                    <div class="cookme-product-info">
+                      <a
+                        href="{{ item.url }}"
+                        class="cookme-product-image"
+                        aria-label="{{ item.product.title | escape }}"
+                      >
+                        {%- if item.image -%}
+                          <img
+                            src="{{ item.image | image_url: width: 180 }}"
+                            class="cart-item__image"
+                            alt="{{ item.image.alt | default: item.product.title | escape }}"
+                            loading="lazy"
+                            width="72"
+                            height="{{ 72 | divided_by: item.image.aspect_ratio | ceil }}"
+                          >
+                        {%- endif -%}
+                      </a>
+
+                      <div class="cookme-product-details">
+                        {%- if settings.show_vendor -%}
+                          <p class="caption-with-letter-spacing">
+                            {{ item.product.vendor }}
+                          </p>
+                        {%- endif -%}
+
+                        <div class="cart-item__title">
+                          <a
+                            href="{{ item.url }}"
+                            class="cookme-product-title cart-item__name h4 break"
+                          >
+                            {{ item.product.title | escape }}
+                          </a>
+
+                          {%- assign cart_disclosure_modal_id = 'CartDisclosureModal-cart-'
+                            | append: item.key
+                            | replace: ':', '-'
+                          -%}
+
+                          {%- render 'cart-disclosure-indicator',
+                            product: item.product,
+                            modal_id: cart_disclosure_modal_id
+                          -%}
+                        </div>
+
+                        <!-- PRICE -->
+
+                        {%- if item.original_price != item.final_price -%}
+                          <div class="cookme-product-price">
+                            <s>
+                              {{ item.original_price | money }}
+                            </s>
+
+                            <strong>
+                              {{ item.final_price | money }}
+                            </strong>
+                          </div>
+
+                        {%- else -%}
+                          <div class="cookme-product-price">
+                            {{ item.original_price | money }}
+                          </div>
+                        {%- endif -%}
+
+                        <!-- OPTIONS / PROPERTIES -->
+
+                        {%- if item.product.has_only_default_variant == false
+                          or item.properties.size != 0
+                          or item.selling_plan_allocation != null
+                        -%}
+                          <div class="cookme-product-options">
+                            {%- if item.product.has_only_default_variant == false -%}
+                              {%- for option in item.options_with_values -%}
+                                <div class="product-option">
+                                  <strong> {{ option.name }}: </strong>
+
+                                  {{ option.value }}
+                                </div>
+                              {%- endfor -%}
+                            {%- endif -%}
+
+                            {%- for property in item.properties -%}
+                              {%- assign property_first_char = property.first | slice: 0 -%}
+
+                              {%- if property.last != blank and property_first_char != '_' -%}
+                                <div class="product-option">
+                                  <strong> {{ property.first }}: </strong>
+
+                                  {%- if property.last contains '/uploads/' -%}
+                                    <a
+                                      href="{{ property.last }}"
+                                      class="link"
+                                      target="_blank"
+                                    >
+                                      {{ property.last | split: '/' | last }}
+                                    </a>
+
+                                  {%- else -%}
+                                    {{ property.last }}
+                                  {%- endif -%}
+                                </div>
+                              {%- endif -%}
+                            {%- endfor -%}
+
+                            {%- if item.selling_plan_allocation != null -%}
+                              <div class="product-option">
+                                {{ item.selling_plan_allocation.selling_plan.name }}
+                              </div>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+
+                        <!-- LINE DISCOUNTS -->
+
+                        {%- if item.line_level_discount_allocations.size > 0 -%}
+                          <ul
+                            class="discounts list-unstyled cookme-product-discounts"
+                            role="list"
+                            aria-label="{{ 'customer.order.discount' | t }}"
+                          >
+                            {%- for discount in item.line_level_discount_allocations -%}
+                              <li class="discounts__discount">
+                                {{- 'icon-discount.svg' | inline_asset_content -}}
+
+                                {{ discount.discount_application.title | escape }}
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </div>
+                    </div>
+
+                    <!--
+                      ==================================================
+                      QUANTITY
+                      ==================================================
+                    -->
+
+                    <div class="cookme-cart-quantity">
+                      <quantity-popover>
+                        <div class="quantity-popover-wrapper">
+                          <div
+                            class="quantity-popover-container{% if has_qty_rules or has_vol_pricing %} quantity-popover-container--hover{% endif %}"
+                          >
+                            {%- if has_qty_rules or has_vol_pricing -%}
+                              <button
+                                type="button"
+                                aria-expanded="false"
+                                class="quantity-popover__info-button quantity-popover__info-button--icon-only button button--tertiary small-hide medium-hide"
+                              >
+                                {{- 'icon-info.svg' | inline_asset_content -}}
+                              </button>
+                            {%- endif -%}
+
+                            <quantity-input class="quantity cart-quantity">
+                              {% assign can_update_quantity = item.instructions.can_update_quantity | default: true %}
+
+                              <!-- MINUS -->
+
+                              <button
+                                class="quantity__button"
+                                name="minus"
+                                type="button"
+                                {% if can_update_quantity == false %}
+                                  disabled
+                                {% endif %}
+                              >
+                                <span class="visually-hidden">
+                                  {{ 'products.product.quantity.decrease' | t: product: item.product.title | escape }}
+                                </span>
+
+                                <span class="svg-wrapper">
+                                  {{ 'icon-minus.svg' | inline_asset_content }}
+                                </span>
+                              </button>
+
+                              <!-- INPUT -->
+
+                              <input
+                                class="quantity__input"
+                                data-quantity-variant-id="{{ item.variant.id }}"
+                                data-quantity-line-key="{{ item.key }}"
+                                type="number"
+                                name="updates[]"
+                                value="{{ item.quantity }}"
+                                data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
+                                min="0"
+                                data-min="{{ item.variant.quantity_rule.min }}"
+                                {% if item.variant.quantity_rule.max != null %}
+                                  max="{{ item.variant.quantity_rule.max }}"
+                                {% endif %}
+                                step="{{ item.variant.quantity_rule.increment }}"
+                                aria-label="
+                                  {{ 'products.product.quantity.input_label' | t:
+                                  product: item.product.title | escape }}
+                                "
+                                id="Quantity-{{ item.index | plus: 1 }}"
+                                data-index="{{ item.index | plus: 1 }}"
+                                {% if can_update_quantity == false %}
+                                  disabled
+                                {% endif %}
+                              >
+
+                              <!-- PLUS -->
+
+                              <button
+                                class="quantity__button"
+                                name="plus"
+                                type="button"
+                                {% if can_update_quantity == false %}
+                                  disabled
+                                {% endif %}
+                              >
+                                <span class="visually-hidden">
+                                  {{ 'products.product.quantity.increase' | t: product: item.product.title | escape }}
+                                </span>
+
+                                <span class="svg-wrapper">
+                                  {{ 'icon-plus.svg' | inline_asset_content }}
+                                </span>
+                              </button>
+                            </quantity-input>
+                          </div>
+
+                          <!-- REMOVE -->
+
+                          <cart-remove-button
+                            id="Remove-{{ item.index | plus: 1 }}"
+                            data-index="{{ item.index | plus: 1 }}"
+                            {% assign can_remove = item.instructions.can_remove | default: true %}
+                            {% if can_remove == false %}
+                              class="hidden"
+                            {% else %}
+                              class="cookme-remove-button"
+                            {% endif %}
+                          >
+                            <a
+                              href="{{ item.url_to_remove }}"
+                              class="button button--tertiary"
+                              aria-label="
+                                {{ 'sections.cart.remove_title' | t:
+                                title: item.title | escape }}
+                              "
+                            >
+                              <span class="svg-wrapper">
+                                {{ 'icon-remove.svg' | inline_asset_content }}
+                              </span>
+                            </a>
+                          </cart-remove-button>
+                        </div>
+
+                        <!-- QUANTITY RULES -->
+
+                        {%- if has_qty_rules or has_vol_pricing -%}
+                          <button
+                            type="button"
+                            class="quantity-popover__info-button quantity-popover__info-button--icon-with-label button button--tertiary large-up-hide"
+                            aria-expanded="false"
+                          >
+                            {{- 'icon-info.svg' | inline_asset_content -}}
+
+                            <span>
+                              {%- if has_vol_pricing -%}
+                                {{ 'products.product.volume_pricing.note' | t }}
+
+                              {%- elsif has_qty_rules -%}
+                                {{ 'products.product.quantity.note' | t }}
+                              {%- endif -%}
+                            </span>
+                          </button>
+
+                          <div
+                            class="cart-items__info global-settings-popup quantity-popover__info"
+                            tabindex="-1"
+                            hidden
+                          >
+                            {%- if has_qty_rules == false -%}
+                              <span class="volume-pricing-label caption">
+                                {{ 'products.product.volume_pricing.title' | t }}
+                              </span>
+                            {%- endif -%}
+
+                            <div class="quantity__rules caption">
+                              {%- if item.variant.quantity_rule.increment > 1 -%}
+                                <span class="divider">
+                                  {{
+                                    'products.product.quantity.multiples_of'
+                                    | t: quantity: item.variant.quantity_rule.increment
+                                  }}
+                                </span>
+                              {%- endif -%}
+
+                              {%- if item.variant.quantity_rule.min > 1 -%}
+                                <span class="divider">
+                                  {{ 'products.product.quantity.min_of' | t: quantity: item.variant.quantity_rule.min }}
+                                </span>
+                              {%- endif -%}
+
+                              {%- if item.variant.quantity_rule.max != null -%}
+                                <span class="divider">
+                                  {{ 'products.product.quantity.max_of' | t: quantity: item.variant.quantity_rule.max }}
+                                </span>
+                              {%- endif -%}
+                            </div>
+
+                            <button
+                              class="button-close button button--tertiary large-up-hide"
+                              type="button"
+                              aria-label="{{ 'accessibility.close' | t }}"
+                            >
+                              <span class="svg-wrapper">
+                                {{ 'icon-close.svg' | inline_asset_content }}
+                              </span>
+                            </button>
+
+                            {%- if item.variant.quantity_price_breaks.size > 0 -%}
+                              <volume-pricing class="parent-display">
+                                <ul class="list-unstyled">
+                                  <li>
+                                    <span> {{ item.variant.quantity_rule.min }}+ </span>
+
+                                    {%- assign price = item.variant.price | money_with_currency -%}
+
+                                    <span>
+                                      {{ 'sections.quick_order_list.each' | t: money: price }}
+                                    </span>
+                                  </li>
+
+                                  {%- for price_break in item.variant.quantity_price_breaks -%}
+                                    <li>
+                                      <span>
+                                        {{ price_break.minimum_quantity }}
+
+                                        <span aria-hidden="true"> + </span>
+                                      </span>
+
+                                      {%- assign price = price_break.price | money_with_currency -%}
+
+                                      <span>
+                                        {{ 'sections.quick_order_list.each' | t: money: price }}
+                                      </span>
+                                    </li>
+                                  {%- endfor -%}
+                                </ul>
+                              </volume-pricing>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+
+                        <!-- ERROR -->
+
+                        <div
+                          class="cart-item__error"
+                          id="Line-item-error-{{ item.index | plus: 1 }}"
+                          role="alert"
+                        >
+                          <small class="cart-item__error-text"></small>
+
+                          <span class="svg-wrapper">
+                            {{ 'icon-error.svg' | inline_asset_content }}
+                          </span>
+                        </div>
+                      </quantity-popover>
+                    </div>
+
+                    <!--
+                      ==================================================
+                      TOTAL
+                      ==================================================
+                    -->
+
+                    <div class="cookme-item-total">
+                      {%- render 'loading-spinner' -%}
+
+                      {%- if item.original_line_price != item.final_line_price -%}
+                        <s class="price">
+                          {{ item.original_line_price | money }}
+                        </s>
+
+                        <span class="price">
+                          {{ item.final_line_price | money }}
+                        </span>
+
+                      {%- else -%}
+                        <span class="price">
+                          {{ item.original_line_price | money }}
+                        </span>
+                      {%- endif -%}
+
+                      {% render 'unit-price',
+                        price: item.unit_price,
+                        measurement: item.unit_price_measurement,
+                        variant: item.variant,
+                        fallback_price_cents: item.final_price
+                      %}
+                    </div>
+                  </div>
+                {%- endfor -%}
+              </div>
+
+              <p
+                class="visually-hidden"
+                id="cart-live-region-text"
+                aria-live="polite"
+                role="status"
+              ></p>
+
+              <p
+                class="visually-hidden"
+                id="shopping-cart-line-item-status"
+                aria-live="polite"
+                aria-hidden="true"
+                role="status"
+              >
+                {{ 'accessibility.loading' | t }}
+              </p>
+            </form>
+
+            <!--
+              ==================================================
+              BENEFITS
+              ==================================================
+            -->
+
+            <div
+              class="cookme-cart-benefits"
+              aria-label="Cart benefits"
+            >
+              <div class="cookme-benefit">
+                <span class="cookme-benefit-icon">
+                  <i class="bi bi-shield-check"></i>
+                </span>
+
+                <span>
+                  <strong> 100% Secure </strong>
+
+                  <small> Checkout </small>
+                </span>
+              </div>
+
+              <div class="cookme-benefit">
+                <span class="cookme-benefit-icon">
+                  <i class="bi bi-truck"></i>
+                </span>
+
+                <span>
+                  <strong> Fast &amp; Reliable </strong>
+
+                  <small> Shipping </small>
+                </span>
+              </div>
+
+              <div class="cookme-benefit">
+                <span class="cookme-benefit-icon">
+                  <i class="bi bi-arrow-repeat"></i>
+                </span>
+
+                <span>
+                  <strong> Easy Returns </strong>
+
+                  <small> &amp; Refunds </small>
+                </span>
+              </div>
+            </div>
+
+            <!--
+              ==================================================
+              CART NOTE
+              ==================================================
+            -->
+
+            {%- if settings.show_cart_note -%}
+              <cart-note class="cookme-cart-note">
+                <label for="Cart-note">
+                  {{ 'sections.cart.note' | t }}
+                </label>
+
+                <textarea
+                  class="text-area field__input"
+                  name="note"
+                  form="cart"
+                  id="Cart-note"
+                  placeholder="{{ 'sections.cart.note' | t }}"
+                >{{ cart.note }}</textarea>
+              </cart-note>
+            {%- endif -%}
+          </div>
+
+          <!--
+            ==================================================
+            RIGHT ORDER SUMMARY
+            ==================================================
+          -->
+
+          <aside class="cookme-cart-sidebar">
+            <div class="cookme-summary-box">
+              <div class="summary-content">
+                <h2 class="cookme-summary-title">Order Summary</h2>
+
+                {%- assign cart_discount_total = cart.total_discount -%}
+
+                <!-- SUBTOTAL -->
+
+                <div class="cookme-summary-row">
+                  <span>
+                    Subtotal ({{ cart.item_count }}
+
+                    {% if cart.item_count == 1 %}
+                      item
+                    {% else %}
+                      items
+                    {% endif -%}
+                    )
+                  </span>
+
+                  <span>
+                    {{ cart.items_subtotal_price | money }}
+                  </span>
+                </div>
+
+                <!-- SHIPPING -->
+
+                <div class="cookme-summary-row">
+                  <span> Shipping </span>
+
+                  <span> Calculated at checkout </span>
+                </div>
+
+                <!-- DISCOUNT -->
+
+                <div class="cookme-summary-row">
+                  <span> Discount </span>
+
+                  <span>
+                    {%- if cart_discount_total > 0 -%}
+                      -{{ cart_discount_total | money }}
+
+                    {%- else -%}
+                      &mdash;
+                    {%- endif -%}
+                  </span>
+                </div>
+
+                <!-- CART DISCOUNTS -->
+
+                {%- if cart.cart_level_discount_applications.size > 0 -%}
+                  <ul
+                    class="discounts list-unstyled"
+                    role="list"
+                    aria-label="{{ 'customer.order.discount' | t }}"
+                  >
+                    {%- for discount in cart.cart_level_discount_applications -%}
+                      <li class="discounts__discount">
+                        {{- 'icon-discount.svg' | inline_asset_content -}}
+
+                        {{ discount.title | escape }}
+
+                        (-{{ discount.total_allocated_amount | money }})
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+
+                <div class="cookme-summary-divider"></div>
+
+                <!-- TOTAL -->
+
+                <div class="cookme-summary-total">
+                  <span>
+                    {{ 'sections.cart.estimated_total' | t }}
+                  </span>
+
+                  <strong>
+                    {{ cart.total_price | money_with_currency }}
+                  </strong>
+                </div>
+
+                <!-- CHECKOUT -->
+                <div class="cart__ctas">
+                  <button
+                    type="submit"
+                    id="checkout"
+                    class="cart__checkout-button cookme-checkout-button button btn-pill btn-red"
+                    name="checkout"
+                    form="cart"
+                    {% if cart == empty %}
+                      disabled
+                    {% endif %}
+                  >
+                    <span>
+                      {{ 'sections.cart.checkout' | t }}
+                    </span>
+                    <span class="bc"><i class="bi bi-lock-fill" aria-hidden="true"></i></span>
+                  </button>
+                </div>
+
+                <!-- TAX -->
+
+                <small class="cookme-tax-note">
+                  {%- if cart.duties_included and cart.taxes_included -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.duties_and_taxes_included_shipping_at_checkout_without_policy' | t }}
+
+                    {%- else -%}
+                      {{
+                        'sections.cart.duties_and_taxes_included_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+
+                  {%- elsif cart.duties_included == false and cart.taxes_included -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.taxes_included_shipping_at_checkout_without_policy' | t }}
+
+                    {%- else -%}
+                      {{
+                        'sections.cart.taxes_included_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+
+                  {%- elsif cart.duties_included and cart.taxes_included == false -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+
+                    {%- else -%}
+                      {{
+                        'sections.cart.duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+
+                  {%- else -%}
+                    {%- if shop.shipping_policy.body == blank -%}
+                      {{ 'sections.cart.taxes_at_checkout_shipping_at_checkout_without_policy' | t }}
+
+                    {%- else -%}
+                      {{
+                        'sections.cart.taxes_at_checkout_shipping_at_checkout_with_policy_html'
+                        | t: link: shop.shipping_policy.url
+                      }}
+                    {%- endif -%}
+                  {%- endif -%}
+                </small>
+
+                <!-- DYNAMIC CHECKOUT -->
+
+                {%- if additional_checkout_buttons -%}
+                  <div class="cart__dynamic-checkout-buttons additional-checkout-buttons">
+                    {{ content_for_additional_checkout_buttons }}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+
+            <!--
+              ==================================================
+              APP BLOCKS
+              ==================================================
+            -->
+
+            {%- for block in section.blocks -%}
+              {%- if block.type == '@app' -%}
+                {% render block %}
+              {%- endif -%}
+            {%- endfor -%}
+          </aside>
+        </div>
+      {%- endif -%}
+
+      <div id="cart-errors"></div>
+
+      <p
+        class="visually-hidden"
+        id="cart-live-region-text"
+        aria-live="polite"
+        role="status"
+      ></p>
+
+      <p
+        class="visually-hidden"
+        id="shopping-cart-line-item-status"
+        aria-live="polite"
+        aria-hidden="true"
+        role="status"
+      >
+        {{ 'accessibility.loading' | t }}
+      </p>
+    </div>
+  </div>
+</cart-items>
+
+{% schema %}
+{
+  "name": "Cookme Cart",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cookme Cart"
+    }
+  ]
+}
+{% endschema %}

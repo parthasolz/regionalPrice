@@ -1,0 +1,659 @@
+{%- style -%}
+  .contact-section-{{ section.id }} {
+    background: #ffffff;
+  }
+
+  .contact-section-{{ section.id }} .contact-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .contact-section-{{ section.id }} .contact-grid {
+    display: grid;
+    grid-template-columns: minmax(320px, 0.85fr) minmax(500px, 1.15fr);
+    gap: 70px;
+    align-items: start;
+  }
+
+  /* ---------------------------------
+     LEFT CONTENT
+  --------------------------------- */
+
+  .contact-section-{{ section.id }} .contact-intro {
+    padding-top: 8px;
+  }
+
+  .contact-section-{{ section.id }} .contact-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 14px;
+    color: #b51f2a;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .contact-section-{{ section.id }} .contact-eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: #c7202b;
+    display: block;
+  }
+
+  .contact-section-{{ section.id }} .contact-title .accent {
+    color: #c8202b;
+    font-style: italic;
+  }
+
+  .contact-section-{{ section.id }} .contact-description {
+    max-width: 490px;
+    margin: 24px 0 28px;
+    color: #686868;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  /* ---------------------------------
+     CONTACT INFO CARD
+  --------------------------------- */
+
+  .contact-section-{{ section.id }} .contact-info {
+    background: #faf6f1;
+    border-radius: 12px;
+    padding: 8px 24px;
+  }
+
+  .contact-section-{{ section.id }} .contact-info-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 0;
+  }
+
+  .contact-section-{{ section.id }} .contact-info-item + .contact-info-item {
+    border-top: 1px solid #e8e1da;
+    border-bottom: 1px solid #e8e1da;
+  }
+
+  .contact-section-{{ section.id }} .contact-icon {
+    flex: 0 0 54px;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #f9e4e3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #c8202b;
+  }
+
+  .contact-section-{{ section.id }} .contact-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+  }
+
+  .contact-section-{{ section.id }} .contact-info-content {
+    min-width: 0;
+  }
+
+  .contact-section-{{ section.id }} .contact-info-title {
+    margin: 0 0 4px;
+    color: #171717;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .contact-section-{{ section.id }} .contact-info-main {
+    margin: 0;
+    color: #171717;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .contact-section-{{ section.id }} .contact-info-sub {
+    margin: 2px 0 0;
+    color: #777;
+    line-height: 1.45;
+  }
+
+  /* ---------------------------------
+     FORM CARD
+  --------------------------------- */
+
+  .contact-section-{{ section.id }} .contact-form-card {
+    background: #fbf8f4;
+    border: 1px solid #f1ebe5;
+    border-radius: 12px;
+    padding: 34px 32px 30px;
+  }
+
+  .contact-section-{{ section.id }} .form-heading {
+    margin: 0 0 25px;
+    color: #181818;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+
+  .contact-section-{{ section.id }} .form-heading .accent {
+    color: #c8202b;
+    font-style: italic;
+  }
+
+  .contact-section-{{ section.id }} .contact-form {
+    margin: 0;
+  }
+
+  .contact-section-{{ section.id }} .form-status {
+    margin: 0 0 20px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: #edf8ed;
+    color: #236b2b;
+    font-size: 14px;
+  }
+
+  .contact-section-{{ section.id }} .form-error {
+    margin: 0 0 20px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: #fff0f0;
+    color: #a11919;
+    font-size: 14px;
+  }
+
+  .contact-section-{{ section.id }} .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .contact-section-{{ section.id }} .form-field {
+    margin: 0 0 18px;
+  }
+
+  .contact-section-{{ section.id }} .form-label {
+    display: block;
+    margin: 0 0 7px;
+    color: #242424;
+    font-weight: 600;
+  }
+
+  .contact-section-{{ section.id }} .required {
+    color: #c8202b;
+  }
+
+  .contact-section-{{ section.id }} .form-input,
+  .contact-section-{{ section.id }} .form-select,
+  .contact-section-{{ section.id }} .form-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ddd8d2;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #171717;
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  .contact-section-{{ section.id }} .form-input,
+  .contact-section-{{ section.id }} .form-select {
+    height: 46px;
+    padding: 0 13px;
+  }
+
+  .contact-section-{{ section.id }} .form-textarea {
+    min-height: 118px;
+    padding: 13px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .contact-section-{{ section.id }} .form-input::placeholder,
+  .contact-section-{{ section.id }} .form-textarea::placeholder {
+    color: #aaa;
+  }
+
+  .contact-section-{{ section.id }} .form-input:focus,
+  .contact-section-{{ section.id }} .form-select:focus,
+  .contact-section-{{ section.id }} .form-textarea:focus {
+    border-color: #c8202b;
+    box-shadow: 0 0 0 2px rgba(200, 32, 43, .08);
+  }
+
+  /* ---------------------------------
+     BOTTOM FORM ACTION
+  --------------------------------- */
+
+  .contact-section-{{ section.id }} .form-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 3px;
+  }
+
+  .contact-section-{{ section.id }} .consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    color: #777;
+    font-size: 11px;
+    line-height: 1.45;
+    cursor: pointer;
+    max-width: 380px;
+  }
+
+  .contact-section-{{ section.id }} .consent input {
+    appearance: none;
+    -webkit-appearance: none;
+    flex: 0 0 15px;
+    width: 15px;
+    height: 15px;
+    margin: 1px 0 0;
+    border: 1px solid #777;
+    border-radius: 3px;
+    background: #fff;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .contact-section-{{ section.id }} .consent input:checked {
+    background: #c8202b;
+    border-color: #c8202b;
+  }
+
+  .contact-section-{{ section.id }} .consent input:checked::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+  }
+
+  .contact-section-{{ section.id }} .submit-button {
+    min-width: 165px;
+    min-height: 44px;
+    padding: 11px 23px;
+    border: 0;
+    border-radius: 24px;
+    background: #c8202b;
+    color: #fff;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    transition: background .2s ease, transform .2s ease;
+    font-size: 12px;
+  }
+
+  .contact-section-{{ section.id }} .submit-button:hover {
+    background: #a91823;
+    transform: translateY(-1px);
+  }
+
+  .contact-section-{{ section.id }} .submit-button svg {
+    width: 15px;
+    height: 15px;
+    stroke: currentColor;
+  }
+
+  /* ---------------------------------
+     MOBILE
+  --------------------------------- */
+
+  @media screen and (max-width: 989px) {
+    .contact-section-{{ section.id }} .contact-main {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .contact-section-{{ section.id }} .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .contact-section-{{ section.id }} .contact-title {
+      font-size: 48px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .contact-section-{{ section.id }} .contact-main {
+      padding-left: 18px;
+      padding-right: 18px;
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    .contact-section-{{ section.id }} .contact-grid {
+      gap: 30px;
+    }
+
+    .contact-section-{{ section.id }} .contact-title {
+      font-size: 40px;
+      letter-spacing: -1px;
+    }
+
+    .contact-section-{{ section.id }} .contact-description {
+      font-size: 14px;
+    }
+
+    .contact-section-{{ section.id }} .contact-form-card {
+      padding: 25px 18px 22px;
+    }
+
+    .contact-section-{{ section.id }} .form-heading {
+      font-size: 27px;
+    }
+
+    .contact-section-{{ section.id }} .form-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .contact-section-{{ section.id }} .form-bottom {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .contact-section-{{ section.id }} .consent {
+      max-width: none;
+    }
+
+    .contact-section-{{ section.id }} .submit-button {
+      width: 100%;
+    }
+  }
+{%- endstyle -%}
+
+<section class="contact-section-{{ section.id }}">
+  <div class="contact-main page-width">
+    <div class="contact-eyebrow">Contact Us</div>
+    <div class="contact-grid">
+      <!-- LEFT SIDE -->
+      <div class="contact-intro">
+        {% comment %} <div class="contact-eyebrow">Contact Us</div> {% endcomment %}
+
+        <h2 class="contact-title">
+          Let’s Start a
+          <span class="accent">Conversation</span>
+        </h2>
+
+        <p class="contact-description">
+          Whether it’s about our products, orders, partnerships or anything else — our team is ready to assist you.
+        </p>
+
+        <div class="contact-info">
+          <!-- CALL -->
+          <div class="contact-info-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2
+                  19.79 19.79 0 0 1-8.63-3.07
+                  19.5 19.5 0 0 1-6-6
+                  19.79 19.79 0 0 1-3.07-8.67
+                  A2 2 0 0 1 4.11 2h3
+                  a2 2 0 0 1 2 1.72
+                  12.84 12.84 0 0 0 .7 2.81
+                  2 2 0 0 1-.45 2.11L8.09 9.91
+                  a16 16 0 0 0 6 6l1.27-1.27
+                  a2 2 0 0 1 2.11-.45
+                  12.84 12.84 0 0 0 2.81.7
+                  A2 2 0 0 1 22 16.92z">
+                </path>
+              </svg>
+            </div>
+
+            <div class="contact-info-content">
+              <p class="contact-info-title">Call Us</p>
+              <a href="tel:+9103322598703" class="contact-info-main">(+91) 033 2259 8703 /8693 / 8695</a>
+              <p class="contact-info-sub">Mon – Sat, 10:00 AM to 6:00 PM</p>
+            </div>
+          </div>
+
+          <!-- EMAIL -->
+          <div class="contact-info-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="M3 7l9 6 9-6"></path>
+              </svg>
+            </div>
+
+            <div class="contact-info-content">
+              <p class="contact-info-title">Email Us</p>
+              <a href="mailto:kcdho@cookme.in" class="contact-info-main">kcdho@cookme.in</a>
+              <p class="contact-info-sub">We usually respond within 24 hours</p>
+            </div>
+          </div>
+
+          <!-- OFFICE -->
+          <div class="contact-info-item">
+            <div class="contact-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+                <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0z"></path>
+                <circle cx="12" cy="10" r="2.5"></circle>
+              </svg>
+            </div>
+
+            <div class="contact-info-content">
+              <p class="contact-info-title">Our Office</p>
+              <p class="contact-info-main">Krishna Chandra Dutta (Spice) Pvt Ltd</p>
+              <p class="contact-info-sub">
+                235 Maharshi Debendra Road,<br>
+                KOLKATA – 700 007,West Bengal, INDIA.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div class="contact-form-card">
+        <h3 class="form-heading">Send Us a Message</h3>
+
+        {%- form 'contact', id: 'ContactForm', class: 'contact-form', novalidate: 'novalidate' -%}
+          {%- if form.posted_successfully? -%}
+            <div class="form-status" tabindex="-1" autofocus>
+              ✓ Thank you for contacting us. We’ll get back to you shortly.
+            </div>
+
+          {%- elsif form.errors -%}
+            <div class="form-error" tabindex="-1" autofocus>Please check the required fields and try again.</div>
+          {%- endif -%}
+
+          <!-- NAME + EMAIL -->
+          <div class="form-row">
+            <div class="form-field">
+              <label
+                class="form-label"
+                for="ContactForm-name-{{ section.id }}"
+              >
+                Your Name <span class="required">*</span>
+              </label>
+
+              <input
+                id="ContactForm-name-{{ section.id }}"
+                class="form-input"
+                type="text"
+                name="contact[Name]"
+                autocomplete="name"
+                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                placeholder="Enter your name"
+                required
+              >
+            </div>
+
+            <div class="form-field">
+              <label
+                class="form-label"
+                for="ContactForm-email-{{ section.id }}"
+              >
+                Email Address <span class="required">*</span>
+              </label>
+
+              <input
+                id="ContactForm-email-{{ section.id }}"
+                class="form-input"
+                type="email"
+                name="contact[email]"
+                autocomplete="email"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                placeholder="Enter your email"
+                required
+              >
+            </div>
+          </div>
+
+          <!-- PHONE + SUBJECT -->
+          <div class="form-row">
+            <div class="form-field">
+              <label
+                class="form-label"
+                for="ContactForm-phone-{{ section.id }}"
+              >
+                Phone Number
+              </label>
+
+              <input
+                id="ContactForm-phone-{{ section.id }}"
+                class="form-input"
+                type="tel"
+                name="contact[Phone]"
+                autocomplete="tel"
+                value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                placeholder="Enter your phone number"
+              >
+            </div>
+
+            <div class="form-field">
+              <label
+                class="form-label"
+                for="ContactForm-subject-{{ section.id }}"
+              >
+                Subject <span class="required">*</span>
+              </label>
+
+              <input
+                id="ContactForm-subject-{{ section.id }}"
+                class="form-input"
+                type="text"
+                name="contact[Subject]"
+                placeholder="Enter subject"
+                value="{{ form.subject }}"
+                required
+              >
+            </div>
+          </div>
+
+          <!-- MESSAGE -->
+          <div class="form-field">
+            <label
+              class="form-label"
+              for="ContactForm-body-{{ section.id }}"
+            >
+              Message <span class="required">*</span>
+            </label>
+
+            <textarea
+              id="ContactForm-body-{{ section.id }}"
+              class="form-textarea"
+              name="contact[Message]"
+              placeholder="Type your message here..."
+              required
+            >{{ form.body }}</textarea>
+          </div>
+
+          <!-- BOTTOM -->
+          <div class="form-bottom">
+            <label class="consent">
+              <input
+                type="checkbox"
+                name="contact[Consent]"
+                value="I agree to be contacted by Cookme regarding my query."
+              >
+              <span> I agree to be contacted by Cookme regarding my query. </span>
+            </label>
+
+            <button
+              type="submit"
+              class="submit-button"
+            >
+              <span>Send Message</span>
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke-width="2"
+              >
+                <path d="M22 2L11 13"></path>
+                <path d="M22 2l-7 20-4-9-9-4z"></path>
+              </svg>
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Contact Form",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 68
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Form"
+    }
+  ]
+}
+{% endschema %}

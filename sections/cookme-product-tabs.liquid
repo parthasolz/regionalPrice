@@ -1,0 +1,123 @@
+{%- comment -%}
+  Cookme Product Tabs — mobile category tabs with 5-6 products per collection,
+  otherwise latest products fallback.
+{%- endcomment -%}
+<section class="mobile-cat-section d-block d-md-none" data-ck-location="{{ section.settings.target_location | default: 'all' }}">
+  <div class="category-scroll">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign img = block.settings.image
+        if img == blank
+          case forloop.index
+            when 1
+              assign img_url = 'blended-spices.webp' | asset_url
+            when 2
+              assign img_url = 'curry-pasted.webp' | asset_url
+            when 3
+              assign img_url = 'ground-spices-img.webp' | asset_url
+            else
+              assign img_url = 'home-deligates.webp' | asset_url
+          endcase
+        else
+          assign img_url = img | image_url: width: 200
+        endif
+      -%}
+      <div class="category{% if forloop.first %} active{% endif %}" onclick="changeTab('ckTab{{ block.id }}', this)">
+        <img src="{{ img_url }}" alt="{{ block.settings.label | escape }}" loading="lazy">
+        <p>{{ block.settings.label }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+
+  <div class="product-scroll">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign col = block.settings.collection
+        assign label_handle = block.settings.label | handleize
+
+        if col == blank
+          if label_handle contains 'blended' and collections['blended-spices'] != blank and collections['blended-spices'].products_count > 0
+            assign col = collections['blended-spices']
+          elsif label_handle contains 'curry' and collections['curry-paste'] != blank and collections['curry-paste'].products_count > 0
+            assign col = collections['curry-paste']
+          elsif label_handle contains 'curry' and collections['curry-pastes'] != blank and collections['curry-pastes'].products_count > 0
+            assign col = collections['curry-pastes']
+          elsif label_handle contains 'curry' and collections['curry-pasted'] != blank and collections['curry-pasted'].products_count > 0
+            assign col = collections['curry-pasted']
+          elsif label_handle contains 'ground' and collections['ground-spices'] != blank and collections['ground-spices'].products_count > 0
+            assign col = collections['ground-spices']
+          elsif label_handle contains 'home' and collections['home-delights'] != blank and collections['home-delights'].products_count > 0
+            assign col = collections['home-delights']
+          endif
+        endif
+
+        assign fallback_products = collections.all.products | sort: 'created_at' | reverse
+      -%}
+      <div id="ckTab{{ block.id }}" class="product-tab{% if forloop.first %} active{% endif %}">
+        {%- if col != blank and col.products_count > 0 -%}
+          {%- for product in col.products limit: 24 -%}
+            {% render 'cookme-product-card', product: product, card_class: 'col', show_rating: true, rating_text: section.settings.rating_text, show_desc: true, show_wish: true, quick_add: true %}
+          {%- else -%}
+            <p class="ck-tab-empty">{{ section.settings.empty_text }}</p>
+          {%- endfor -%}
+        {%- else -%}
+          {%- for product in fallback_products limit: 24 -%}
+            {% render 'cookme-product-card', product: product, card_class: 'col', show_rating: true, rating_text: section.settings.rating_text, show_desc: true, show_wish: true, quick_add: true %}
+          {%- else -%}
+            <p class="ck-tab-empty">{{ section.settings.empty_text }}</p>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Tabs",
+  "settings": [
+    {
+      "type": "select",
+      "id": "target_location",
+      "label": "Location Visibility",
+      "options": [
+        { "value": "all", "label": "All Locations" },
+        { "value": "wb", "label": "West Bengal Only" },
+        { "value": "india", "label": "Out of West Bengal (Rest of India)" }
+      ],
+      "default": "all"
+    },
+    { "type": "range", "id": "products_per_tab", "label": "Products per tab", "min": 4, "max": 8, "step": 1, "default": 6 },
+    {
+      "type": "text",
+      "id": "rating_text",
+      "label": "Rating text",
+      "default": "4.8 (128)"
+    },
+    { "type": "text", "id": "empty_text", "label": "Empty collection text", "default": "Products coming soon." }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Tab label", "default": "Blended Spice" },
+        { "type": "image_picker", "id": "image", "label": "Tab icon" },
+        { "type": "collection", "id": "collection", "label": "Collection" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cookme Product Tabs",
+      "blocks": [
+        { "type": "tab", "settings": { "label": "Blended Spice" } },
+        { "type": "tab", "settings": { "label": "Curry Paste" } },
+        { "type": "tab", "settings": { "label": "Ground Spices" } },
+        { "type": "tab", "settings": { "label": "Home Delights" } }
+      ]
+    }
+  ],
+  "enabled_on": { "templates": ["index"] }
+}
+{% endschema %}

@@ -1,0 +1,444 @@
+{% unless customer %}
+
+  <div class="cookme-wishlist-login">
+    <div class="cookme-wishlist-login-box">
+
+      <div class="cookme-wishlist-login-icon">♡</div>
+
+      <h1>Login Required</h1>
+
+      <p>Please login to view and manage your wishlist.</p>
+
+      <a
+        href="{{ routes.account_login_url }}?return_url={{ request.path | url_encode }}"
+        class="cookme-wishlist-login-btn"
+      >
+        Login to Continue
+      </a>
+
+    </div>
+  </div>
+
+{% else %}
+
+  <section
+    id="cookme-wishlist-page"
+    class="cookme-wishlist-page"
+    data-customer-id="{{ customer.id }}"
+  >
+
+    <div class="page-width">
+
+      <div class="cookme-wishlist-header">
+
+        <div>
+          <h1>{{ page.title | default: 'My Wishlist' }}</h1>
+
+          <p>
+            Your saved favourite products
+          </p>
+        </div>
+
+        <span
+          id="cookmeWishlistCount"
+          class="cookme-wishlist-count"
+        >
+          0 items
+        </span>
+
+      </div>
+
+
+      <div
+        id="cookmeWishlistGrid"
+        class="cookme-wishlist-grid"
+      ></div>
+
+
+      <div
+        id="cookmeWishlistEmpty"
+        class="cookme-wishlist-empty"
+        hidden
+      >
+
+        <div class="cookme-wishlist-empty-icon">
+          ♡
+        </div>
+
+        <h2>Your wishlist is empty</h2>
+
+        <p>
+          Save products you love and find them here anytime.
+        </p>
+
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="cookme-wishlist-shop-btn"
+        >
+          Continue Shopping
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+{% endunless %}
+<style>
+    /* =====================================================
+   COOKME WISHLIST PAGE
+===================================================== */
+
+.cookme-wishlist-page {
+    padding: 50px 0 70px;
+}
+
+.cookme-wishlist-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.cookme-wishlist-header h1 {
+    margin: 0 0 5px;
+    color: var(--cookme-black, #151515);
+    font-size: 32px;
+    line-height: 1.2;
+}
+
+.cookme-wishlist-header p {
+    margin: 0;
+    color: #777;
+    font-size: 14px;
+}
+
+.cookme-wishlist-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 14px;
+    border: 1px solid var(--cookme-border, #e7e3dd);
+    border-radius: 30px;
+    color: #555;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+
+/* Grid */
+
+.cookme-wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+
+/* Card */
+
+.cookme-wishlist-card {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--cookme-border, #e7e3dd);
+    border-radius: 14px;
+}
+
+.cookme-wishlist-card-image {
+    position: relative;
+    display: block;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f8f6f2;
+}
+
+.cookme-wishlist-card-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+
+.cookme-wishlist-card:hover
+.cookme-wishlist-card-image img {
+    transform: scale(1.03);
+}
+
+
+/* Remove button */
+
+.cookme-wishlist-remove {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: #fff;
+    color: var(--cookme-red, #c9252d);
+
+    box-shadow: 0 2px 10px rgba(0,0,0,.10);
+
+    font-size: 18px;
+    cursor: pointer;
+}
+
+
+/* Content */
+
+.cookme-wishlist-card-content {
+    padding: 16px;
+}
+
+.cookme-wishlist-card-title {
+    display: block;
+
+    margin: 0 0 8px;
+
+    color: var(--cookme-black, #151515);
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    text-decoration: none;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+}
+
+.cookme-wishlist-card-price {
+    margin-bottom: 14px;
+
+    color: var(--cookme-red, #c9252d);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+/* Add to cart */
+
+.cookme-wishlist-add {
+    width: 100%;
+
+    padding: 11px 14px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: var(--cookme-black, #151515);
+    color: #fff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.cookme-wishlist-add:hover {
+    opacity: .9;
+}
+
+.cookme-wishlist-add:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+
+/* Empty */
+
+.cookme-wishlist-empty {
+    padding: 70px 20px;
+    text-align: center;
+
+    border: 1px dashed var(--cookme-border, #e7e3dd);
+    border-radius: 14px;
+}
+
+.cookme-wishlist-empty[hidden] {
+    display: none;
+}
+
+.cookme-wishlist-empty-icon {
+    margin-bottom: 15px;
+
+    color: var(--cookme-red, #c9252d);
+    font-size: 50px;
+    line-height: 1;
+}
+
+.cookme-wishlist-empty h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+}
+
+.cookme-wishlist-empty p {
+    margin: 0 0 22px;
+    color: #777;
+    font-size: 14px;
+}
+
+.cookme-wishlist-shop-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 20px;
+
+    border-radius: 8px;
+
+    background: var(--cookme-black, #151515);
+    color: #fff;
+
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* Login */
+
+.cookme-wishlist-login {
+    min-height: 55vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 50px 20px;
+}
+
+.cookme-wishlist-login-box {
+    width: 100%;
+    max-width: 450px;
+
+    padding: 45px 30px;
+
+    text-align: center;
+
+    border: 1px solid var(--cookme-border, #e7e3dd);
+    border-radius: 16px;
+}
+
+.cookme-wishlist-login-icon {
+    margin-bottom: 15px;
+
+    color: var(--cookme-red, #c9252d);
+    font-size: 50px;
+    line-height: 1;
+}
+
+.cookme-wishlist-login-box h1 {
+    margin: 0 0 8px;
+    font-size: 25px;
+}
+
+.cookme-wishlist-login-box p {
+    margin: 0 0 22px;
+    color: #777;
+    font-size: 14px;
+}
+
+.cookme-wishlist-login-btn {
+    display: inline-flex;
+
+    padding: 11px 22px;
+
+    border-radius: 8px;
+
+    background: var(--cookme-black, #151515);
+    color: #fff;
+
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* Tablet */
+
+@media (max-width: 991px) {
+
+    .cookme-wishlist-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* Mobile */
+
+@media (max-width: 767px) {
+
+    .cookme-wishlist-page {
+        padding: 30px 0 50px;
+    }
+
+    .cookme-wishlist-header {
+        align-items: flex-start;
+        margin-bottom: 22px;
+    }
+
+    .cookme-wishlist-header h1 {
+        font-size: 25px;
+    }
+
+    .cookme-wishlist-count {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .cookme-wishlist-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .cookme-wishlist-card-content {
+        padding: 11px;
+    }
+
+    .cookme-wishlist-card-title {
+        font-size: 13px;
+    }
+
+    .cookme-wishlist-card-price {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .cookme-wishlist-remove {
+        width: 30px;
+        height: 30px;
+        top: 8px;
+        right: 8px;
+    }
+
+    .cookme-wishlist-add {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+}
+</style>
+
+{% schema %}
+{
+  "name": "Wishlist Page",
+  "settings": []
+}
+{% endschema %}

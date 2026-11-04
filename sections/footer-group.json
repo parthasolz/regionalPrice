@@ -1,0 +1,44 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer-group.name",
+  "type": "footer",
+  "sections": {
+    "cookme-footer": {
+      "type": "cookme-footer",
+      "settings": {
+        "logo": "shopify://shop_images/logo.png",
+        "about_text": "Cookme Spices: A name synonymous with quality, flavours, and authenticity for over 179 years. Born in Kolkata,Cookme Spices embellishes the delectability of Indian cuisine in an exceptional and accessible manner. Weave your culinary magic with Cookme today!",
+        "fssai": "FSSAI Lic. No: 10014031001052",
+        "categories_title": "Categories",
+        "categories_menu": "footer",
+        "help_title": "Quick Links",
+        "help_menu": "footer-menu-2",
+        "contact_title": "Contact Us",
+        "phone": "98754 30138",
+        "address_note": "West Bengal & Rest of India",
+        "social_title": "Connect with us",
+        "social_facebook": "https://www.facebook.com/cookmespice/",
+        "social_twitter": "",
+        "social_youtube": "https://www.youtube.com/@cookmespice7002",
+        "social_instagram": "https://www.instagram.com/cookmespices/?hl=en",
+        "social_linkedin": "https://www.linkedin.com/company/krishna-chandra-dutta-spice-pvt.-ltd./",
+        "social_whatsapp": "https://api.whatsapp.com/send?phone=919875430138",
+        "copyright": "All rights reserved · Krishna Chandra Dutta (Spice) Pvt Ltd",
+        "show_made_by": true,
+        "made_by_text": "Brandaid Digital",
+        "made_by_url": "https://brandaid.digital/"
+      }
+    }
+  },
+  "order": [
+    "cookme-footer"
+  ]
+}

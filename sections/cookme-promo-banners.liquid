@@ -1,0 +1,161 @@
+{%- comment -%}
+  Cookme Promo / Banner Cards
+  Dynamic image blocks.
+  Each promo banner is fully clickable.
+{%- endcomment -%}
+
+{%- if section.blocks.size > 0 -%}
+
+<section
+  class="cookme-promo-section"
+  id="cookme-promo-{{ section.id }}"
+  data-ck-location="{{ section.settings.target_location | default: 'all' }}"
+>
+  <div class="container">
+
+    <div class="
+      cookme-promo-track
+      promo-count-{{ section.blocks.size }}
+    ">
+
+      {%- for block in section.blocks -%}
+
+        {%- if block.settings.image != blank -%}
+
+          <div
+            class="cookme-promo-item"
+            {{ block.shopify_attributes }}
+          >
+
+            <a
+              href="{{ block.settings.link | default: '#' }}"
+              class="cookme-promo-link"
+              style="--promo-hover-border: {{ block.settings.hover_border_color }};"
+              {% if block.settings.open_new_tab %}
+                target="_blank"
+                rel="noopener noreferrer"
+              {% endif %}
+              aria-label="{{ block.settings.alt_text | escape }}"
+            >
+
+              {{
+                block.settings.image
+                | image_url: width: 1200
+                | image_tag:
+                  class: 'cookme-promo-image',
+                  loading: 'lazy',
+                  alt: block.settings.alt_text
+              }}
+
+            </a>
+
+          </div>
+
+        {%- endif -%}
+
+      {%- endfor -%}
+
+    </div>
+
+  </div>
+</section>
+
+{%- endif -%}
+
+
+{% schema %}
+
+{
+  "name": "Promo Banners",
+
+  "settings": [
+    {
+      "type": "select",
+      "id": "target_location",
+      "label": "Location Visibility",
+      "options": [
+        { "value": "all", "label": "All Locations" },
+        { "value": "wb", "label": "West Bengal Only" },
+        { "value": "india", "label": "Out of West Bengal (Rest of India)" }
+      ],
+      "default": "all"
+    }
+  ],
+
+  "blocks": [
+
+    {
+      "type": "banner",
+
+      "name": "Promo Banner",
+
+      "settings": [
+
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Banner Image"
+        },
+
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Banner Link"
+        },
+
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "Image Alt Text",
+          "default": "Cookme promotional banner"
+        },
+        {
+          "type": "color",
+          "id": "hover_border_color",
+          "label": "Hover Border Color",
+          "default": "#C11F2F"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_tab",
+          "label": "Open link in new tab",
+          "default": false
+        }
+
+      ]
+    }
+
+  ],
+
+  "presets": [
+
+    {
+      "name": "Promo Banners",
+
+      "blocks": [
+        {
+          "type": "banner"
+        },
+        {
+          "type": "banner"
+        },
+        {
+          "type": "banner"
+        },
+        {
+          "type": "banner"
+        }
+      ]
+    }
+
+  ],
+
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  }
+
+}
+
+{% endschema %}

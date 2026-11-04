@@ -1,0 +1,440 @@
+{%- comment -%}
+  Cookme Header — dynamic menu with dropdowns, logo, dynamic pincode delivery checker (GPS & postal API), wishlist, cart (AJAX drawer), and dynamic customer state.
+{%- endcomment -%}
+{%- liquid
+  assign is_home = false
+  if request.page_type == 'index'
+    assign is_home = true
+  endif
+  assign menu = section.settings.menu
+  if menu == blank or menu == empty
+    assign menu = linklists['main-menu']
+  endif
+  assign logo = section.settings.logo | default: settings.logo
+  assign logo_width = section.settings.logo_width | default: 150
+  assign logo_style = 'max-width:' | append: logo_width | append: 'px'
+  assign logo_alt = shop.name | escape
+-%}
+
+<header class="site-header{% unless is_home %} always-solid{% endunless %}" id="mainNav">
+  <div class="container">
+    <div class="nav-wrap">
+      <div class="brand">
+        <a href="{{ routes.root_url }}">
+          {%- if logo != blank -%}
+            {{ logo | image_url: width: logo_width | image_tag: alt: logo_alt, loading: 'eager', style: logo_style }}
+          {%- else -%}
+            <img
+              src="{{ 'logo.png' | asset_url }}"
+              alt="{{ shop.name | escape }}"
+              loading="eager"
+              style="max-width:{{ logo_width }}px"
+            >
+          {%- endif -%}
+        </a>
+        {%- if section.settings.show_pincode -%}
+          <div
+            class="loc-container"
+            id="locWrap"
+            data-serviceable="{{ section.settings.serviceable_pincodes | escape }}"
+            data-delivery-msg="{{ section.settings.delivery_message | escape }}"
+            data-default-label="{{ section.settings.pincode_default | default: 'Select Pincode' | escape }}"
+          >
+            <div class="loc-lbl d-none d-md-block">{{ section.settings.pincode_label }}</div>
+            <div class="loc-wrap d-none d-md-block">
+              <div
+                class="mini-loc"
+                id="locToggle"
+                role="button"
+                tabindex="0"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-label="Select delivery pincode"
+              >
+                <i class="bi bi-geo-alt-fill"></i>
+                <span id="locLabel">
+                  {{- section.settings.pincode_default | default: 'Select Pincode' }}
+                  <i class="bi bi-chevron-down" style="font-size:12px"></i
+                ></span>
+              </div>
+              <div class="loc-drop" id="locDrop" role="region" aria-label="Pincode Selector">
+                <div class="loc-drop-head">
+                  <label>{{ section.settings.pincode_label }}</label>
+                  <button
+                    type="button"
+                    class="loc-clear-btn"
+                    id="locClearBtn"
+                    onclick="ckPincode.clear()"
+                    style="display:none;"
+                    title="Reset Location"
+                  >
+                    Clear
+                  </button>
+                </div>
+
+                {%- if section.settings.enable_geo -%}
+                  <button type="button" class="loc-detect-btn" id="locDetectBtn" onclick="ckPincode.detectLocation()">
+                    <i class="bi bi-crosshair"></i>
+                    <span class="loc-detect-text">Use my current location</span>
+                    <span
+                      class="loc-detect-spinner spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                      style="display:none;"
+                    ></span>
+                  </button>
+                  <div class="loc-divider"><span>OR</span></div>
+                {%- endif -%}
+
+                <div class="loc-row">
+                  <input
+                    class="loc-in"
+                    type="text"
+                    placeholder="{{ section.settings.pincode_placeholder | default: 'Enter 6-digit Pincode' }}"
+                    maxlength="6"
+                    id="locIn"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    autocomplete="postal-code"
+                    aria-label="Enter pincode"
+                  >
+                  <button class="loc-apply" id="locApplyBtn" onclick="ckPincode.applyFromInput()">
+                    <span class="btn-text">{{ section.settings.pincode_apply | default: 'Check' }}</span>
+                    <span
+                      class="btn-spinner spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                      style="display:none;"
+                    ></span>
+                  </button>
+                </div>
+
+                <div class="loc-status" id="locStatus" style="display:none;" aria-live="polite"></div>
+
+                {% comment %} {%- if section.blocks.size > 0 -%}
+                  <div class="loc-chips-title">Popular Cities:</div>
+                  <div class="loc-chips" id="locChips">
+                    {%- for block in section.blocks -%}
+                      {%- if block.type == 'pincode' -%}
+                        <button
+                          type="button"
+                          class="loc-chip"
+                          data-code="{{ block.settings.code }}"
+                          onclick="ckPincode.apply('{{ block.settings.code }}')"
+                        >
+                          {{ block.settings.label }}
+                        </button>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%} {% endcomment %}
+              </div>
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <ul class="nav-links">
+        {%- for link in menu.links -%}
+          {%- if link.links != blank -%}
+            <li class="nav-item has-dropdown">
+              <a href="{{ link.url }}" class="nav-link{% if link.current or link.child_active %} active{% endif %}">
+                {{ link.title }}
+                <i class="bi bi-chevron-down nav-caret"></i>
+              </a>
+              <ul class="nav-dropdown">
+                {%- for child in link.links -%}
+                  <li>
+                    <a
+                      href="{{ child.url }}"
+                      {% if child.current %}
+                        class="active"
+                      {% endif %}
+                    >
+                      {{- child.title -}}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </li>
+          {%- else -%}
+            <li class="nav-item">
+              <a href="{{ link.url }}" class="nav-link{% if link.current %} active{% endif %}">{{ link.title }}</a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+      <div class="nav-right">
+        {%- if section.settings.cta_label != blank -%}
+          <a
+            href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}"
+            class="btn-pill btn-red d-none d-lg-inline-flex"
+          >
+            {{- section.settings.cta_label }}
+            <span class="bc"><i class="bi bi-arrow-right"></i></span
+          ></a>
+        {%- endif -%}
+        <button class="icon-btn" id="wishBtn" aria-label="Wishlist">
+          <i class="bi bi-heart"></i>
+          <span class="badge-dot" id="wishCount">0</span>
+        </button>
+        {%- if shop.customer_accounts_enabled -%}
+          {%- if customer -%}
+            <a
+              href="{{ routes.account_url }}"
+              class="d-none d-md-flex align-items-center gap-1 header-account"
+              title="Account"
+            >
+              <button class="icon-btn" type="button" aria-label="Account">
+                <i class="bi bi-person-check-fill"></i>
+              </button>
+              <span class="login-text">Hi, {{ customer.first_name | default: 'Account' }}</span>
+            </a>
+          {%- else -%}
+            <a
+              href="{{ routes.account_login_url }}"
+              class="d-none d-md-flex align-items-center gap-1 header-account"
+              title="Login"
+            >
+              <button class="icon-btn" type="button" aria-label="Login"><i class="bi bi-person"></i></button>
+              <span class="login-text">{{ section.settings.account_label | default: 'Login' }}</span>
+            </a>
+          {%- endif -%}
+        {%- endif -%}
+        <button class="icon-btn" id="cartBtn" aria-label="Cart">
+          <i class="bi bi-bag"></i>
+          <span class="badge-dot" id="cartCount">0</span>
+        </button>
+        <button class="ham-btn" id="hamBtn" aria-label="Menu" aria-expanded="false">
+          <span class="bar b1"></span><span class="bar b2"></span><span class="bar b3"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Drawer -->
+<div class="mob-drawer" id="mobDrawer" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+  <div class="mob-bd" id="mobBd"></div>
+  <div class="mob-panel">
+    <div class="mob-panel-inner">
+      <ul class="mob-nav">
+        {%- if shop.customer_accounts_enabled -%}
+          <li class="mob-nav-account">
+            {%- if customer -%}
+              <a href="{{ routes.account_url }}" class="mob-account-link">
+                <i class="bi bi-person-check-fill text-danger"></i> Hi, {{ customer.first_name | default: 'Account' }}
+              </a>
+            {%- else -%}
+              <a href="{{ routes.account_login_url }}" class="mob-account-link">
+                <i class="bi bi-person"></i> {{ section.settings.account_label | default: 'Login' }}
+              </a>
+            {%- endif -%}
+          </li>
+        {%- endif -%}
+        {%- for link in menu.links -%}
+          {%- if link.links != blank -%}
+            <li class="mob-has-submenu">
+              <div class="mob-submenu-header">
+                <a
+                  href="{{ link.url }}"
+                  {% if link.current %}
+                    class="active"
+                  {% endif %}
+                >
+                  {{- link.title -}}
+                </a>
+                <button
+                  type="button"
+                  class="mob-submenu-toggle"
+                  aria-label="Toggle submenu"
+                  onclick="this.parentElement.parentElement.classList.toggle('open')"
+                >
+                  <i class="bi bi-chevron-down"></i>
+                </button>
+              </div>
+              <ul class="mob-submenu">
+                {%- for child in link.links -%}
+                  <li>
+                    <a
+                      href="{{ child.url }}"
+                      {% if child.current %}
+                        class="active"
+                      {% endif %}
+                    >
+                      {{- child.title -}}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </li>
+          {%- else -%}
+            <li>
+              <a
+                href="{{ link.url }}"
+                {% if link.current %}
+                  class="active"
+                {% endif %}
+              >
+                {{- link.title -}}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if section.settings.cta_label != blank -%}
+          <li class="mob-cta-item">
+            <a
+              href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}"
+              class="mob-cta-link"
+            >
+              {{- section.settings.cta_label -}}
+            </a>
+          </li>
+        {%- endif -%}
+      </ul>
+      <div class="mob-actions">
+        <button class="mob-icon" id="mobWishBtn" aria-label="Wishlist">
+          <i class="bi bi-heart"></i><span class="badge-dot" id="mobWishCount">0</span>
+        </button>
+        <button class="mob-icon" id="mobCartBtn" aria-label="Cart">
+          <i class="bi bi-bag"></i><span class="badge-dot" id="mobCartCount">0</span>
+        </button>
+      </div>
+      {%- if section.settings.show_pincode -%}
+        <div class="mob-pin-sec">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="mob-pin-lbl"
+              ><i class="bi bi-geo-alt-fill" style="color:var(--red2);margin-right:5px"></i>
+              {{- section.settings.pincode_label -}}
+            </span>
+            <button
+              type="button"
+              class="loc-clear-btn"
+              id="mobPinClearBtn"
+              onclick="ckPincode.clear()"
+              style="display:none;"
+            >
+              Clear
+            </button>
+          </div>
+          {%- if section.settings.enable_geo -%}
+            <button
+              type="button"
+              class="loc-detect-btn mob-detect-btn mb-2"
+              id="mobLocDetectBtn"
+              onclick="ckPincode.detectLocation(true)"
+            >
+              <i class="bi bi-crosshair"></i>
+              <span class="loc-detect-text">Use my current location</span>
+              <span
+                class="loc-detect-spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                style="display:none;"
+              ></span>
+            </button>
+          {%- endif -%}
+          <div class="mob-pin-row">
+            <input
+              class="mob-pin-in"
+              type="text"
+              placeholder="{{ section.settings.pincode_placeholder | default: 'Enter 6-digit Pincode' }}"
+              maxlength="6"
+              id="mobPinIn"
+              inputmode="numeric"
+              pattern="[0-9]*"
+              autocomplete="postal-code"
+              aria-label="Enter pincode"
+            >
+            <button class="mob-pin-apply" id="mobPinApplyBtn" onclick="ckPincode.applyFromMobInput()">
+              <span class="btn-text">{{ section.settings.pincode_apply | default: 'Check' }}</span>
+              <span
+                class="btn-spinner spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+                style="display:none;"
+              ></span>
+            </button>
+          </div>
+          <div class="loc-status" id="mobLocStatus" style="display:none;" aria-live="polite"></div>
+          {%- if section.blocks.size > 0 -%}
+            {% comment %} <div class="loc-chips" style="margin-top:10px">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'pincode' -%}
+                  <button
+                    type="button"
+                    class="loc-chip"
+                    data-code="{{ block.settings.code }}"
+                    onclick="ckPincode.apply('{{ block.settings.code }}', true)"
+                  >
+                    {{ block.settings.label }}
+                  </button>
+                {%- endif -%}
+              {%- endfor -%}
+            </div> {% endcomment %}
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% render 'cookme-cart-drawer' %}
+{% render 'cookme-wishlist-drawer' %}
+{% render 'cookme-toast' %}
+
+{% schema %}
+{
+  "name": "Cookme Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo width (px)",
+      "min": 60,
+      "max": 220,
+      "step": 10,
+      "default": 150
+    },
+    { "type": "checkbox", "id": "sticky", "label": "Sticky header", "default": true },
+    { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Order Now" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "text", "id": "account_label", "label": "Account label", "default": "Login" },
+    { "type": "header", "content": "Pincode & Delivery Checker" },
+    { "type": "checkbox", "id": "show_pincode", "label": "Show pincode selector", "default": true },
+    { "type": "checkbox", "id": "enable_geo", "label": "Enable 'Use current location' (GPS)", "default": true },
+    { "type": "text", "id": "pincode_label", "label": "Pincode label", "default": "Delivery to" },
+    { "type": "text", "id": "pincode_default", "label": "Default pincode text", "default": "Select Pincode" },
+    { "type": "text", "id": "pincode_placeholder", "label": "Pincode placeholder", "default": "Enter 6-digit Pincode" },
+    { "type": "text", "id": "pincode_apply", "label": "Apply button text", "default": "Check" },
+    {
+      "type": "textarea",
+      "id": "serviceable_pincodes",
+      "label": "Serviceable Pincodes (Optional)",
+      "info": "Comma-separated list (e.g. 700001, 700019, 700*, 711*). Leave empty to deliver to all valid Indian pincodes."
+    },
+    {
+      "type": "text",
+      "id": "delivery_message",
+      "label": "Estimated Delivery Note",
+      "default": "Express Delivery in 4-6 business days"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pincode",
+      "name": "Pincode chip",
+      "limit": 6,
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Kolkata 700001" },
+        { "type": "text", "id": "code", "label": "Pincode", "default": "700001" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Cookme Header" }],
+  "enabled_on": { "groups": ["header"] }
+}
+{% endschema %}

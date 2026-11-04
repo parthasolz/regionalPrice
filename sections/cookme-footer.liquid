@@ -1,0 +1,578 @@
+{%- comment -%}
+  Cookme Footer
+  HTML design matched + Shopify dynamic.
+{%- endcomment -%}
+
+{%- liquid
+  assign categories_menu = section.settings.categories_menu
+  assign help_menu = section.settings.help_menu
+
+  assign logo_alt = shop.name | escape
+-%}
+
+<footer class="site-footer">
+
+  <div class="">
+    <div class="footer-panel">
+
+      <div class="container">
+
+        <div class="row g-4">
+
+          {%- comment -%}
+            ==========================================
+            BRAND / ABOUT
+            ==========================================
+          {%- endcomment -%}
+
+          <div class="col-lg-6 col-md-6">
+
+            <a
+              href="{{ routes.root_url }}"
+              class="footer-brand"
+              aria-label="{{ shop.name | escape }}"
+            >
+
+              {%- if section.settings.logo != blank -%}
+
+                {{
+                  section.settings.logo
+                  | image_url: width: 300
+                  | image_tag:
+                    alt: logo_alt,
+                    loading: 'lazy'
+                }}
+
+              {%- else -%}
+
+                <img
+                  src="{{ 'logo.png' | asset_url }}"
+                  alt="{{ shop.name | escape }}"
+                  loading="lazy"
+                  width="180"
+                  height="auto"
+                >
+
+              {%- endif -%}
+
+            </a>
+
+
+            {%- if section.settings.about_text != blank -%}
+
+              <div class="footer-copy">
+                {{ section.settings.about_text }}
+              </div>
+
+            {%- endif -%}
+
+
+            {%- if section.settings.fssai != blank -%}
+
+              <div class="footer-fssai">
+                {{ section.settings.fssai }}
+              </div>
+
+            {%- endif -%}
+
+          </div>
+
+
+          {%- comment -%}
+            ==========================================
+            CATEGORIES
+            ==========================================
+          {%- endcomment -%}
+
+          <div class="col-lg-2 col-md-6 col-6 d-none d-md-block">
+
+            <div class="footer-title">
+              {{ section.settings.categories_title }}
+            </div>
+
+            {%- if categories_menu != blank -%}
+
+              <ul class="footer-links">
+
+                {%- for link in categories_menu.links -%}
+
+                  <li>
+                    <a href="{{ link.url }}">
+                      {{ link.title }}
+                    </a>
+                  </li>
+
+                {%- endfor -%}
+
+              </ul>
+
+            {%- else -%}
+
+              <ul class="footer-links">
+
+                <li>
+                  <a href="{{ routes.all_products_collection_url }}">
+                    Ground Spices
+                  </a>
+                </li>
+
+                <li>
+                  <a href="{{ routes.all_products_collection_url }}">
+                    Blended Spices
+                  </a>
+                </li>
+
+                <li>
+                  <a href="{{ routes.all_products_collection_url }}">
+                    Curry Pastes
+                  </a>
+                </li>
+
+                <li>
+                  <a href="{{ routes.all_products_collection_url }}">
+                    Home Delights
+                  </a>
+                </li>
+
+                <li>
+                  <a href="{{ routes.all_products_collection_url }}">
+                    Bulk Orders
+                  </a>
+                </li>
+
+              </ul>
+
+            {%- endif -%}
+
+          </div>
+
+
+          {%- comment -%}
+            ==========================================
+            HELP
+            ==========================================
+          {%- endcomment -%}
+
+          <div class="col-lg-2 col-md-6 col-6 d-none d-md-block">
+
+            <div class="footer-title">
+              {{ section.settings.help_title }}
+            </div>
+
+              <ul class="footer-links">
+
+                {%- for link in help_menu.links -%}
+
+                  <li>
+                    <a href="{{ link.url }}">
+                      {{ link.title }}
+                    </a>
+                  </li>
+
+                {%- endfor -%}
+
+              </ul>
+
+          </div>
+
+
+          {%- comment -%}
+            ==========================================
+            CONTACT + SOCIAL
+            ==========================================
+          {%- endcomment -%}
+
+          <div class="col-lg-2 col-md-6 footer-contact-col">
+
+            {%- comment -%}
+              Desktop contact section
+            {%- endcomment -%}
+
+            <div class="footer-contact-section d-none d-md-block">
+
+              <div class="footer-title">
+                {{ section.settings.contact_title }}
+              </div>
+
+              <div class="footer-contact">
+
+                {%- if section.settings.phone != blank -%}
+
+                  <div class="contact-row">
+
+                    <i
+                      class="bi bi-telephone-fill"
+                      style="color:var(--red2)"
+                    ></i>
+
+                    <a
+                      href="tel:{{ section.settings.phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}"
+                      class="footer-phone"
+                    >
+                      {{ section.settings.phone }}
+                    </a>
+
+                  </div>
+
+                {%- endif -%}
+
+
+                {%- if section.settings.address_note != blank -%}
+
+                  <div class="contact-sub">
+                    {{ section.settings.address_note }}
+                  </div>
+
+                {%- endif -%}
+
+              </div>
+
+            </div>
+
+
+            {%- comment -%}
+              Social
+            {%- endcomment -%}
+
+            <div
+              class="footer-title mt-4"
+              style="margin-bottom:10px"
+            >
+              {{ section.settings.social_title }}
+            </div>
+
+
+            <div class="socials">
+
+              {%- if section.settings.social_facebook != blank -%}
+
+                <a
+                  href="{{ section.settings.social_facebook }}"
+                  aria-label="Facebook"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="bi bi-facebook"></i>
+                </a>
+
+              {%- endif -%}
+
+
+              {%- if section.settings.social_twitter != blank -%}
+
+                <a
+                  href="{{ section.settings.social_twitter }}"
+                  aria-label="Twitter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="bi bi-twitter-x"></i>
+                </a>
+
+              {%- endif -%}
+
+
+              {%- if section.settings.social_youtube != blank -%}
+
+                <a
+                  href="{{ section.settings.social_youtube }}"
+                  aria-label="YouTube"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="bi bi-youtube"></i>
+                </a>
+
+              {%- endif -%}
+
+
+              {%- if section.settings.social_instagram != blank -%}
+
+                <a
+                  href="{{ section.settings.social_instagram }}"
+                  aria-label="Instagram"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="bi bi-instagram"></i>
+                </a>
+
+              {%- endif -%}
+
+              {%- if section.settings.social_linkedin != blank -%}
+                <a
+                  href="{{ section.settings.social_linkedin }}"
+                  aria-label="LinkedIn"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="bi bi-linkedin"></i>
+                </a>
+              {%- endif -%}
+
+              {%- if section.settings.social_whatsapp != blank -%}
+                <a
+                  href="{{ section.settings.social_whatsapp }}"
+                  aria-label="WhatsApp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="bi bi-whatsapp"></i>
+                </a>
+              {%- endif -%}
+
+
+              {%- if section.settings.social_phone != blank -%}
+
+                <a
+                  href="tel:{{ section.settings.social_phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')' }}"
+                  aria-label="Telephone"
+                  class="mobile-footer-phone"
+                >
+                  <i class="bi bi-telephone"></i>
+                </a>
+
+              {%- endif -%}
+
+            </div>
+
+          </div>
+
+
+          {%- comment -%}
+            ==========================================
+            COPYRIGHT
+            ==========================================
+          {%- endcomment -%}
+
+          <span class="footer-copy-bottom">
+
+            {{ section.settings.copyright }}
+
+            {%- if section.settings.show_made_by -%}
+
+              |
+              Made with
+              <span class="heart">❤️</span>
+              by
+
+              {%- if section.settings.made_by_url != blank -%}
+
+                <a
+                  href="{{ section.settings.made_by_url }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="blog-read-more"
+                >
+                  {{ section.settings.made_by_text }}
+                </a>
+
+              {%- else -%}
+
+                <span class="blog-read-more">
+                  {{ section.settings.made_by_text }}
+                </span>
+
+              {%- endif -%}
+
+            {%- endif -%}
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</footer>
+
+
+{% schema %}
+
+{
+  "name": "Cookme Footer",
+
+  "settings": [
+
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Footer Logo"
+    },
+
+    {
+      "type": "textarea",
+      "id": "about_text",
+      "label": "About Text",
+      "default": "Great quality brings great taste — Cookme's core philosophy since 1847. Authentic Indian spices, crafted with care."
+    },
+
+    {
+      "type": "text",
+      "id": "fssai",
+      "label": "FSSAI License",
+      "default": "FSSAI Lic. No: 10014031001052"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Categories"
+    },
+
+    {
+      "type": "text",
+      "id": "categories_title",
+      "label": "Categories Heading",
+      "default": "Categories"
+    },
+
+    {
+      "type": "link_list",
+      "id": "categories_menu",
+      "label": "Categories Menu"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Help"
+    },
+
+    {
+      "type": "text",
+      "id": "help_title",
+      "label": "Help Heading",
+      "default": "Help"
+    },
+
+    {
+      "type": "link_list",
+      "id": "help_menu",
+      "label": "Help Menu"
+    },
+
+    {
+      "type": "header",
+      "content": "Contact"
+    },
+
+    {
+      "type": "text",
+      "id": "contact_title",
+      "label": "Contact Heading",
+      "default": "Contact"
+    },
+
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone",
+      "default": "98754 30138"
+    },
+
+    {
+      "type": "text",
+      "id": "address_note",
+      "label": "Address Note",
+      "default": "West Bengal & Rest of India"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Social Media"
+    },
+
+    {
+      "type": "text",
+      "id": "social_title",
+      "label": "Social Heading",
+      "default": "Connect with us"
+    },
+
+    {
+      "type": "url",
+      "id": "social_facebook",
+      "label": "Facebook URL"
+    },
+
+    {
+      "type": "url",
+      "id": "social_twitter",
+      "label": "Twitter / X URL"
+    },
+
+    {
+      "type": "url",
+      "id": "social_youtube",
+      "label": "YouTube URL"
+    },
+
+    {
+      "type": "url",
+      "id": "social_instagram",
+      "label": "Instagram URL"
+    },
+
+    {
+      "type": "url",
+      "id": "social_linkedin",
+      "label": "LinkedIn URL"
+    },
+    {
+      "type": "url",
+      "id": "social_whatsapp",
+      "label": "WhatsApp URL"
+    },
+
+    {
+      "type": "header",
+      "content": "Copyright"
+    },
+
+    {
+      "type": "textarea",
+      "id": "copyright",
+      "label": "Copyright Text",
+      "default": "© 2026 All rights reserved · Krishna Chandra Dutta Spice Pvt Ltd"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_made_by",
+      "label": "Show Made By",
+      "default": true
+    },
+
+    {
+      "type": "text",
+      "id": "made_by_text",
+      "label": "Made By Text",
+      "default": "Brandaid Digital"
+    },
+
+    {
+      "type": "url",
+      "id": "made_by_url",
+      "label": "Made By URL"
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Cookme Footer"
+    }
+  ],
+
+  "enabled_on": {
+    "groups": [
+      "footer"
+    ]
+  }
+}
+
+{% endschema %}

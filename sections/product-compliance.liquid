@@ -1,0 +1,607 @@
+{% comment %}
+  Cookme Product Compliance Section
+
+  Product Metafields:
+  custom.pdp_ingredients
+  custom.pdp_requirements
+  custom.pdp_how_to_cook
+  custom.pdp_nutrition
+  custom.pdp_how_to_cook_video
+  custom.pdp_label_snap_1
+  custom.pdp_label_snap_2
+  custom.pdp_label_snap_3
+  custom.pdp_label_snap_4
+
+  Customer Care / Trademark / Marketed By
+  are editable from Theme Editor.
+{% endcomment %}
+
+<section
+  class="cookme-compliance-section"
+  id="cookme-compliance-{{ section.id }}"
+>
+  <div class="cookme-compliance-container">
+
+    <!-- =====================================================
+         PRODUCT INFORMATION
+    ====================================================== -->
+
+    <div class="cookme-product-info-grid">
+
+      {% if product.metafields.custom.pdp_ingredients != blank %}
+        <div class="cookme-info-card">
+
+          <div class="cookme-card-heading">
+            <span class="cookme-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="M7 3v8"/>
+                <path d="M5 3v5a2 2 0 0 0 4 0V3"/>
+                <path d="M7 10v11"/>
+                <path d="M15 3v18"/>
+                <path d="M15 3c3 1 4 3 4 6v2h-4"/>
+              </svg>
+            </span>
+
+            <h3>{{ section.settings.ingredients_title }}</h3>
+          </div>
+
+          <div class="cookme-card-content">
+            {{ product.metafields.custom.pdp_ingredients | metafield_tag }}
+          </div>
+
+        </div>
+      {% endif %}
+
+
+      {% if product.metafields.custom.pdp_requirements != blank %}
+        <div class="cookme-info-card">
+
+          <div class="cookme-card-heading">
+            <span class="cookme-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+              </svg>
+            </span>
+
+            <h3>{{ section.settings.requirements_title }}</h3>
+          </div>
+
+          <div class="cookme-card-content">
+            {{ product.metafields.custom.pdp_requirements | metafield_tag }}
+          </div>
+
+        </div>
+      {% endif %}
+
+
+      {% if product.metafields.custom.pdp_how_to_cook != blank
+        or product.metafields.custom.pdp_how_to_cook_video != blank %}
+
+        <div class="cookme-info-card">
+
+          <div class="cookme-card-heading">
+            <span class="cookme-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="M4 7h16"/>
+                <path d="M6 7v13h12V7"/>
+                <path d="M8 4h8"/>
+                <path d="M9 11h6"/>
+                <path d="M9 15h6"/>
+              </svg>
+            </span>
+
+            <h3>{{ section.settings.how_to_cook_title }}</h3>
+          </div>
+
+
+          {% if product.metafields.custom.pdp_how_to_cook_video != blank %}
+
+            <div class="cookme-video-wrapper">
+
+              {{
+                product.metafields.custom.pdp_how_to_cook_video
+                | video_tag:
+                  controls: true,
+                  autoplay: false,
+                  loop: false,
+                  muted: false,
+                  playsinline: true
+              }}
+
+            </div>
+
+          {% endif %}
+
+
+          {% if product.metafields.custom.pdp_how_to_cook != blank %}
+            <div class="cookme-card-content">
+              {{ product.metafields.custom.pdp_how_to_cook | metafield_tag }}
+            </div>
+          {% endif %}
+
+        </div>
+
+      {% endif %}
+
+
+      {% if product.metafields.custom.pdp_nutrition != blank %}
+
+        <div class="cookme-info-card">
+
+          <div class="cookme-card-heading">
+
+            <span class="cookme-card-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <rect x="4" y="4" width="16" height="16" rx="2"/>
+                <path d="M8 8h8"/>
+                <path d="M8 12h8"/>
+                <path d="M8 16h5"/>
+              </svg>
+            </span>
+
+            <h3>{{ section.settings.nutrition_title }}</h3>
+
+          </div>
+
+          <div class="cookme-card-content cookme-nutrition-content">
+            {{ product.metafields.custom.pdp_nutrition | metafield_tag }}
+          </div>
+
+        </div>
+
+      {% endif %}
+
+    </div>
+
+
+    <!-- =====================================================
+         CUSTOMER CARE / TRADEMARK / MARKETED BY
+    ====================================================== -->
+
+    <div class="cookme-business-info-grid">
+
+
+      <!-- CUSTOMER CARE -->
+
+      <div class="cookme-business-card cookme-customer-card">
+
+        <div class="cookme-business-heading">
+
+          <span class="cookme-business-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="10" r="2.5"/>
+              <path d="M8.5 17c.8-2 2-3 3.5-3s2.7 1 3.5 3"/>
+            </svg>
+          </span>
+
+          <h3>{{ section.settings.customer_title }}</h3>
+
+        </div>
+
+
+        {% if section.settings.customer_description != blank %}
+          <div class="cookme-business-description">
+            {{ section.settings.customer_description }}
+          </div>
+        {% endif %}
+
+
+        {% if section.settings.customer_phone != blank %}
+          <div class="cookme-contact-row">
+
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path d="M6 3h3l2 5-2 1.5a16 16 0 0 0 5.5 5.5L16 13l5 2v3a2 2 0 0 1-2 2C10 20 4 14 4 5a2 2 0 0 1 2-2Z"/>
+              </svg>
+            </span>
+
+            <a href="tel:{{ section.settings.customer_phone | remove: ' ' | remove: '-' }}">
+              {{ section.settings.customer_phone }}
+            </a>
+
+          </div>
+        {% endif %}
+
+
+        {% if section.settings.customer_email != blank %}
+          <div class="cookme-contact-row">
+
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <rect x="3" y="5" width="18" height="14" rx="2"/>
+                <path d="m4 7 8 6 8-6"/>
+              </svg>
+            </span>
+
+            <a href="mailto:{{ section.settings.customer_email }}">
+              {{ section.settings.customer_email }}
+            </a>
+
+          </div>
+        {% endif %}
+
+
+        {% if section.settings.customer_timing != blank %}
+          <div class="cookme-contact-row">
+
+            <span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+              </svg>
+            </span>
+
+            <span>
+              {{ section.settings.customer_timing }}
+            </span>
+
+          </div>
+        {% endif %}
+
+      </div>
+
+
+      <!-- REGISTERED TRADEMARK -->
+
+      <div class="cookme-business-card cookme-trademark-card">
+
+        <div class="cookme-business-heading">
+
+          <span class="cookme-business-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <rect x="5" y="4" width="14" height="16" rx="2"/>
+              <path d="M8 8h8"/>
+              <path d="M8 12h5"/>
+              <path d="M8 16h8"/>
+            </svg>
+          </span>
+
+          <h3>{{ section.settings.trademark_title }}</h3>
+
+        </div>
+
+
+        {% if section.settings.trademark_description != blank %}
+          <div class="cookme-business-description">
+            {{ section.settings.trademark_description }}
+          </div>
+        {% endif %}
+
+
+        {% if section.settings.trademark_owner != blank %}
+          <div class="cookme-business-highlight">
+            {{ section.settings.trademark_owner }}
+          </div>
+        {% endif %}
+
+
+        {% if section.settings.trademark_registration != blank %}
+          <div class="cookme-business-description">
+            {{ section.settings.trademark_registration }}
+          </div>
+        {% endif %}
+
+      </div>
+
+
+      <!-- MARKETED BY -->
+
+      <div class="cookme-business-card cookme-marketed-card">
+
+        <div class="cookme-business-heading">
+
+          <span class="cookme-business-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+              <circle cx="12" cy="7" r="3"/>
+              <path d="M6 21v-2a6 6 0 0 1 12 0v2"/>
+              <path d="M4 21h16"/>
+            </svg>
+          </span>
+
+          <h3>{{ section.settings.marketed_title }}</h3>
+
+        </div>
+
+
+        {% if section.settings.marketed_company != blank %}
+          <div class="cookme-business-highlight">
+            {{ section.settings.marketed_company }}
+          </div>
+        {% endif %}
+
+
+        {% if section.settings.marketed_address != blank %}
+          <div class="cookme-business-description">
+            {{ section.settings.marketed_address | newline_to_br }}
+          </div>
+        {% endif %}
+
+
+        {% if section.settings.marketed_fssai != blank %}
+          <div class="cookme-business-description cookme-fssai">
+            {{ section.settings.marketed_fssai }}
+          </div>
+        {% endif %}
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         PRODUCT LABEL IMAGES
+    ====================================================== -->
+
+    {% assign label_1 = product.metafields.custom.pdp_label_snap_1 %}
+    {% assign label_2 = product.metafields.custom.pdp_label_snap_2 %}
+    {% assign label_3 = product.metafields.custom.pdp_label_snap_3 %}
+    {% assign label_4 = product.metafields.custom.pdp_label_snap_4 %}
+
+
+    {% if label_1 != blank
+      or label_2 != blank
+      or label_3 != blank
+      or label_4 != blank %}
+
+      <div class="cookme-label-section">
+
+        <div class="cookme-label-header">
+
+          <span class="cookme-section-eyebrow">
+            {{ section.settings.label_eyebrow }}
+          </span>
+
+          <h2>
+            {{ section.settings.label_title }}
+          </h2>
+
+        </div>
+
+
+        <div class="cookme-label-grid">
+
+          {% if label_1 != blank %}
+            <div class="cookme-label-image">
+
+              {% if label_1.media_type == 'image' %}
+                {{ label_1 | image_url: width: 900 | image_tag:
+                  loading: 'lazy',
+                  alt: product.title
+                }}
+              {% endif %}
+
+            </div>
+          {% endif %}
+
+
+          {% if label_2 != blank %}
+            <div class="cookme-label-image">
+
+              {% if label_2.media_type == 'image' %}
+                {{ label_2 | image_url: width: 900 | image_tag:
+                  loading: 'lazy',
+                  alt: product.title
+                }}
+              {% endif %}
+
+            </div>
+          {% endif %}
+
+
+          {% if label_3 != blank %}
+            <div class="cookme-label-image">
+
+              {% if label_3.media_type == 'image' %}
+                {{ label_3 | image_url: width: 900 | image_tag:
+                  loading: 'lazy',
+                  alt: product.title
+                }}
+              {% endif %}
+
+            </div>
+          {% endif %}
+
+
+          {% if label_4 != blank %}
+            <div class="cookme-label-image">
+
+              {% if label_4.media_type == 'image' %}
+                {{ label_4 | image_url: width: 900 | image_tag:
+                  loading: 'lazy',
+                  alt: product.title
+                }}
+              {% endif %}
+
+            </div>
+          {% endif %}
+
+        </div>
+
+      </div>
+
+    {% endif %}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product Compliance",
+  "tag": "section",
+  "class": "cookme-product-compliance",
+
+  "settings": [
+
+    {
+      "type": "header",
+      "content": "Product Information"
+    },
+
+    {
+      "type": "text",
+      "id": "ingredients_title",
+      "label": "Ingredients title",
+      "default": "Ingredients"
+    },
+
+    {
+      "type": "text",
+      "id": "requirements_title",
+      "label": "Requirements title",
+      "default": "Requirements"
+    },
+
+    {
+      "type": "text",
+      "id": "how_to_cook_title",
+      "label": "How to Cook title",
+      "default": "How to Cook"
+    },
+
+    {
+      "type": "text",
+      "id": "nutrition_title",
+      "label": "Nutrition title",
+      "default": "Nutritional Information"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Customer Care"
+    },
+
+    {
+      "type": "text",
+      "id": "customer_title",
+      "label": "Title",
+      "default": "Customer Care"
+    },
+
+    {
+      "type": "richtext",
+      "id": "customer_description",
+      "label": "Description",
+      "default": "<p>For feedback, complaints or queries, contact our Customer Care Executive</p>"
+    },
+
+    {
+      "type": "text",
+      "id": "customer_phone",
+      "label": "Phone",
+      "default": "+91 98754 301385"
+    },
+
+    {
+      "type": "text",
+      "id": "customer_email",
+      "label": "Email",
+      "default": "care@cookme.in"
+    },
+
+    {
+      "type": "text",
+      "id": "customer_timing",
+      "label": "Customer care timing",
+      "default": "Mon – Sat (10:00 AM to 6:00 PM)"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Registered Trademark"
+    },
+
+    {
+      "type": "text",
+      "id": "trademark_title",
+      "label": "Title",
+      "default": "Registered Trademark"
+    },
+
+    {
+      "type": "richtext",
+      "id": "trademark_description",
+      "label": "Description",
+      "default": "<p>© COOKME is a registered trademark of</p>"
+    },
+
+    {
+      "type": "text",
+      "id": "trademark_owner",
+      "label": "Trademark owner",
+      "default": "Krishna Chandra Dutta Spice Pvt. Ltd."
+    },
+
+    {
+      "type": "text",
+      "id": "trademark_registration",
+      "label": "Registration information",
+      "default": "Registration No. 1234567"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Marketed By"
+    },
+
+    {
+      "type": "text",
+      "id": "marketed_title",
+      "label": "Title",
+      "default": "Marketed By"
+    },
+
+    {
+      "type": "text",
+      "id": "marketed_company",
+      "label": "Company name",
+      "default": "Krishna Chandra Dutta Spice Pvt. Ltd."
+    },
+
+    {
+      "type": "textarea",
+      "id": "marketed_address",
+      "label": "Address",
+      "default": "123, B.B.D. Bag (E), Kolkata - 700001, West Bengal, India"
+    },
+
+    {
+      "type": "text",
+      "id": "marketed_fssai",
+      "label": "FSSAI information",
+      "default": "FSSAI Lic. No. 10014031001052"
+    },
+
+
+    {
+      "type": "header",
+      "content": "Product Label Images"
+    },
+
+    {
+      "type": "text",
+      "id": "label_eyebrow",
+      "label": "Eyebrow",
+      "default": "PRODUCT INFORMATION"
+    },
+
+    {
+      "type": "text",
+      "id": "label_title",
+      "label": "Section title",
+      "default": "Product Label & Packaging"
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Product Compliance"
+    }
+  ]
+}
+{% endschema %}

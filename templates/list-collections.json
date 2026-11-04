@@ -1,0 +1,167 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "inner_page_banner_nbJW4e": {
+      "type": "inner-page-banner",
+      "name": "Inner Page Banner",
+      "settings": {
+        "banner_image_desktop": "shopify://shop_images/hero-bg-v2-new.webp",
+        "banner_image_tablet": "shopify://shop_images/cookme-tab.png",
+        "banner_image_mobile": "shopify://shop_images/banner-mobile.webp",
+        "breadcrumb_title": "",
+        "eyebrow": "Explore Cookme",
+        "title": "Discover <span class=\"it\">Our Products</span>",
+        "description": "Explore our range of authentic spices, pastes and home delights."
+      }
+    },
+    "main": {
+      "type": "main-list-collections",
+      "disabled": true,
+      "settings": {
+        "title": "Collections",
+        "sort": "alphabetical",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "columns_mobile": "2"
+      }
+    },
+    "cookme_category_cards_eJyTwL": {
+      "type": "cookme-category-cards",
+      "blocks": {
+        "category_hF6RJP": {
+          "type": "category",
+          "settings": {
+            "card_style": "blended",
+            "image": "shopify://shop_images/blend-cookme.png",
+            "background_color": "#f5e6d3",
+            "title": "BLENDED SPICES",
+            "accent": "40+ Products",
+            "accent_style": true,
+            "link": "shopify://collections/blended-spices"
+          }
+        },
+        "category_amD4gf": {
+          "type": "category",
+          "settings": {
+            "card_style": "curry",
+            "image": "shopify://shop_images/cat2_1.png",
+            "background_color": "#f3e4c1",
+            "title": "DAILY GRIND",
+            "accent": "Posto • Mustard • Non-veg",
+            "accent_style": false,
+            "link": "shopify://collections/daily-grind"
+          }
+        },
+        "category_RPaDjq": {
+          "type": "category",
+          "settings": {
+            "card_style": "ground",
+            "image": "shopify://shop_images/cat3_1.png",
+            "background_color": "#e6ebe0",
+            "title": "GROUND SPICES",
+            "accent": "Turmeric • Cumin • Chilli",
+            "accent_style": false,
+            "link": "shopify://collections/ground-spices"
+          }
+        },
+        "category_6kwaJX": {
+          "type": "category",
+          "settings": {
+            "card_style": "delights",
+            "image": "shopify://shop_images/cat4_1.png",
+            "background_color": "#f2dfd5",
+            "title": "HOMELY DELIGHT",
+            "accent": "Malpua • Dhoka • Papad",
+            "accent_style": true,
+            "link": "shopify://collections/homely-delight"
+          }
+        },
+        "category_BUX8rR": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "card_style": "curry",
+            "image": "shopify://shop_images/cat2_1.png",
+            "background_color": "#f3e4c1",
+            "title": "DAILY GRIND",
+            "accent": "Posto • Mustard • Non-veg",
+            "accent_style": false,
+            "link": "shopify://collections/daily-grind"
+          }
+        },
+        "category_9xCRMn": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "card_style": "blended",
+            "image": "shopify://shop_images/blend-cookme.png",
+            "background_color": "#f5e6d3",
+            "title": "BLENDED SPICES",
+            "accent": "40+ Products",
+            "accent_style": true,
+            "link": "shopify://collections/blended-spices"
+          }
+        },
+        "category_6KzQ4J": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "card_style": "delights",
+            "image": "shopify://shop_images/cat4_1.png",
+            "background_color": "#f2dfd5",
+            "title": "HOMELY DELIGHT",
+            "accent": "Malpua • Dhoka • Papad",
+            "accent_style": true,
+            "link": "shopify://collections/homely-delight"
+          }
+        },
+        "category_AARC9C": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "card_style": "ground",
+            "image": "shopify://shop_images/cat3_1.png",
+            "background_color": "#e6ebe0",
+            "title": "GROUND SPICES",
+            "accent": "Turmeric • Cumin • Chilli",
+            "accent_style": false,
+            "link": "shopify://collections/ground-spices"
+          }
+        }
+      },
+      "block_order": [
+        "category_hF6RJP",
+        "category_amD4gf",
+        "category_RPaDjq",
+        "category_6kwaJX",
+        "category_BUX8rR",
+        "category_9xCRMn",
+        "category_6KzQ4J",
+        "category_AARC9C"
+      ],
+      "name": "Cookme Category Cards",
+      "settings": {
+        "target_location": "all",
+        "browse_label": "",
+        "title": "",
+        "title_em": "",
+        "subtitle": "",
+        "view_all_text": "",
+        "view_all_link": ""
+      }
+    }
+  },
+  "order": [
+    "inner_page_banner_nbJW4e",
+    "main",
+    "cookme_category_cards_eJyTwL"
+  ]
+}

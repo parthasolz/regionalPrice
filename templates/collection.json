@@ -1,0 +1,50 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "inner_page_banner_wEkYWx": {
+      "type": "inner-page-banner",
+      "name": "Inner Page Banner",
+      "settings": {
+        "banner_image_desktop": "shopify://shop_images/hero-bg-v2-new.webp",
+        "banner_image_tablet": "shopify://shop_images/shop-tab.png",
+        "banner_image_mobile": "shopify://shop_images/shop-mobile.png",
+        "breadcrumb_title": "",
+        "eyebrow": "Explore Cookme",
+        "title": "Shop All <span class=\"it\">Masalas & Blends</span>",
+        "description": "Every Cookme spice, paste and home delight — ground fresh, packed in small batches, and rooted in Bengali kitchens."
+      }
+    },
+    "main": {
+      "type": "cookme-collection-page",
+      "settings": {
+        "products_per_page": 12,
+        "filter_label": "Filter",
+        "show_category_filter": true,
+        "show_availability_filter": false,
+        "show_price_filter": false,
+        "show_other_filters": true,
+        "filter_collections": [
+          "blended-spices",
+          "ground-spices",
+          "daily-grind",
+          "homely-delight"
+        ],
+        "rating_text": "4.8 (128)",
+        "empty_text": "No products in this collection yet.",
+        "card_class": "col-6 col-md-4 col-lg-4"
+      }
+    }
+  },
+  "order": [
+    "inner_page_banner_wEkYWx",
+    "main"
+  ]
+}

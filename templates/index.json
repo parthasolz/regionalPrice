@@ -1,0 +1,518 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "cookme-home-hero",
+      "blocks": {
+        "hero-1": {
+          "type": "slide",
+          "settings": {
+            "desktop_image": "shopify://shop_images/banner-img1.webp",
+            "tablet_image": "shopify://shop_images/Premium_Bengali_Spice_Collection.png",
+            "mobile_image": "shopify://shop_images/mb-banner-img1.webp",
+            "badge_image": "shopify://shop_images/badge.webp",
+            "product_image_1": "shopify://shop_images/New_Project_1.webp",
+            "product_image_2": "shopify://shop_images/New_Project_2.webp",
+            "product_image_3": "shopify://shop_images/New_Project_3.webp",
+            "bottom_image": "shopify://shop_images/hero-botton-img.webp",
+            "kicker": "AUTHENTIC FLAVORS • TRUSTED SINCE 1847",
+            "hero_title": "The <em id=\"heroTitleEm\">Taste</em> of<br>Pure<br>Spices,<br>Delivered.",
+            "sub": "Premium spice blends and everyday essentials crafted to bring authentic Bengali flavors to every kitchen.",
+            "button_label": "Shop Now",
+            "button_link": "",
+            "badge_alt": "100% Natural",
+            "pack_1_alt": "Cookme product 1",
+            "pack_2_alt": "Cookme product 2",
+            "pack_3_alt": "Cookme product 3",
+            "bottom_alt": "Cookme banner decoration"
+          }
+        },
+        "hero-3": {
+          "type": "slide",
+          "settings": {
+            "desktop_image": "shopify://shop_images/home-banner.jpg",
+            "tablet_image": "shopify://shop_images/Crafted_Tradition_Spiced_Savings.png",
+            "mobile_image": "shopify://shop_images/Cookme_Spice_Gift_Box_Savings.png",
+            "kicker": "CRAFTED SINCE 1847 • EXCLUSIVE OFFER",
+            "hero_title": "The <em id=\"heroTitleEm\">Taste</em> of<br>Tradition,<br>Now With<br>Savings.",
+            "sub": "Bring home timeless spice blends and enjoy special deals on your favorite Cookme products.",
+            "button_label": "Shop Now",
+            "button_link": "",
+            "badge_alt": "100% Natural",
+            "pack_1_alt": "Cookme product 1",
+            "pack_2_alt": "Cookme product 2",
+            "pack_3_alt": "Cookme product 3",
+            "bottom_alt": "Cookme banner decoration"
+          }
+        }
+      },
+      "block_order": [
+        "hero-1",
+        "hero-3"
+      ],
+      "settings": {
+        "target_location": "all",
+        "autoplay_speed": "7000"
+      }
+    },
+    "cookme_promo_banners_yMGyzP": {
+      "type": "cookme-promo-banners",
+      "blocks": {
+        "banner_K6EzkF": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/web_banner_1_28-10.png",
+            "link": "shopify://collections",
+            "alt_text": "",
+            "hover_border_color": "#c11f2f",
+            "open_new_tab": false
+          }
+        },
+        "banner_nHA4WF": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/web_banner_2_28-10.png",
+            "link": "shopify://collections",
+            "alt_text": "Cookme promotional banner",
+            "hover_border_color": "#6b9f2a",
+            "open_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "banner_K6EzkF",
+        "banner_nHA4WF"
+      ],
+      "name": "Cookme Promo Banners",
+      "settings": {
+        "target_location": "all"
+      }
+    },
+    "trust": {
+      "type": "cookme-trust-bar",
+      "blocks": {
+        "t1": {
+          "type": "trust",
+          "settings": {
+            "icon": "shopify://shop_images/100-Natural-icon.webp",
+            "title": "100% Natural",
+            "text": "No artificial colours, flavours<br>or preservatives"
+          }
+        },
+        "t2": {
+          "type": "trust",
+          "settings": {
+            "icon": "shopify://shop_images/FSSAI-Certified-icon.webp",
+            "title": "FSSAI Certified",
+            "text": "Lic. No. 10014031001052<br>Strict hygiene standards"
+          }
+        },
+        "t3": {
+          "type": "trust",
+          "settings": {
+            "icon": "shopify://shop_images/Free-Pan-India-Delivery-icon.webp",
+            "title": "Free Pan-India Delivery",
+            "text": "On orders above ₹299<br>across West Bengal and all India"
+          }
+        },
+        "t4": {
+          "type": "trust",
+          "settings": {
+            "icon": "shopify://shop_images/Bundle-Savings-icon.webp",
+            "title": "Bundle Savings",
+            "text": "Up to 25% off on<br>multi-packs and bundle deals"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "disabled": true,
+      "settings": {
+        "target_location": "all"
+      }
+    },
+    "categories": {
+      "type": "cookme-category-cards",
+      "blocks": {
+        "c1": {
+          "type": "category",
+          "settings": {
+            "card_style": "blended",
+            "icon": "shopify://shop_images/blended-spices-icon.webp",
+            "image": "shopify://shop_images/blend-cookme.png",
+            "background_color": "#fffdd0",
+            "title": "BLENDED SPICES",
+            "accent": "Biryani • Garam • Chowmein",
+            "accent_style": false,
+            "link": "shopify://collections/blended-spices"
+          }
+        },
+        "c2": {
+          "type": "category",
+          "settings": {
+            "card_style": "blended",
+            "icon": "shopify://shop_images/curry-pasted-icon.webp",
+            "image": "shopify://shop_images/cat2_1.png",
+            "background_color": "#d2ead0",
+            "title": "DAILY GRIND",
+            "accent": "Red • Green • Fish",
+            "accent_style": false,
+            "link": "shopify://collections/daily-grind"
+          }
+        },
+        "c3": {
+          "type": "category",
+          "settings": {
+            "card_style": "blended",
+            "icon": "shopify://shop_images/ground-spices-icon.webp",
+            "image": "shopify://shop_images/cat3_1.png",
+            "background_color": "#fee1bb",
+            "title": "GROUND SPICES",
+            "accent": "Turmeric • Chilli • Coriander",
+            "accent_style": false,
+            "link": "shopify://collections/ground-spices"
+          }
+        },
+        "c4": {
+          "type": "category",
+          "settings": {
+            "card_style": "blended",
+            "icon": "shopify://shop_images/home-delighats-icon.webp",
+            "image": "shopify://shop_images/cat4_1.png",
+            "background_color": "#fee5d9",
+            "title": "HOMELY DELIGHT",
+            "accent": "Malpua • Dhoka • Papad",
+            "accent_style": false,
+            "link": "shopify://collections/homely-delight"
+          }
+        },
+        "category_7aKUxg": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "card_style": "blended",
+            "icon": "shopify://shop_images/blended-spices-icon.webp",
+            "image": "shopify://shop_images/cat1_1.png",
+            "background_color": "#fee1bb",
+            "title": "BLEND SPICES",
+            "accent": "Biryani • Garam • Chowmein",
+            "accent_style": false,
+            "link": "shopify://collections/blended-spices"
+          }
+        },
+        "category_jPic9J": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "card_style": "blended",
+            "icon": "shopify://shop_images/curry-pasted-icon.webp",
+            "image": "shopify://shop_images/cat2_1.png",
+            "background_color": "#fee5d9",
+            "title": "DAILY GRIND",
+            "accent": "Red • Green • Fish",
+            "accent_style": false,
+            "link": "shopify://collections/daily-grind"
+          }
+        },
+        "category_L8cCCK": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "card_style": "blended",
+            "icon": "shopify://shop_images/ground-spices-icon.webp",
+            "image": "shopify://shop_images/cat3_1.png",
+            "background_color": "#fffdd0",
+            "title": "GROUND SPICES",
+            "accent": "Turmeric • Chilli • Coriander",
+            "accent_style": false,
+            "link": "shopify://collections/ground-spices"
+          }
+        },
+        "category_gYVmqt": {
+          "type": "category",
+          "disabled": true,
+          "settings": {
+            "card_style": "blended",
+            "icon": "shopify://shop_images/home-delighats-icon.webp",
+            "image": "shopify://shop_images/cat4_1.png",
+            "background_color": "#d2ead0",
+            "title": "HOMELY DELIGHT",
+            "accent": "Malpua • Dhoka • Papad",
+            "accent_style": false,
+            "link": "shopify://collections/homely-delight"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "category_7aKUxg",
+        "category_jPic9J",
+        "category_L8cCCK",
+        "category_gYVmqt"
+      ],
+      "settings": {
+        "target_location": "all",
+        "browse_label": "Browse by type",
+        "title": "Shop by <span class=\"highlight\">Category</span>",
+        "title_em": "Category",
+        "subtitle": "Explore our authentic range of Bengali spice blends.",
+        "view_all_text": "View All Categories",
+        "view_all_link": ""
+      }
+    },
+    "tabs": {
+      "type": "cookme-product-tabs",
+      "blocks": {
+        "tab-1": {
+          "type": "tab",
+          "settings": {
+            "label": "Blended Spice",
+            "image": "shopify://shop_images/cat1.webp",
+            "collection": ""
+          }
+        },
+        "tab-2": {
+          "type": "tab",
+          "settings": {
+            "label": "Curry Paste",
+            "image": "shopify://shop_images/cat2.webp",
+            "collection": ""
+          }
+        },
+        "tab-3": {
+          "type": "tab",
+          "settings": {
+            "label": "Ground Spices",
+            "image": "shopify://shop_images/cat3.webp",
+            "collection": ""
+          }
+        },
+        "tab-4": {
+          "type": "tab",
+          "settings": {
+            "label": "Home Delights",
+            "image": "shopify://shop_images/cat4.webp",
+            "collection": ""
+          }
+        },
+        "tab_EE4nDn": {
+          "type": "tab",
+          "settings": {
+            "label": "Blended Spice",
+            "image": "shopify://shop_images/cat1.webp",
+            "collection": ""
+          }
+        },
+        "tab_nNCkY4": {
+          "type": "tab",
+          "settings": {
+            "label": "Curry Paste",
+            "image": "shopify://shop_images/cat2.webp",
+            "collection": ""
+          }
+        },
+        "tab_yAypfY": {
+          "type": "tab",
+          "settings": {
+            "label": "Ground Spices",
+            "image": "shopify://shop_images/cat3.webp",
+            "collection": ""
+          }
+        },
+        "tab_Ua87JF": {
+          "type": "tab",
+          "settings": {
+            "label": "Home Delights",
+            "image": "shopify://shop_images/cat4.webp",
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "tab-1",
+        "tab-2",
+        "tab-3",
+        "tab-4",
+        "tab_EE4nDn",
+        "tab_nNCkY4",
+        "tab_yAypfY",
+        "tab_Ua87JF"
+      ],
+      "disabled": true,
+      "settings": {
+        "target_location": "all",
+        "products_per_tab": 6,
+        "rating_text": "4.8 (128)",
+        "empty_text": "Products coming soon."
+      }
+    },
+    "bestsellers": {
+      "type": "cookme-bestsellers",
+      "settings": {
+        "target_location": "wb",
+        "collection": "west-bengal",
+        "products_to_show": 8,
+        "eyebrow": "Our bestsellers",
+        "title": "Most <span class=\"it\">Loved</span> Masalas",
+        "rating_text": "4.8 (128)",
+        "show_view_all": true,
+        "view_all_text": "View All Products",
+        "view_all_link": "shopify://collections/west-bengal",
+        "empty_text": "No products yet."
+      }
+    },
+    "cookme_bestsellers_X9LMTq": {
+      "type": "cookme-bestsellers",
+      "settings": {
+        "target_location": "india",
+        "collection": "india",
+        "products_to_show": 8,
+        "eyebrow": "Our bestsellers",
+        "title": "Most <span class=\"it\">Loved</span> Masalas",
+        "rating_text": "4.8 (128)",
+        "show_view_all": true,
+        "view_all_text": "View All Products",
+        "view_all_link": "shopify://collections/india",
+        "empty_text": "No products yet."
+      }
+    },
+    "story": {
+      "type": "cookme-story",
+      "settings": {
+        "target_location": "all",
+        "image": "shopify://shop_images/our-story-img.webp",
+        "kicker": "About us",
+        "title": "Born in <em>Kolkata.</em><br>Trusted for 179 Years.",
+        "text": "What began as a humble Bengali spice legacy continues as a brand rooted in taste, memory and trust. Each blend carries the warmth of old kitchens, festive meals and generations of careful craft.",
+        "cta_label": "Contact Us",
+        "cta_link": "shopify://pages/contact"
+      }
+    },
+    "bulk": {
+      "type": "cookme-bulk-cta",
+      "blocks": {
+        "benefit_HDEfhe": {
+          "type": "benefit",
+          "settings": {
+            "text": "Custom pack sizes",
+            "icon": "bi bi-check-circle-fill"
+          }
+        },
+        "benefit_bpDPtt": {
+          "type": "benefit",
+          "settings": {
+            "text": "Priority fulfilment",
+            "icon": "bi bi-check-circle-fill"
+          }
+        },
+        "benefit_cxVEXM": {
+          "type": "benefit",
+          "settings": {
+            "text": "Direct invoicing",
+            "icon": "bi bi-check-circle-fill"
+          }
+        },
+        "benefit_rrNjVT": {
+          "type": "benefit",
+          "settings": {
+            "text": "Dedicated support",
+            "icon": "bi bi-check-circle-fill"
+          }
+        }
+      },
+      "block_order": [
+        "benefit_HDEfhe",
+        "benefit_bpDPtt",
+        "benefit_cxVEXM",
+        "benefit_rrNjVT"
+      ],
+      "settings": {
+        "target_location": "all",
+        "kicker": "For business & families",
+        "title": "Order <em>Now.</em><br>Save Significantly",
+        "text": "Ideal for large households, restaurants, caterers and resellers who want consistent taste, reliable supply and better value on every order.",
+        "cta_label": "Order Now",
+        "cta_link": "shopify://collections",
+        "image_1": "shopify://shop_images/chilli-chicken-masala.png",
+        "image_2": "shopify://shop_images/biryani-masala.png",
+        "image_3": "shopify://shop_images/red-chilli-powder.png",
+        "desktop_background": "shopify://shop_images/business-families-bg.webp",
+        "mobile_background": "shopify://shop_images/Premium_Cookme_Order_Banner_1.png"
+      }
+    },
+    "cert": {
+      "type": "cookme-cert-strip",
+      "blocks": {
+        "cert-1": {
+          "type": "cert",
+          "settings": {
+            "icon": "shield",
+            "label_em": "FSSAI",
+            "label": "Certified",
+            "desc": "Strict food safety & hygiene standards followed.",
+            "enable_popup": true,
+            "popup_content": "<div style=\"\n  width:100%;\n  max-width:680px;\n  margin:0 auto;\n  padding:0;\n  box-sizing:border-box;\n  font-family:Arial,Helvetica,sans-serif;\n  color:#171717;\n\">\n\n  <!-- TOP CERTIFICATE ICON -->\n\n  <div style=\"\n    display:flex;\n    align-items:center;\n    gap:16px;\n    margin-bottom:24px;\n  \">\n\n    <div style=\"\n      width:54px;\n      height:54px;\n      min-width:54px;\n      border-radius:50%;\n      background:#000000;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n      color:#ffffff;\n      font-size:25px;\n      font-weight:700;\n      line-height:1;\n    \">\n      ✓\n    </div>\n\n    <div style=\"\n      flex:1;\n      min-width:0;\n    \">\n\n      <div style=\"\n        font-size:10px;\n        line-height:1.2;\n        letter-spacing:2px;\n        text-transform:uppercase;\n        color:#d3262f;\n        font-weight:700;\n        margin-bottom:6px;\n      \">\n        OFFICIAL CERTIFICATION\n      </div>\n\n      <div style=\"\n        font-size:25px;\n        line-height:1.2;\n        font-weight:700;\n        color:#171717;\n      \">\n        FSSAI Certified\n      </div>\n\n    </div>\n\n  </div>\n\n\n  <!-- DIVIDER -->\n\n  <div style=\"\n    width:100%;\n    height:1px;\n    background:#e8e8e8;\n    margin:0 0 24px 0;\n  \"></div>\n\n\n  <!-- INTRO -->\n\n  <div style=\"\n    margin-bottom:24px;\n  \">\n\n    <div style=\"\n      font-size:10px;\n      letter-spacing:1.5px;\n      text-transform:uppercase;\n      color:#d3262f;\n      font-weight:700;\n      margin-bottom:8px;\n    \">\n      Certificate Details\n    </div>\n\n    <p style=\"\n      margin:0;\n      font-size:14px;\n      line-height:1.75;\n      color:#555555;\n    \">\n      Cookme products are manufactured and handled\n      following applicable food safety and hygiene\n      standards.\n    </p>\n\n  </div>\n\n\n  <!-- INFORMATION BOX -->\n\n  <div style=\"\n    width:100%;\n    background:#fafafa;\n    border:1px solid #eeeeee;\n    border-radius:14px;\n    overflow:hidden;\n    margin-bottom:22px;\n  \">\n\n    <!-- ROW 1 -->\n\n    <div style=\"\n      width:100%;\n      display:flex;\n      flex-wrap:wrap;\n      border-bottom:1px solid #eeeeee;\n    \">\n\n      <!-- Certification -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n        border-right:1px solid #eeeeee;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          Certification\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#171717;\n          font-weight:700;\n        \">\n          FSSAI\n        </div>\n\n      </div>\n\n\n      <!-- Status -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          Status\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#198754;\n          font-weight:700;\n        \">\n          ✓ Certified\n        </div>\n\n      </div>\n\n    </div>\n\n\n    <!-- ROW 2 -->\n\n    <div style=\"\n      width:100%;\n      display:flex;\n      flex-wrap:wrap;\n    \">\n\n      <!-- License -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n        border-right:1px solid #eeeeee;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          License No.\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#171717;\n          font-weight:700;\n          word-break:break-word;\n        \">\n          10014031001052\n        </div>\n\n      </div>\n\n\n      <!-- Category -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          Category\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#171717;\n          font-weight:700;\n        \">\n          Food Products\n        </div>\n\n      </div>\n\n    </div>\n\n  </div>\n\n\n  <!-- VERIFIED NOTE -->\n\n  <div style=\"\n    width:100%;\n    box-sizing:border-box;\n    display:flex;\n    align-items:flex-start;\n    gap:12px;\n    padding:17px;\n    background:#fff7f7;\n    border:1px solid #f3d8d8;\n    border-left:3px solid #d3262f;\n    border-radius:12px;\n    margin-bottom:25px;\n  \">\n\n    <div style=\"\n      width:26px;\n      height:26px;\n      min-width:26px;\n      border-radius:50%;\n      background:#d3262f;\n      color:#ffffff;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n      font-size:13px;\n      font-weight:700;\n      line-height:1;\n    \">\n      ✓\n    </div>\n\n\n    <div style=\"\n      flex:1;\n      min-width:0;\n    \">\n\n      <div style=\"\n        font-size:12px;\n        line-height:1.4;\n        color:#171717;\n        font-weight:700;\n        margin-bottom:5px;\n      \">\n        Quality & Safety Commitment\n      </div>\n\n      <div style=\"\n        font-size:12px;\n        line-height:1.7;\n        color:#666666;\n      \">\n        This certification represents our commitment\n        to maintaining quality, hygiene and food safety\n        throughout our production process.\n      </div>\n\n    </div>\n\n  </div>\n\n\n  <!-- FOOTER -->\n\n  <div style=\"\n    width:100%;\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    gap:15px;\n    padding-top:17px;\n    border-top:1px solid #eeeeee;\n  \">\n\n    <div style=\"\n      font-size:10px;\n      line-height:1.4;\n      letter-spacing:1.5px;\n      text-transform:uppercase;\n      color:#171717;\n      font-weight:700;\n    \">\n      COOKME FOODS\n    </div>\n\n    <div style=\"\n      font-size:10px;\n      line-height:1.4;\n      color:#999999;\n    \">\n      Verified Certification\n    </div>\n\n  </div>\n\n</div>"
+          }
+        },
+        "cert-2": {
+          "type": "cert",
+          "disabled": true,
+          "settings": {
+            "icon": "leaf",
+            "label_em": "No",
+            "label": "Artificial Colours",
+            "desc": "No artificial colours, flavours or added preservatives.",
+            "enable_popup": true,
+            "popup_content": "<div style=\"\n  width:100%;\n  max-width:680px;\n  margin:0 auto;\n  padding:0;\n  box-sizing:border-box;\n  font-family:Arial,Helvetica,sans-serif;\n  color:#171717;\n\">\n\n  <!-- TOP CERTIFICATE ICON -->\n\n  <div style=\"\n    display:flex;\n    align-items:center;\n    gap:16px;\n    margin-bottom:24px;\n  \">\n\n    <div style=\"\n      width:54px;\n      height:54px;\n      min-width:54px;\n      border-radius:50%;\n      background:#000000;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n      color:#ffffff;\n      font-size:25px;\n      font-weight:700;\n      line-height:1;\n    \">\n      ✓\n    </div>\n\n    <div style=\"\n      flex:1;\n      min-width:0;\n    \">\n\n      <div style=\"\n        font-size:10px;\n        line-height:1.2;\n        letter-spacing:2px;\n        text-transform:uppercase;\n        color:#d3262f;\n        font-weight:700;\n        margin-bottom:6px;\n      \">\n        OFFICIAL CERTIFICATION\n      </div>\n\n      <div style=\"\n        font-size:25px;\n        line-height:1.2;\n        font-weight:700;\n        color:#171717;\n      \">\n        FSSAI Certified\n      </div>\n\n    </div>\n\n  </div>\n\n\n  <!-- DIVIDER -->\n\n  <div style=\"\n    width:100%;\n    height:1px;\n    background:#e8e8e8;\n    margin:0 0 24px 0;\n  \"></div>\n\n\n  <!-- INTRO -->\n\n  <div style=\"\n    margin-bottom:24px;\n  \">\n\n    <div style=\"\n      font-size:10px;\n      letter-spacing:1.5px;\n      text-transform:uppercase;\n      color:#d3262f;\n      font-weight:700;\n      margin-bottom:8px;\n    \">\n      Certificate Details\n    </div>\n\n    <p style=\"\n      margin:0;\n      font-size:14px;\n      line-height:1.75;\n      color:#555555;\n    \">\n      Cookme products are manufactured and handled\n      following applicable food safety and hygiene\n      standards.\n    </p>\n\n  </div>\n\n\n  <!-- INFORMATION BOX -->\n\n  <div style=\"\n    width:100%;\n    background:#fafafa;\n    border:1px solid #eeeeee;\n    border-radius:14px;\n    overflow:hidden;\n    margin-bottom:22px;\n  \">\n\n    <!-- ROW 1 -->\n\n    <div style=\"\n      width:100%;\n      display:flex;\n      flex-wrap:wrap;\n      border-bottom:1px solid #eeeeee;\n    \">\n\n      <!-- Certification -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n        border-right:1px solid #eeeeee;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          Certification\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#171717;\n          font-weight:700;\n        \">\n          FSSAI\n        </div>\n\n      </div>\n\n\n      <!-- Status -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          Status\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#198754;\n          font-weight:700;\n        \">\n          ✓ Certified\n        </div>\n\n      </div>\n\n    </div>\n\n\n    <!-- ROW 2 -->\n\n    <div style=\"\n      width:100%;\n      display:flex;\n      flex-wrap:wrap;\n    \">\n\n      <!-- License -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n        border-right:1px solid #eeeeee;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          License No.\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#171717;\n          font-weight:700;\n          word-break:break-word;\n        \">\n          10014031001052\n        </div>\n\n      </div>\n\n\n      <!-- Category -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          Category\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#171717;\n          font-weight:700;\n        \">\n          Food Products\n        </div>\n\n      </div>\n\n    </div>\n\n  </div>\n\n\n  <!-- VERIFIED NOTE -->\n\n  <div style=\"\n    width:100%;\n    box-sizing:border-box;\n    display:flex;\n    align-items:flex-start;\n    gap:12px;\n    padding:17px;\n    background:#fff7f7;\n    border:1px solid #f3d8d8;\n    border-left:3px solid #d3262f;\n    border-radius:12px;\n    margin-bottom:25px;\n  \">\n\n    <div style=\"\n      width:26px;\n      height:26px;\n      min-width:26px;\n      border-radius:50%;\n      background:#d3262f;\n      color:#ffffff;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n      font-size:13px;\n      font-weight:700;\n      line-height:1;\n    \">\n      ✓\n    </div>\n\n\n    <div style=\"\n      flex:1;\n      min-width:0;\n    \">\n\n      <div style=\"\n        font-size:12px;\n        line-height:1.4;\n        color:#171717;\n        font-weight:700;\n        margin-bottom:5px;\n      \">\n        Quality & Safety Commitment\n      </div>\n\n      <div style=\"\n        font-size:12px;\n        line-height:1.7;\n        color:#666666;\n      \">\n        This certification represents our commitment\n        to maintaining quality, hygiene and food safety\n        throughout our production process.\n      </div>\n\n    </div>\n\n  </div>\n\n\n  <!-- FOOTER -->\n\n  <div style=\"\n    width:100%;\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    gap:15px;\n    padding-top:17px;\n    border-top:1px solid #eeeeee;\n  \">\n\n    <div style=\"\n      font-size:10px;\n      line-height:1.4;\n      letter-spacing:1.5px;\n      text-transform:uppercase;\n      color:#171717;\n      font-weight:700;\n    \">\n      COOKME FOODS\n    </div>\n\n    <div style=\"\n      font-size:10px;\n      line-height:1.4;\n      color:#999999;\n    \">\n      Verified Certification\n    </div>\n\n  </div>\n\n</div>"
+          }
+        },
+        "cert-3": {
+          "type": "cert",
+          "settings": {
+            "icon": "flask",
+            "label_em": "No",
+            "label": "Artificial Preservatives",
+            "desc": "Pure spice, nothing synthetic.",
+            "enable_popup": true,
+            "popup_content": "<div style=\"\n  width:100%;\n  max-width:680px;\n  margin:0 auto;\n  padding:0;\n  box-sizing:border-box;\n  font-family:Arial,Helvetica,sans-serif;\n  color:#171717;\n\">\n\n  <!-- TOP CERTIFICATE ICON -->\n\n  <div style=\"\n    display:flex;\n    align-items:center;\n    gap:16px;\n    margin-bottom:24px;\n  \">\n\n    <div style=\"\n      width:54px;\n      height:54px;\n      min-width:54px;\n      border-radius:50%;\n      background:#000000;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n      color:#ffffff;\n      font-size:25px;\n      font-weight:700;\n      line-height:1;\n    \">\n      ✓\n    </div>\n\n    <div style=\"\n      flex:1;\n      min-width:0;\n    \">\n\n      <div style=\"\n        font-size:10px;\n        line-height:1.2;\n        letter-spacing:2px;\n        text-transform:uppercase;\n        color:#d3262f;\n        font-weight:700;\n        margin-bottom:6px;\n      \">\n        OFFICIAL CERTIFICATION\n      </div>\n\n      <div style=\"\n        font-size:25px;\n        line-height:1.2;\n        font-weight:700;\n        color:#171717;\n      \">\n        FSSAI Certified\n      </div>\n\n    </div>\n\n  </div>\n\n\n  <!-- DIVIDER -->\n\n  <div style=\"\n    width:100%;\n    height:1px;\n    background:#e8e8e8;\n    margin:0 0 24px 0;\n  \"></div>\n\n\n  <!-- INTRO -->\n\n  <div style=\"\n    margin-bottom:24px;\n  \">\n\n    <div style=\"\n      font-size:10px;\n      letter-spacing:1.5px;\n      text-transform:uppercase;\n      color:#d3262f;\n      font-weight:700;\n      margin-bottom:8px;\n    \">\n      Certificate Details\n    </div>\n\n    <p style=\"\n      margin:0;\n      font-size:14px;\n      line-height:1.75;\n      color:#555555;\n    \">\n      Cookme products are manufactured and handled\n      following applicable food safety and hygiene\n      standards.\n    </p>\n\n  </div>\n\n\n  <!-- INFORMATION BOX -->\n\n  <div style=\"\n    width:100%;\n    background:#fafafa;\n    border:1px solid #eeeeee;\n    border-radius:14px;\n    overflow:hidden;\n    margin-bottom:22px;\n  \">\n\n    <!-- ROW 1 -->\n\n    <div style=\"\n      width:100%;\n      display:flex;\n      flex-wrap:wrap;\n      border-bottom:1px solid #eeeeee;\n    \">\n\n      <!-- Certification -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n        border-right:1px solid #eeeeee;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          Certification\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#171717;\n          font-weight:700;\n        \">\n          FSSAI\n        </div>\n\n      </div>\n\n\n      <!-- Status -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          Status\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#198754;\n          font-weight:700;\n        \">\n          ✓ Certified\n        </div>\n\n      </div>\n\n    </div>\n\n\n    <!-- ROW 2 -->\n\n    <div style=\"\n      width:100%;\n      display:flex;\n      flex-wrap:wrap;\n    \">\n\n      <!-- License -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n        border-right:1px solid #eeeeee;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          License No.\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#171717;\n          font-weight:700;\n          word-break:break-word;\n        \">\n          10014031001052\n        </div>\n\n      </div>\n\n\n      <!-- Category -->\n\n      <div style=\"\n        width:50%;\n        box-sizing:border-box;\n        padding:17px 18px;\n      \">\n\n        <div style=\"\n          font-size:10px;\n          text-transform:uppercase;\n          letter-spacing:1px;\n          color:#999999;\n          margin-bottom:7px;\n        \">\n          Category\n        </div>\n\n        <div style=\"\n          font-size:14px;\n          line-height:1.4;\n          color:#171717;\n          font-weight:700;\n        \">\n          Food Products\n        </div>\n\n      </div>\n\n    </div>\n\n  </div>\n\n\n  <!-- VERIFIED NOTE -->\n\n  <div style=\"\n    width:100%;\n    box-sizing:border-box;\n    display:flex;\n    align-items:flex-start;\n    gap:12px;\n    padding:17px;\n    background:#fff7f7;\n    border:1px solid #f3d8d8;\n    border-left:3px solid #d3262f;\n    border-radius:12px;\n    margin-bottom:25px;\n  \">\n\n    <div style=\"\n      width:26px;\n      height:26px;\n      min-width:26px;\n      border-radius:50%;\n      background:#d3262f;\n      color:#ffffff;\n      display:flex;\n      align-items:center;\n      justify-content:center;\n      font-size:13px;\n      font-weight:700;\n      line-height:1;\n    \">\n      ✓\n    </div>\n\n\n    <div style=\"\n      flex:1;\n      min-width:0;\n    \">\n\n      <div style=\"\n        font-size:12px;\n        line-height:1.4;\n        color:#171717;\n        font-weight:700;\n        margin-bottom:5px;\n      \">\n        Quality & Safety Commitment\n      </div>\n\n      <div style=\"\n        font-size:12px;\n        line-height:1.7;\n        color:#666666;\n      \">\n        This certification represents our commitment\n        to maintaining quality, hygiene and food safety\n        throughout our production process.\n      </div>\n\n    </div>\n\n  </div>\n\n\n  <!-- FOOTER -->\n\n  <div style=\"\n    width:100%;\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    gap:15px;\n    padding-top:17px;\n    border-top:1px solid #eeeeee;\n  \">\n\n    <div style=\"\n      font-size:10px;\n      line-height:1.4;\n      letter-spacing:1.5px;\n      text-transform:uppercase;\n      color:#171717;\n      font-weight:700;\n    \">\n      COOKME FOODS\n    </div>\n\n    <div style=\"\n      font-size:10px;\n      line-height:1.4;\n      color:#999999;\n    \">\n      Verified Certification\n    </div>\n\n  </div>\n\n</div>"
+          }
+        }
+      },
+      "block_order": [
+        "cert-1",
+        "cert-2",
+        "cert-3"
+      ],
+      "settings": {
+        "target_location": "all"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "cookme_promo_banners_yMGyzP",
+    "trust",
+    "categories",
+    "tabs",
+    "bestsellers",
+    "cookme_bestsellers_X9LMTq",
+    "story",
+    "bulk",
+    "cert"
+  ]
+}

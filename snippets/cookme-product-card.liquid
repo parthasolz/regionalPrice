@@ -1,0 +1,285 @@
+{%- comment -%}
+  Cookme dynamic product card.
+  Usage:
+  {% render 'cookme-product-card',
+    product: product,
+    card_class: 'col-6 col-md-4 col-lg-3',
+    show_rating: true, rating_text: '4.8 (128)',
+    show_desc: true, show_wish: true, quick_add: true
+  %}
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign img = product.featured_media | default: v.featured_media
+  assign on_sale = false
+  if v.compare_at_price > v.price
+    assign on_sale = true
+  endif
+  assign card_url = product.url | default: '#'
+  assign prod_alt = product.title | escape
+  assign has_multi_variants = false
+  if product.variants.size > 1
+    assign has_multi_variants = true
+  endif
+-%}
+
+{%- liquid
+  assign rating_value = product.metafields.reviews.rating.value.rating | default: product.metafields.custom.rating.value | default: ''
+  assign rating_count = product.metafields.reviews.rating_count.value | default: product.metafields.custom.review_count.value | default: ''
+  assign dynamic_rating_text = ''
+  if rating_value != blank
+    assign dynamic_rating_text = rating_value
+    if rating_count != blank
+      assign dynamic_rating_text = rating_value | append: ' (' | append: rating_count | append: ')'
+    endif
+  endif
+  if dynamic_rating_text == blank and rating_text != blank
+    assign dynamic_rating_text = rating_text
+  endif
+
+  assign choose_loc_value = product.metafields.custom.choose_location.value | default: product.metafields.custom.choose_location
+  assign choose_loc_str = ''
+  if choose_loc_value != blank
+    capture choose_loc_str
+      if choose_loc_value.first != blank
+        for loc_item in choose_loc_value
+          echo loc_item | downcase | strip | append: ' '
+        endfor
+      else
+        echo choose_loc_value | downcase | strip
+      endif
+    endcapture
+  endif
+
+  assign has_wb = false
+  assign has_others = false
+  if choose_loc_str contains 'west bengal' or choose_loc_str contains 'wb'
+    assign has_wb = true
+  endif
+  if choose_loc_str contains 'other' or choose_loc_str contains 'india'
+    assign has_others = true
+  endif
+
+  assign card_loc = 'all'
+  if has_wb and has_others == false
+    assign card_loc = 'wb'
+  elsif has_others and has_wb == false
+    assign card_loc = 'india'
+  endif
+-%}
+
+{%- capture quick_add_payload -%}
+{
+  "id": {{ product.id | json }},
+  "title": {{ product.title | json }},
+  "url": {{ product.url | json }},
+  "location": {{ choose_loc_value | json }},
+  "location_target": {{ card_loc | json }},
+  "rating_text": {{ dynamic_rating_text | default: rating_text | default: '' | json }},
+  "variants": [
+    {%- for variant in product.variants -%}
+      {
+        "id": {{ variant.id | json }},
+        "title": {{ variant.title | json }},
+        "available": {{ variant.available | json }},
+        "inventory_quantity": {{ variant.inventory_quantity | default: 0 | json }},
+        "inventory_management": {{ variant.inventory_management | json }},
+        "inventory_policy": {{ variant.inventory_policy | json }},
+        "quantity_rule_max": {{ variant.quantity_rule.max | default: null | json }},
+        "price": {{ variant.price | json }},
+        "price_display": {{ variant.price | money | json }},
+        "unit_price": {% if variant.unit_price_measurement %}{{ variant.unit_price | json }}{% else %}null{% endif %},
+        "unit_price_measurement": {% if variant.unit_price_measurement %}{{ variant.unit_price_measurement | json }}{% else %}null{% endif %},
+        "unit_price_display": {% if variant.unit_price_measurement %}{{ variant.unit_price | money | append: '/' | append: variant.unit_price_measurement.reference_value | append: variant.unit_price_measurement.reference_unit | replace: '/1', '/' | json }}{% else %}null{% endif %},
+        "compare_display": {% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | json }}{% else %}null{% endif %},
+        "featured_image": {% if variant.featured_media %}{{ variant.featured_media | image_url: width: 900 | json }}{% else %}null{% endif %},
+        "gallery": [
+          {%- assign variant_gallery = variant.metafields.custom.variant_gallery_images.value -%}
+          {%- if variant_gallery == blank -%}
+            {%- assign variant_gallery = variant.metafields.custom.variant_media.value -%}
+          {%- endif -%}
+          {%- if variant_gallery != blank -%}
+            {%- for gallery_image in variant_gallery -%}
+              {
+                "type": {% if gallery_image.media_type != blank %}{{ gallery_image.media_type | json }}{% elsif gallery_image.type != blank %}{{ gallery_image.type | json }}{% elsif gallery_image.content_type != blank and gallery_image.content_type contains 'video' %}"video"{% else %}"image"{% endif %},
+                "src": {% if gallery_image.preview_image != blank %}{{ gallery_image.preview_image | image_url: width: 900 | json }}{% elsif gallery_image.image != blank %}{{ gallery_image.image | image_url: width: 900 | json }}{% elsif gallery_image != blank %}{{ gallery_image | image_url: width: 900 | json }}{% else %}""{% endif %},
+                "full": {% if gallery_image.preview_image != blank %}{{ gallery_image.preview_image | image_url: width: 1400 | json }}{% elsif gallery_image.image != blank %}{{ gallery_image.image | image_url: width: 1400 | json }}{% elsif gallery_image != blank %}{{ gallery_image | image_url: width: 1400 | json }}{% else %}""{% endif %},
+                "alt": {{ gallery_image.alt | default: product.title | json }},
+                "video_url": {% if gallery_image.media_type == 'video' or gallery_image.type == 'video' or gallery_image.media_type == 'external_video' or gallery_image.type == 'external_video' or gallery_image.content_type contains 'video' %}
+                  {% if gallery_image.sources != blank %}
+                    {% capture gallery_video_url %}
+                      {% for source in gallery_image.sources %}
+                        {% if source.format == 'mp4' %}
+                          {{ source.url }}
+                          {% break %}
+                        {% endif %}
+                      {% endfor %}
+                    {% endcapture %}
+                    {{ gallery_video_url | strip | json }}
+                  {% elsif gallery_image.url != blank %}
+                    {{ gallery_image.url | json }}
+                  {% else %}
+                    ""
+                  {% endif %}
+                {% else %}
+                  ""
+                {% endif %}
+              }{%- unless forloop.last -%},{%- endunless -%}
+            {%- endfor -%}
+          {%- elsif variant.featured_media != blank -%}
+            {
+              "type": {% if variant.featured_media.media_type == 'video' or variant.featured_media.media_type == 'external_video' %}{{ variant.featured_media.media_type | json }}{% else %}"image"{% endif %},
+              "src": {{ variant.featured_media.preview_image | image_url: width: 900 | json }},
+              "full": {{ variant.featured_media.preview_image | image_url: width: 1400 | json }},
+              "alt": {{ variant.title | json }},
+              "video_url": {% if variant.featured_media.media_type == 'video' %}
+                {% capture featured_video_url %}
+                  {% for source in variant.featured_media.sources %}
+                    {% if source.format == 'mp4' %}
+                      {{ source.url }}
+                      {% break %}
+                    {% endif %}
+                  {% endfor %}
+                {% endcapture %}
+                {{ featured_video_url | strip | json }}
+              {% else %}
+                ""
+              {% endif %}
+            }
+          {%- endif -%}
+        ]
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ],
+  "fallback_gallery": [
+    {%- for media in product.media -%}
+      {
+        "type": {% if media.media_type == 'video' or media.media_type == 'external_video' %}{{ media.media_type | json }}{% else %}"image"{% endif %},
+        "src": {{ media.preview_image | image_url: width: 900 | json }},
+        "full": {{ media.preview_image | image_url: width: 1400 | json }},
+        "alt": {{ media.alt | default: product.title | json }},
+        "video_url": {% if media.media_type == 'video' %}
+          {% capture media_video_url %}
+            {% for source in media.sources %}
+              {% if source.format == 'mp4' %}
+                {{ source.url }}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+          {% endcapture %}
+          {{ media_video_url | strip | json }}
+        {% else %}
+          ""
+        {% endif %}
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}
+{%- endcapture -%}
+
+<div
+  class="{{ card_class | default: 'col-6 col-md-4 col-lg-3' }}"
+  data-ck-location="{{ card_loc }}"
+  data-product-location="{{ choose_loc_value | escape }}"
+  data-filter-collections="{{ filter_collection_handles | default: product.collections | map: 'handle' | join: ',' }}"
+>
+  <a href="{{ card_url }}" class="product-card p-reveal">
+    <div class="pack-zone">
+      {%- if v.available == false -%}
+        <span class="pc-badge out">Sold out</span>
+      {%- elsif product.tags contains 'Bestseller' -%}
+        <span class="pc-badge">Bestseller</span>
+      {%- elsif on_sale -%}
+        <span class="pc-badge">Sale</span>
+      {%- endif -%}
+      {%- if show_wish != false -%}
+        <span class="pc-wish"
+              data-wish
+              data-id="{{ product.id }}"
+              data-variant-id="{{ v.id }}"
+              data-available="{{ v.available }}"
+              data-title="{{ product.title | escape }}"
+              data-price="{{ v.price | money | escape }}"
+              data-image="{{ img | image_url: width: 200 }}"
+              data-url="{{ product.url }}"
+              data-logged-in="{% if customer %}true{% else %}false{% endif %}">
+          <i class="bi bi-heart"></i>
+        </span>
+      {%- endif -%}
+      {%- if img -%}
+        {{ img | image_url: width: 520 | image_tag: loading: 'lazy', alt: prod_alt }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+      {%- if show_rating and dynamic_rating_text != blank -%}
+        <div class="pc-mobile-rating">
+          <span class="rating-number">{{ dynamic_rating_text | split: ' (' | first }}</span>
+          <span class="rating-star">★</span>
+          <span class="rating-divider"></span>
+          <span class="rating-count">{{ dynamic_rating_text | split: '(' | last | remove: ')' }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="product-body">
+      {%- if v -%}
+        <span class="sku">{{ v.title | escape }}</span>
+      {%- endif -%}
+      <div class="p-name">{{ product.title }}</div>
+      {%- if show_desc -%}
+        <span class="p-desc">
+          {{ product.description | strip_html }}
+        </span>
+      {%- endif -%}
+      {%- if show_rating and dynamic_rating_text != blank -%}
+        <div class="pc-rating"><span class="stars">★★★★★</span> {{ rating_text }}</div>
+      {%- endif -%}
+      <div class="price-row">
+        <div class="price">
+          {{ v.price | money -}}
+          {%- if on_sale %}
+            <span class="old">{{ v.compare_at_price | money }}</span>
+          {%- endif %}
+        </div>
+        {%- if quick_add != false -%}
+          {%- if v.available -%}
+            <button
+              type="button"
+              class="buy-btn"
+              data-quick-add
+              data-id="{{ v.id }}"
+              data-product-id="{{ product.id }}"
+              data-has-multi-variants="{{ has_multi_variants }}"
+              data-max-quantity="{% if v.inventory_management == 'shopify' and v.inventory_policy != 'continue' %}{{ v.inventory_quantity | at_least: 0 }}{% endif %}"
+              data-url="{{ card_url }}"
+              aria-haspopup="dialog"
+            >
+              ADD
+            </button>
+            <div
+              class="qty-control"
+              data-qty-control
+              data-product-id="{{ product.id }}"
+              data-variant-id="{{ v.id }}"
+              data-has-multi-variants="{{ has_multi_variants }}"
+              data-max-quantity="{% if v.inventory_management == 'shopify' and v.inventory_policy != 'continue' %}{{ v.inventory_quantity | at_least: 0 }}{% endif %}"
+              hidden
+            >
+              <button type="button" class="qty-btn" onclick="chQty(event,this,-1)" aria-label="Decrease quantity">
+                −
+              </button>
+              <span class="qty-num">1</span>
+              <button type="button" class="qty-btn" onclick="chQty(event,this,1)" aria-label="Increase quantity">
+                +
+              </button>
+            </div>
+          {%- else -%}
+            <button type="button" class="buy-btn disabled">SOLD</button>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </a>
+  <script type="application/json" id="QuickAddData-{{ product.id }}">
+    {{ quick_add_payload | strip }}
+  </script>
+</div>

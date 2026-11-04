@@ -1,0 +1,659 @@
+{%- comment -%}
+  =========================================================
+  COOKME CERTIFICATIONS
+  =========================================================
+
+  Desktop / Tablet:
+  768px+ = Horizontal certification strip
+
+  Mobile:
+  <=767px = Accordion
+
+  Each certification supports:
+  1. Built-in icon
+  2. Custom uploaded image
+  3. Optional popup
+  4. Rich text popup editor
+
+  Popup is enabled per certification from Shopify Customizer.
+{%- endcomment -%}
+
+
+<section
+  class="cert-strip"
+  id="cert-strip-{{ section.id }}"
+  data-ck-location="{{ section.settings.target_location | default: 'all' }}"
+>
+
+  <div class="container">
+
+
+    <!-- =====================================================
+         DESKTOP / TABLET
+         768px+
+    ====================================================== -->
+
+    <div class="cert-strip-inner cert-desktop-view">
+
+      {%- for block in section.blocks -%}
+
+        <div
+          class="cert-item"
+          {{ block.shopify_attributes }}
+        >
+
+          <!-- =================================================
+               ICON / IMAGE
+          ================================================== -->
+
+          <div class="cert-icon-ring">
+
+            {%- if block.settings.image != blank -%}
+
+              {{ block.settings.image
+                | image_url: width: 120
+                | image_tag:
+                  loading: 'lazy',
+                  alt: block.settings.label
+              }}
+
+            {%- else -%}
+
+              {%- case block.settings.icon -%}
+
+                {%- when 'leaf' -%}
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M21 3C21 3 13 3 8 8c-3 3-4 7-3 11 4 1 8 0 11-3 5-5 5-13 5-13z"/>
+                    <path d="M3 21c3-3 5-5 6-8"/>
+                  </svg>
+
+
+                {%- when 'shield' -%}
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                  </svg>
+
+
+                {%- when 'flask' -%}
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M9 3h6M10 3v6l-4 7a2 2 0 0 0 1.7 3h8.6a2 2 0 0 0 1.7-3l-4-7V3"/>
+                    <line
+                      x1="4"
+                      y1="4"
+                      x2="20"
+                      y2="20"
+                    />
+                  </svg>
+
+
+                {%- else -%}
+
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                    />
+                    <path d="M8 12.5l2.5 2.5L16 9.5"/>
+                  </svg>
+
+              {%- endcase -%}
+
+            {%- endif -%}
+
+          </div>
+
+
+          <!-- =================================================
+               TEXT
+          ================================================== -->
+
+          <div class="cert-text">
+
+            <div class="cert-label">
+
+              {%- if block.settings.label_em != blank -%}
+
+                <em>
+                  {{ block.settings.label_em }}
+                </em>
+
+              {%- endif -%}
+
+              {{ block.settings.label }}
+
+            </div>
+
+
+            <div class="cert-desc">
+              {{ block.settings.desc }}
+            </div>
+
+          </div>
+
+
+          <!-- =================================================
+               PLUS BUTTON
+               ONLY SHOWS WHEN POPUP IS ENABLED
+          ================================================== -->
+
+          {%- if block.settings.enable_popup
+            and block.settings.popup_content != blank
+          -%}
+
+            <button
+              type="button"
+              class="cert-popup-trigger"
+              data-cert-popup-open="certPopup-{{ section.id }}-{{ block.id }}"
+              aria-label="View {{ block.settings.label }} details"
+            >
+
+              <span>+</span>
+
+            </button>
+
+          {%- endif -%}
+
+        </div>
+
+      {%- endfor -%}
+
+    </div>
+
+
+    <!-- =====================================================
+         MOBILE ACCORDION
+         <=767px
+    ====================================================== -->
+
+    <div class="cert-mobile-view">
+
+
+      <!-- ===================================================
+           ACCORDION HEADER
+      ==================================================== -->
+
+      <button
+        type="button"
+        class="cert-mobile-toggle"
+        aria-expanded="false"
+        aria-controls="certMobileContent-{{ section.id }}"
+      >
+
+         <span class="cert-mobile-left">
+
+          <span class="cert-mobile-shield" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </span>
+
+          <span class="cert-mobile-title">
+            Cookme Certifications
+          </span>
+
+        </span>
+
+
+        <span
+          class="cert-mobile-arrow"
+          aria-hidden="true"
+        >
+
+          <i class="bi bi-chevron-down"></i>
+
+        </span>
+
+      </button>
+
+
+      <!-- ===================================================
+           ACCORDION CONTENT
+      ==================================================== -->
+
+      <div
+        id="certMobileContent-{{ section.id }}"
+        class="cert-mobile-content"
+        hidden
+      >
+
+        {%- for block in section.blocks -%}
+
+          <div
+            class="cert-mobile-item"
+            {{ block.shopify_attributes }}
+          >
+
+
+            <!-- =============================================
+                 MOBILE ICON
+            ============================================== -->
+
+            <div class="cert-mobile-icon">
+
+              {%- if block.settings.image != blank -%}
+
+                {{ block.settings.image
+                  | image_url: width: 100
+                  | image_tag:
+                    loading: 'lazy',
+                    alt: block.settings.label
+                }}
+
+              {%- else -%}
+
+                {%- case block.settings.icon -%}
+
+                  {%- when 'leaf' -%}
+
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M21 3C21 3 13 3 8 8c-3 3-4 7-3 11 4 1 8 0 11-3 5-5 5-13 5-13z"/>
+                      <path d="M3 21c3-3 5-5 6-8"/>
+                    </svg>
+
+
+                  {%- when 'shield' -%}
+
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/>
+                      <path d="M9 12l2 2 4-4"/>
+                    </svg>
+
+
+                  {%- when 'flask' -%}
+
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M9 3h6M10 3v6l-4 7a2 2 0 0 0 1.7 3h8.6a2 2 0 0 0 1.7-3l-4-7V3"/>
+                      <line
+                        x1="4"
+                        y1="4"
+                        x2="20"
+                        y2="20"
+                      />
+                    </svg>
+
+
+                  {%- else -%}
+
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                      />
+                      <path d="M8 12.5l2.5 2.5L16 9.5"/>
+                    </svg>
+
+                {%- endcase -%}
+
+              {%- endif -%}
+
+            </div>
+
+
+            <!-- =============================================
+                 MOBILE TEXT
+            ============================================== -->
+
+            <div class="cert-mobile-text">
+
+              <div class="cert-mobile-label">
+
+                {%- if block.settings.label_em != blank -%}
+
+                  <em>
+                    {{ block.settings.label_em }}
+                  </em>
+
+                {%- endif -%}
+
+                {{ block.settings.label }}
+
+              </div>
+
+
+              <div class="cert-mobile-desc">
+                {{ block.settings.desc }}
+              </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 MOBILE PLUS
+            ============================================== -->
+
+            {%- if block.settings.enable_popup
+              and block.settings.popup_content != blank
+            -%}
+
+              <button
+                type="button"
+                class="cert-popup-trigger cert-popup-trigger-mobile"
+                data-cert-popup-open="certPopup-{{ section.id }}-{{ block.id }}"
+                aria-label="View {{ block.settings.label }} details"
+              >
+
+                <span>+</span>
+
+              </button>
+
+            {%- endif -%}
+
+          </div>
+
+        {%- endfor -%}
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       CERTIFICATION POPUPS
+       ONE POPUP FOR EACH ENABLED CERTIFICATION
+  ====================================================== -->
+
+  {%- for block in section.blocks -%}
+
+    {%- if block.settings.enable_popup
+      and block.settings.popup_content != blank
+    -%}
+
+      <div
+        id="certPopup-{{ section.id }}-{{ block.id }}"
+        class="cert-popup"
+        aria-hidden="true"
+      >
+
+        <!-- BACKDROP -->
+
+        <div
+          class="cert-popup-overlay"
+          data-cert-popup-close
+        ></div>
+
+
+        <!-- POPUP BOX -->
+
+        <div
+          class="cert-popup-dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="certPopupTitle-{{ section.id }}-{{ block.id }}"
+        >
+
+
+          <!-- CLOSE BUTTON -->
+
+          <button
+            type="button"
+            class="cert-popup-close"
+            data-cert-popup-close
+            aria-label="Close popup"
+          >
+
+            <i class="bi bi-x-lg"></i>
+
+          </button>
+
+
+          <!-- POPUP HEADER -->
+
+          <div class="cert-popup-header">
+
+            <span class="cert-popup-eyebrow">
+              Cookme Certification
+            </span>
+
+
+            <h3
+              id="certPopupTitle-{{ section.id }}-{{ block.id }}"
+            >
+
+              {%- if block.settings.label_em != blank -%}
+
+                <span>
+                  {{ block.settings.label_em }}
+                </span>
+
+              {%- endif -%}
+
+              {{ block.settings.label }}
+
+            </h3>
+
+          </div>
+
+
+          <!-- POPUP RICH TEXT CONTENT -->
+
+          <div class="cert-popup-body">
+
+            {{ block.settings.popup_content }}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    {%- endif -%}
+
+  {%- endfor -%}
+
+</section>
+
+{% schema %}
+{
+  "name": "Certifications",
+
+  "settings": [
+    {
+      "type": "select",
+      "id": "target_location",
+      "label": "Location Visibility",
+      "options": [
+        { "value": "all", "label": "All Locations" },
+        { "value": "wb", "label": "West Bengal Only" },
+        { "value": "india", "label": "Out of West Bengal (Rest of India)" }
+      ],
+      "default": "all"
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "cert",
+
+      "name": "Certification",
+
+      "settings": [
+
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+
+          "options": [
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "flask",
+              "label": "Flask"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            }
+          ],
+
+          "default": "shield"
+        },
+
+
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Icon / Image",
+
+          "info": "Upload an image. If uploaded, it will be used instead of the selected icon."
+        },
+
+
+        {
+          "type": "text",
+          "id": "label_em",
+          "label": "Highlight word",
+          "default": "FSSAI"
+        },
+
+
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Certified"
+        },
+
+
+        {
+          "type": "textarea",
+          "id": "desc",
+          "label": "Description",
+          "default": "Strict food safety & hygiene standards followed."
+        },
+
+
+        {
+          "type": "checkbox",
+          "id": "enable_popup",
+          "label": "Enable Certificate Popup",
+          "default": false,
+
+          "info": "Turn ON to show the + button and enable the certificate popup."
+        },
+
+
+        {
+          "type": "liquid",
+          "id": "popup_content",
+          "label": "Certificate Popup HTML / Liquid",
+          "info": "Add custom HTML, inline CSS, and Liquid code for this certificate popup."
+        }
+
+      ]
+    }
+  ],
+
+
+  "presets": [
+    {
+      "name": "Certifications",
+
+      "blocks": [
+
+        {
+          "type": "cert",
+
+          "settings": {
+
+            "icon": "shield",
+
+            "label_em": "FSSAI",
+
+            "label": "Certified",
+
+            "desc": "Lic. No. 10014031001052 — Strict food safety & hygiene standards followed.",
+
+            "enable_popup": true,
+
+            "popup_content": "<p><strong>FSSAI Certified</strong></p><p>Our products follow strict food safety and hygiene standards.</p><p><strong>License No.</strong><br/>10014031001052</p>"
+          }
+        },
+
+
+        {
+          "type": "cert",
+
+          "settings": {
+
+            "icon": "leaf",
+
+            "label_em": "100%",
+
+            "label": "Natural Ingredients",
+
+            "desc": "No artificial colours, flavours or added preservatives — ever.",
+
+            "enable_popup": false
+          }
+        },
+
+
+        {
+          "type": "cert",
+
+          "settings": {
+
+            "icon": "flask",
+
+            "label_em": "No",
+
+            "label": "Artificial Preservatives",
+
+            "desc": "Pure spice, nothing synthetic — honest ingredients in every pack.",
+
+            "enable_popup": false
+          }
+        }
+
+      ]
+    }
+  ],
+
+
+  "enabled_on": {
+    "templates": [
+      "index"
+    ]
+  }
+}
+{% endschema %}

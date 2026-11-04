@@ -1,0 +1,613 @@
+{%- comment -%}
+  Cookme Shop by Category
+  Dynamic Shopify section
+  - Dynamic category image
+  - Dynamic category icon
+  - Dynamic background color
+  - Dynamic title
+  - Dynamic subtitle
+  - Dynamic link
+{%- endcomment -%}
+
+{%- assign default_cats = 'blended-spices,curry-pasted,ground-spices-img,home-deligates' | split: ',' -%}
+{%- assign default_icons = 'blended-spices-icon,curry-pasted-icon,ground-spices-icon,home-delighats-icon' | split: ',' -%}
+{%- assign default_titles = 'Blended Spices,Curry Pastes,Ground Spices,Home Delights' | split: ',' -%}
+{%- assign default_subtitles = '40+ Products,Posto • Mustard • Non-veg,Turmeric • Cumin • Chilli,Malpua • Dhoka • Papad' | split: ',' -%}
+{%- assign default_styles = 'blended,curry,ground,delights' | split: ',' -%}
+{%- assign default_colors = '#f5e6d3,#f3e4c1,#e6ebe0,#f2dfd5' | split: ',' -%}
+
+<section
+  class="light-section-wrap cat-section-header"
+  id="categories-{{ section.id }}"
+  data-ck-location="{{ section.settings.target_location | default: 'all' }}"
+>
+
+  {%- comment -%}
+    =========================
+    CATEGORY HEADER
+    =========================
+  {%- endcomment -%}
+
+  <div class="container" id="categories">
+
+    <div class="cat-header">
+
+      <div class="cat-header-left">
+
+        {%- if section.settings.browse_label != blank -%}
+
+          <div class="eyebrow">
+            {{ section.settings.browse_label }}
+          </div>
+
+        {%- endif -%}
+
+
+        <h2 class="cat-section-title">
+
+          {{ section.settings.title }}
+
+        </h2>
+
+
+        {%- if section.settings.subtitle != blank -%}
+
+          <p class="cat-section-subtitle">
+            {{ section.settings.subtitle }}
+          </p>
+
+        {%- endif -%}
+
+      </div>
+
+
+      {%- if section.settings.view_all_text != blank -%}
+
+        <div class="cat-header-right">
+
+          <a
+            href="{{ section.settings.view_all_link | default: routes.all_products_collection_url }}"
+            class="btn-pill btn-red"
+          >
+
+            <span class="cat-text">
+              {{ section.settings.view_all_text }}
+            </span>
+
+            <span class="bc">
+              <i class="bi bi-arrow-right"></i>
+            </span>
+
+          </a>
+
+        </div>
+
+      {%- endif -%}
+
+    </div>
+
+  </div>
+
+
+  {%- comment -%}
+    =========================
+    CATEGORY CARDS
+    =========================
+  {%- endcomment -%}
+
+  <div class="cat-cards-section">
+
+    <div class="container">
+
+      <div class="cat-carousel" id="catCarousel">
+
+        <button
+          class="cat-car-arrow prev"
+          id="catPrev"
+          aria-label="Previous categories"
+          type="button"
+        >
+          <i class="bi bi-chevron-left"></i>
+        </button>
+
+
+        <div class="cat-track-wrap">
+
+          <div
+            class="row g-2 g-md-4 cat-track"
+            id="catTrack"
+          >
+
+            {%- for block in section.blocks -%}
+
+              {%- liquid
+
+                assign idx = forloop.index0
+
+                comment
+                  --------------------------------
+                  CARD STYLE
+                endcomment
+
+                assign card_style = block.settings.card_style
+
+                if card_style == blank
+                  if idx < 4
+                    assign card_style = default_styles[idx]
+                  else
+                    assign card_style = 'blended'
+                  endif
+                endif
+
+
+                comment
+                  --------------------------------
+                  MAIN IMAGE
+                endcomment
+
+                assign img = block.settings.image
+
+                if img != blank
+
+                  assign img_url = img | image_url: width: 900
+
+                elsif idx < 4
+
+                  assign img_name = default_cats[idx]
+                  assign img_url = img_name | append: '.webp' | asset_url
+
+                else
+
+                  assign img_url = ''
+
+                endif
+
+
+                comment
+                  --------------------------------
+                  ICON
+                endcomment
+
+                assign icon = block.settings.icon
+
+                if icon != blank
+
+                  assign icon_url = icon | image_url: width: 200
+
+                elsif idx < 4
+
+                  assign icon_name = default_icons[idx]
+                  assign icon_url = icon_name | append: '.webp' | asset_url
+
+                else
+
+                  assign icon_url = ''
+
+                endif
+
+
+                comment
+                  --------------------------------
+                  TITLE
+                endcomment
+
+                assign card_title = block.settings.title
+
+                if card_title == blank and idx < 4
+                  assign card_title = default_titles[idx]
+                endif
+
+
+                comment
+                  --------------------------------
+                  SUBTITLE
+                endcomment
+
+                assign card_subtitle = block.settings.accent
+
+                if card_subtitle == blank and idx < 4
+                  assign card_subtitle = default_subtitles[idx]
+                endif
+
+
+                comment
+                  --------------------------------
+                  BACKGROUND COLOR
+                endcomment
+
+                assign card_bg = block.settings.background_color
+
+                if card_bg == blank and idx < 4
+                  assign card_bg = default_colors[idx]
+                endif
+
+                if card_bg == blank
+                  assign card_bg = '#ffffff'
+                endif
+
+
+                comment
+                  --------------------------------
+                  LINK
+                endcomment
+
+                assign card_link = block.settings.link
+
+                if card_link == blank
+                  assign card_link = routes.all_products_collection_url
+                endif
+
+              -%}
+
+
+              <div
+                class="col-6 col-lg-3"
+                {{ block.shopify_attributes }}
+              >
+
+                <div class="cat-card-outer">
+
+                  <a
+                    href="{{ card_link }}"
+                    class="cat-card-light {{ card_style }} position-relative"
+                    style="background-color: {{ card_bg }};"
+                  >
+
+                    {%- comment -%}
+                      CATEGORY ICON
+                    {%- endcomment -%}
+
+                    {%- if icon_url != blank -%}
+
+                      <div class="cat-icon-wrap-light">
+
+                        <img
+                          src="{{ icon_url }}"
+                          alt="{{ card_title | escape }} Icon"
+                          loading="lazy"
+                          width="100"
+                          height="100"
+                        >
+
+                      </div>
+
+                    {%- endif -%}
+
+
+                    {%- comment -%}
+                      CARD INNER
+                    {%- endcomment -%}
+
+                    <div class="cat-card-inner-light">
+
+                      {%- comment -%}
+                        MAIN IMAGE
+                      {%- endcomment -%}
+
+                      {%- if img_url != blank -%}
+
+                        <div class="cat-img-area-light">
+
+                          <img
+                            src="{{ img_url }}"
+                            alt="{{ card_title | escape }}"
+                            loading="lazy"
+                            width="900"
+                            height="700"
+                          >
+
+                        </div>
+
+                      {%- endif -%}
+
+
+                      {%- comment -%}
+                        CARD BODY
+                      {%- endcomment -%}
+
+                      <div class="cat-body-light">
+
+                        <div>
+
+                          {%- if card_title != blank -%}
+
+                            <div class="cat-name-light">
+                              {{ card_title }}
+                            </div>
+
+                          {%- endif -%}
+
+
+                          {%- if card_subtitle != blank -%}
+
+                            <p class="cat-sub-light{% if block.settings.accent_style %} accent{% endif %}">
+                              {{ card_subtitle }}
+                            </p>
+
+                          {%- endif -%}
+
+                        </div>
+
+
+                        {%- comment -%}
+                          ARROW
+                        {%- endcomment -%}
+
+                        <div
+                          class="cat-arrow-light"
+                        >
+
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            width="16"
+                            height="16"
+                            aria-hidden="true"
+                          >
+
+                            <path
+                              d="M9 18l6-6-6-6"
+                              stroke="#fff"
+                              stroke-width="2.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+
+                          </svg>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </a>
+
+                </div>
+
+              </div>
+
+            {%- endfor -%}
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="cat-car-arrow next"
+          id="catNext"
+          aria-label="Next categories"
+          type="button"
+        >
+          <i class="bi bi-chevron-right"></i>
+        </button>
+
+      </div>
+
+
+      <div
+        class="cat-dots"
+        id="catDots"
+      ></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+{% schema %}
+
+{
+  "name": "Category Cards",
+
+  "settings": [
+
+    {
+      "type": "select",
+      "id": "target_location",
+      "label": "Location Visibility",
+      "options": [
+        { "value": "all", "label": "All Locations" },
+        { "value": "wb", "label": "West Bengal Only" },
+        { "value": "india", "label": "Out of West Bengal (Rest of India)" }
+      ],
+      "default": "all"
+    },
+
+    {
+      "type": "text",
+      "id": "browse_label",
+      "label": "Browse Label",
+      "default": "Browse by type"
+    },
+
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Shop by <span class=\"highlight\">Category</span>"
+    },
+
+    {
+      "type": "text",
+      "id": "title_em",
+      "label": "Highlighted Title",
+      "default": "Category"
+    },
+
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Explore our handpicked range of authentic spices and blends"
+    },
+
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "View All Button Text",
+      "default": "View All Categories"
+    },
+
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View All Categories Link"
+    }
+
+  ],
+
+  "blocks": [
+
+    {
+      "type": "category",
+
+      "name": "Category",
+
+      "settings": [
+
+        {
+          "type": "select",
+          "id": "card_style",
+          "label": "Card Style",
+          "default": "blended",
+
+          "options": [
+            {
+              "value": "blended",
+              "label": "Blended Spices"
+            },
+            {
+              "value": "curry",
+              "label": "Curry Pastes"
+            },
+            {
+              "value": "ground",
+              "label": "Ground Spices"
+            },
+            {
+              "value": "delights",
+              "label": "Home Delights"
+            }
+          ]
+        },
+
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Category Icon"
+        },
+
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        },
+
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Card Background Color",
+          "default": "#e6ebe0"
+        },
+
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Blended Spices"
+        },
+
+        {
+          "type": "text",
+          "id": "accent",
+          "label": "Category Subtitle",
+          "default": "40+ Products"
+        },
+
+        {
+          "type": "checkbox",
+          "id": "accent_style",
+          "label": "Use Accent Text Style",
+          "default": false
+        },
+
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Category Link"
+        }
+
+      ]
+    }
+
+  ],
+
+  "presets": [
+
+    {
+      "name": "Cookme Category Cards",
+
+      "settings": {
+        "browse_label": "Browse by type",
+        "title": "Shop by <span class=\"highlight\">Category</span>",
+        "subtitle": "Explore our handpicked range of authentic spices and blends",
+        "view_all_text": "View All Categories"
+      },
+
+      "blocks": [
+
+        {
+          "type": "category",
+          "settings": {
+            "card_style": "blended",
+            "title": "Blended Spices",
+            "accent": "40+ Products",
+            "accent_style": true,
+            "background_color": "#f5e6d3"
+          }
+        },
+
+        {
+          "type": "category",
+          "settings": {
+            "card_style": "curry",
+            "title": "Curry Pastes",
+            "accent": "Posto • Mustard • Non-veg",
+            "accent_style": false,
+            "background_color": "#f3e4c1"
+          }
+        },
+
+        {
+          "type": "category",
+          "settings": {
+            "card_style": "ground",
+            "title": "Ground Spices",
+            "accent": "Turmeric • Cumin • Chilli",
+            "accent_style": false,
+            "background_color": "#e6ebe0"
+          }
+        },
+
+        {
+          "type": "category",
+          "settings": {
+            "card_style": "delights",
+            "title": "Home Delights",
+            "accent": "Malpua • Dhoka • Papad",
+            "accent_style": true,
+            "background_color": "#f2dfd5"
+          }
+        }
+
+      ]
+    }
+
+  ],  
+}
+
+{% endschema %}

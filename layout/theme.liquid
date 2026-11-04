@@ -1,0 +1,698 @@
+<!doctype html>
+<html class="js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <!-- Google Tag Manager -->
+    <script>
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+      var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),
+          dl=l!='dataLayer'?'&l='+l:'';
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P86QK3H3');
+    </script>
+    <!-- End Google Tag Manager -->
+
+    <meta charset="utf-8">
+    <script>
+      (function() {
+        try {
+          var pathname = window.location.pathname;
+          var pin = localStorage.getItem('ck_pincode') || '';
+          var state = localStorage.getItem('ck_pincode_state') || '';
+          var outOfWb = localStorage.getItem('ck_out_of_wb');
+          var isOut = false;
+          if (outOfWb === 'true') {
+            isOut = true;
+          } else if (outOfWb === 'false') {
+            isOut = false;
+          } else if (pin || state) {
+            if (state) {
+              var s = state.trim().toLowerCase();
+              if (s === 'west bengal' || s.indexOf('west bengal') !== -1 || s === 'wb') {
+                isOut = false;
+              } else if (s.length > 0) {
+                isOut = true;
+              }
+            }
+            if (pin) {
+              var clean = String(pin).replace(/\D/g, '').slice(0, 6);
+              if (clean.length === 6) {
+                var p2 = clean.slice(0, 2), p3 = clean.slice(0, 3);
+                if (p2 === '70' || p2 === '71' || p2 === '72') isOut = false;
+                else if (p2 === '73' && p3 !== '737') isOut = false;
+                else if (p2 === '74' && p3 !== '744') isOut = false;
+                else isOut = true;
+              }
+            }
+          } {%- if customer and customer.default_address -%}
+          else {
+            var custState = {{ customer.default_address.province | default: '' | json }};
+            var custZip = {{ customer.default_address.zip | default: '' | json }};
+            if (custState) {
+              var cs = custState.trim().toLowerCase();
+              if (cs === 'west bengal' || cs.indexOf('west bengal') !== -1 || cs === 'wb') isOut = false;
+              else if (cs.length > 0) isOut = true;
+            }
+            if (custZip) {
+              var cclean = String(custZip).replace(/\D/g, '').slice(0, 6);
+              if (cclean.length === 6) {
+                var cp2 = cclean.slice(0, 2), cp3 = cclean.slice(0, 3);
+                if (cp2 === '70' || cp2 === '71' || cp2 === '72') isOut = false;
+                else if (cp2 === '73' && cp3 !== '737') isOut = false;
+                else if (cp2 === '74' && cp3 !== '744') isOut = false;
+                else isOut = true;
+              }
+            }
+          }
+          {%- endif -%}
+          if (isOut === true) {
+            document.documentElement.classList.add('ck-loc-india');
+            document.documentElement.classList.remove('ck-loc-wb');
+          } else {
+            document.documentElement.classList.add('ck-loc-wb');
+            document.documentElement.classList.remove('ck-loc-india');
+          }
+          if (isOut === false) {
+            if (/^\/collections\/(all|india)(\/.*)?$/i.test(pathname)) {
+              var target = pathname.replace(/^\/collections\/(all|india)(?=[\/?#]|$)/i, '/collections/west-bengal') + window.location.search + window.location.hash;
+              window.location.replace(target);
+            }
+          } else if (isOut === true) {
+            if (/^\/collections\/(all|west-bengal)(\/.*)?$/i.test(pathname)) {
+              var target = pathname.replace(/^\/collections\/(all|west-bengal)(?=[\/?#]|$)/i, '/collections/india') + window.location.search + window.location.hash;
+              window.location.replace(target);
+            }
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <style id="ck-location-styles">
+      html.ck-loc-wb [data-ck-location="india"],
+      html.ck-loc-wb [data-ck-location="others"],
+      html.ck-loc-wb [data-ck-location="Others"],
+      html:not(.ck-loc-india) [data-ck-location="india"],
+      html:not(.ck-loc-india) [data-ck-location="others"],
+      html:not(.ck-loc-india) [data-ck-location="Others"] {
+        display: none !important;
+      }
+      html.ck-loc-india [data-ck-location="wb"],
+      html.ck-loc-india [data-ck-location="west-bengal"],
+      html.ck-loc-india [data-ck-location="West Bengal"] {
+        display: none !important;
+      }
+
+      /* PDP Delivery Restrictions */
+      html.ck-loc-wb [data-pdp-location="india"] .qty-stepper-lg,
+      html.ck-loc-wb [data-pdp-location="india"] .qty-stepper-mob,
+      html:not(.ck-loc-india) [data-pdp-location="india"] .qty-stepper-lg,
+      html:not(.ck-loc-india) [data-pdp-location="india"] .qty-stepper-mob,
+      html.ck-loc-india [data-pdp-location="wb"] .qty-stepper-lg,
+      html.ck-loc-india [data-pdp-location="wb"] .qty-stepper-mob {
+        opacity: 0.55 !important;
+        pointer-events: none !important;
+        cursor: not-allowed !important;
+      }
+      html.ck-loc-wb [data-pdp-location="india"] #ckPdpAddBtn,
+      html.ck-loc-wb [data-pdp-location="india"] #mobAddToCart,
+      html:not(.ck-loc-india) [data-pdp-location="india"] #ckPdpAddBtn,
+      html:not(.ck-loc-india) [data-pdp-location="india"] #mobAddToCart,
+      html.ck-loc-india [data-pdp-location="wb"] #ckPdpAddBtn,
+      html.ck-loc-india [data-pdp-location="wb"] #mobAddToCart {
+        opacity: 0.55 !important;
+        pointer-events: none !important;
+        cursor: not-allowed !important;
+      }
+    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    {% comment %} <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title> {% endcomment %}
+
+    {% if request.page_type == 'index' %}
+      <title>{{ page_title }}</title>
+    {% else %}
+      <title>
+        {{ page_title }}
+        {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+        {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      </title>
+    {% endif %}
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600;1,700&family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css"
+    />
+
+    <script type="module">
+      import * as StandardEvents from 'https://cdn.shopify.com/storefront/standard-events.js';
+
+      window.StandardEvents = StandardEvents;
+
+      customElements.define('collection-component', StandardEvents.createViewEventElement());
+      customElements.define(
+        'product-component',
+        StandardEvents.createViewEventElement(HTMLElement, { defaultTrigger: 'intersect' })
+      );
+
+      document.addEventListener(
+        'DOMContentLoaded',
+        () => {
+          const template = document.querySelector('main[data-template]')?.dataset.template || '';
+          document.dispatchEvent(
+            new StandardEvents.PageViewEvent({
+              page: { template, title: document.title, url: window.location.href },
+            })
+          );
+        },
+        { once: true }
+      );
+    </script>
+
+    <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'cart-disclosure-modal.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'cart-disclosure-tooltip.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'standard-actions-override.js' | asset_url }}" defer="defer"></script>
+
+    {%- if settings.animations_reveal_on_scroll -%}
+      <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {{ content_for_header }}
+
+    {%- liquid
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+
+    {% style %}
+      {{ settings.type_body_font | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+      {% for scheme in settings.color_schemes -%}
+
+        {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
+
+        {% if forloop.index == 1 -%}
+          :root,
+        {%- endif %}
+
+        .color-{{ scheme.id }} {
+
+          --color-background:
+            {{ scheme.settings.background.red }},
+            {{ scheme.settings.background.green }},
+            {{ scheme.settings.background.blue }};
+
+          {% if scheme.settings.background_gradient != empty %}
+
+            --gradient-background:
+              {{ scheme.settings.background_gradient }};
+
+          {% else %}
+
+            --gradient-background:
+              {{ scheme.settings.background }};
+
+          {% endif %}
+
+          {% liquid
+            assign background_color = scheme.settings.background
+            assign background_color_brightness = background_color | color_brightness
+
+            if background_color_brightness <= 26
+              assign background_color_contrast = background_color | color_lighten: 50
+
+            elsif background_color_brightness <= 65
+              assign background_color_contrast = background_color | color_lighten: 5
+
+            else
+              assign background_color_contrast = background_color | color_darken: 25
+            endif
+          %}
+
+          --color-foreground:
+            {{ scheme.settings.text.red }},
+            {{ scheme.settings.text.green }},
+            {{ scheme.settings.text.blue }};
+
+          --color-background-contrast:
+            {{ background_color_contrast.red }},
+            {{ background_color_contrast.green }},
+            {{ background_color_contrast.blue }};
+
+          --color-shadow:
+            {{ scheme.settings.shadow.red }},
+            {{ scheme.settings.shadow.green }},
+            {{ scheme.settings.shadow.blue }};
+
+          --color-button:
+            {{ scheme.settings.button.red }},
+            {{ scheme.settings.button.green }},
+            {{ scheme.settings.button.blue }};
+
+          --color-button-text:
+            {{ scheme.settings.button_label.red }},
+            {{ scheme.settings.button_label.green }},
+            {{ scheme.settings.button_label.blue }};
+
+          --color-secondary-button:
+            {{ scheme.settings.background.red }},
+            {{ scheme.settings.background.green }},
+            {{ scheme.settings.background.blue }};
+
+          --color-secondary-button-text:
+            {{ scheme.settings.secondary_button_label.red }},
+            {{ scheme.settings.secondary_button_label.green }},
+            {{ scheme.settings.secondary_button_label.blue }};
+
+          --color-link:
+            {{ scheme.settings.secondary_button_label.red }},
+            {{ scheme.settings.secondary_button_label.green }},
+            {{ scheme.settings.secondary_button_label.blue }};
+
+          --color-badge-foreground:
+            {{ scheme.settings.text.red }},
+            {{ scheme.settings.text.green }},
+            {{ scheme.settings.text.blue }};
+
+          --color-badge-background:
+            {{ scheme.settings.background.red }},
+            {{ scheme.settings.background.green }},
+            {{ scheme.settings.background.blue }};
+
+          --color-badge-border:
+            {{ scheme.settings.text.red }},
+            {{ scheme.settings.text.green }},
+            {{ scheme.settings.text.blue }};
+
+          --payment-terms-background-color:
+            rgb({{ scheme.settings.background.rgb }});
+
+        }
+
+      {% endfor %}
+
+      {{ scheme_classes | prepend: 'body' }} {
+        color: rgba(var(--color-foreground), 0.75);
+        background-color: rgb(var(--color-background));
+      }
+    {% endstyle %}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
+
+    {%- if settings.cart_type == 'drawer' -%}
+      {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+      {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+      {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+      {{ 'component-price.css' | asset_url | stylesheet_tag }}
+      {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+    {%- endif -%}
+
+    {%- unless settings.type_body_font.system? -%}
+      {% comment %}theme-check-disable AssetPreload{% endcomment %}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+      {% comment %}theme-check-enable AssetPreload{% endcomment %}
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      {% comment %}theme-check-disable AssetPreload{% endcomment %}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+      {% comment %}theme-check-enable AssetPreload{% endcomment %}
+    {%- endunless -%}
+
+    {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+      {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {%- if settings.predictive_search_enabled -%}
+      <link
+        rel="stylesheet"
+        href="{{ 'component-predictive-search.css' | asset_url }}"
+        media="print"
+        onload="this.media='all'"
+      >
+    {%- endif -%}
+
+    <script>
+      if (Shopify.designMode) {
+        document.documentElement.classList.add('shopify-design-mode');
+      }
+    </script>
+    {{ 'cookme-custom.css' | asset_url | stylesheet_tag }}
+    {{ 'cookme-shop-pages.css' | asset_url | stylesheet_tag }}
+    {{ 'cookme-patch.css' | asset_url | stylesheet_tag }}
+    {{ 'cookme-cart-page.css' | asset_url | stylesheet_tag }}
+
+    
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);
+      t.async=1;
+      t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];
+      y.parentNode.insertBefore(t,y);
+    })(window,document,"clarity","script","jjl8r3pkhq");
+    </script>
+
+    <!-- Meta Pixel -->
+    <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;
+      n=f.fbq=function(){
+        n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)
+      };
+      if(!f._fbq)f._fbq=n;
+      n.push=n;
+      n.loaded=!0;
+      n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);
+      t.async=!0;
+      t.src=v;
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s);
+    }(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init','856354566428824');
+    fbq('track','PageView');
+    </script>
+
+    <!-- Organization Structured Data -->
+    <script type="application/ld+json">
+      {
+      "@context": "https://schema.org",
+      "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://shop.cookme.in/#org",
+            "name": "Cookme Spices",
+            "legalName": "Krishna Chandra Dutta (Spice) Pvt Ltd",
+            "url": "https://shop.cookme.in/",
+            "logo": "https://shop.cookme.in/cdn/shop/files/logo.png",
+            "telephone": "+91-9875430138",
+            "foundingDate": "1847",
+            "address": {"@type": "PostalAddress", "addressLocality": "Kolkata", "addressRegion": "West Bengal", "addressCountry": "IN"},
+              "sameAs": [
+              "https://www.facebook.com/cookmespice/",
+              "https://www.instagram.com/cookmespices/",
+              "https://www.youtube.com/@cookmespice7002",
+              "https://www.linkedin.com/company/krishna-chandra-dutta-spice-pvt.-ltd./"
+              ]
+          },
+          {
+            "@type": "WebSite",
+            "url": "https://shop.cookme.in/",
+            "name": "Cookme Spices",
+            "publisher": {"@id": "https://shop.cookme.in/#org"},
+            "potentialAction": {"@type": "SearchAction", "target": "https://shop.cookme.in/search?q={search_term_string}", "query-input": "required name=search_term_string"}
+          }
+        ]
+      } 
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "Where can I buy authentic Bengali masala online?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can buy authentic Bengali masalas online from Cookme's official store at shop.cookme.in. Cookme is a Kolkata-based spice brand offering blended masalas, ground spices and spice pastes, with delivery across India."
+        }
+      },{
+        "@type": "Question",
+        "name": "Is Cookme FSSAI certified?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Cookme products are made under FSSAI Licence No. 10014031001052 and follow applicable food safety and hygiene standards."
+        }
+      },{
+        "@type": "Question",
+        "name": "Does Cookme masala contain artificial colours or preservatives?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cookme states that its spices contain no artificial colours, flavours or added preservatives. Always check the ingredient list on the pack of the specific product you are buying."
+        }
+      },{
+        "@type": "Question",
+        "name": "Which Cookme masala is best for biryani?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cookme Biryani Masala is made for home-style biryani and works well with mutton or chicken. Pair it with Garam Masala for extra depth."
+        }
+      },{
+        "@type": "Question",
+        "name": "Do you deliver outside West Bengal?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Cookme delivers across India. Enter your pincode on the website to confirm delivery availability for your location."
+        }
+      },{
+        "@type": "Question",
+        "name": "Do you supply restaurants and caterers in bulk?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Cookme offers custom pack sizes, priority fulfilment, direct invoicing and dedicated support for restaurants, caterers, large households and resellers."
+        }
+      },{
+        "@type": "Question",
+        "name": "How long has Cookme been making spices?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Cookme has a Kolkata spice heritage dating back to 1847, which the brand describes as over 179 years of tradition."
+        }
+      }]
+    }
+    </script>
+
+    <!-- Facebook Domain Verification -->
+    <meta name="facebook-domain-verification"
+          content="u70g13sufzistia04os8dr4blu61eq">
+    <!-- Meta Keywords -->
+    <meta name="keywords" content="cookme spices, buy masala online, bengali spices online, bengali masala, biryani masala, garam masala powder, alur dom masala, chicken curry masala, butter chicken masala, chana masala, black pepper powder, ground spices, blended spices, kolkata spice brand, FSSAI certified spices, no artificial colour masala, spices online india">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HR63LBR8M9"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HR63LBR8M9');
+    </script>
+  </head>
+
+  <body
+    class="gradient{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}"
+    data-money="{{ shop.money_format | escape }}"
+    data-cart-url="{{ routes.cart_url }}"
+    data-customer-logged-in="{% if customer %}true{% else %}false{% endif %}"
+    data-customer-id="{% if customer %}{{ customer.id }}{% endif %}">
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-P86QK3H3"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden">
+      </iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+
+    {%- comment -%}
+      Dawn cart drawer disabled — Cookme renders its own AJAX cart drawer
+      (snippets/cookme-cart-drawer.liquid) via the Cookme Header section.
+    {%- endcomment -%}
+
+    {%- comment -%} Cookme page loader {%- endcomment -%}
+    {% comment %}
+      <div class="cookme-loader" id="cookmeLoader">
+        <div class="cookme-loader-inner">
+          {%- if settings.logo != blank -%}
+            {{ settings.logo | image_url: width: 200 | image_tag: class: 'cookme-loader-logo', loading: 'eager' }}
+          {%- else -%}
+            <img class="cookme-loader-logo" src="{{ 'logo.png' | asset_url }}" alt="{{ shop.name | escape }}" loading="eager">
+          {%- endif -%}
+          <span class="cookme-loader-spinner"></span>
+        </div>
+      </div>
+    {% endcomment %}
+
+    {% sections 'header-group' %}
+
+    <main
+      id="MainContent"
+      class="content-for-layout focus-none"
+      role="main"
+      tabindex="-1"
+      data-template="{{ template.name }}"
+    >
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    <div class="ck-quick-add-modal" id="ckQuickAddModal" aria-hidden="true">
+      <div class="ck-qv-backdrop" data-ck-qv-close></div>
+      <div class="ck-qv-dialog" role="dialog" aria-modal="true" aria-labelledby="ckQvTitle">
+        <button type="button" class="ck-qv-close" id="ckQvClose" aria-label="Close quick add">&times;</button>
+        <div class="ck-qv-grid">
+          <div class="ck-qv-gallery">
+            <div class="ck-qv-thumbs" id="ckQvThumbs"></div>
+            <div class="ck-qv-main-shell">
+              <div class="ck-qv-main" id="ckQvMain"></div>
+            </div>
+          </div>
+          <div class="ck-qv-info">
+            <h2 id="ckQvTitle"></h2>
+            <div class="ck-qv-rating" id="ckQvRating" hidden></div>
+            <div class="ck-qv-price-row">
+              <span class="ck-qv-price" id="ckQvPrice"></span>
+              <span class="ck-qv-unit" id="ckQvUnit" hidden></span>
+            </div>
+            <div class="ck-qv-option-label">Select Variant</div>
+            <div class="ck-qv-variants" id="ckQvVariants"></div>
+            <div class="ck-qv-action-row">
+              <div class="ck-qv-qty" aria-label="Quantity selector">
+                <button type="button" data-ck-qv-qty="minus" aria-label="Decrease quantity">&minus;</button>
+                <span id="ckQvQty">1</span>
+                <button type="button" data-ck-qv-qty="plus" aria-label="Increase quantity">+</button>
+              </div>
+              <button type="button" class="ck-qv-add" id="ckQvAddBtn">Add to Cart</button>
+              <div class="ck-qv-added-message" id="ckQvAddedMessage" hidden>
+                <i class="bi bi-check-circle-fill"></i> Added to cart
+              </div>
+            </div>
+            <div class="ck-qv-meta">
+              <span id="ckQvStock"><i class="bi bi-check-circle-fill"></i> In Stock</span>
+              <span><i class="bi bi-shield-check"></i> 100% Authentic</span>
+              <span><i class="bi bi-box-seam"></i> Secure Packaging</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+    </ul>
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}',
+      };
+
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+      };
+
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`,
+        unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+      };
+
+      window.quickOrderListStrings = {
+        itemsAdded: `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
+        itemAdded: `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
+        itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
+        itemRemoved: `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
+        viewCart: `{{- 'sections.quick_order_list.view_cart' | t -}}`,
+        each: `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
+        min_error: `{{- 'sections.quick_order_list.min_error' | t: min: '[min]' }}`,
+        max_error: `{{- 'sections.quick_order_list.max_error' | t: max: '[max]' }}`,
+        step_error: `{{- 'sections.quick_order_list.step_error' | t: step: '[step]' }}`,
+      };
+
+      window.accessibilityStrings = {
+        imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+        shareSuccess: `{{ 'general.share.success_message' | t }}`,
+        pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+        playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+        recipientFormExpanded: `{{ 'recipient.form.expanded' | t }}`,
+        recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
+        countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
+      };
+    </script>
+
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    {%- if settings.cart_type == 'drawer' -%}
+      <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ 'cookme-custom.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'cookme-shop-pages.js' | asset_url }}" defer="defer"></script>
+
+    <!-- Meta Pixel Noscript -->
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style="display:none"
+        src="https://www.facebook.com/tr?id=856354566428824&ev=PageView&noscript=1"
+        alt=""
+      >
+    </noscript>
+  </body>
+</html>

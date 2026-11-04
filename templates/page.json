@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "inner_page_banner_fkqLjR": {
+      "type": "inner-page-banner",
+      "name": "Inner Page Banner",
+      "settings": {
+        "banner_image_desktop": "shopify://shop_images/hero-bg-v2-new.webp",
+        "banner_image_tablet": "shopify://shop_images/Return_Refund_Policy_with_Spices.png",
+        "banner_image_mobile": "shopify://shop_images/Cookme_Return_Refund_Policy.png",
+        "breadcrumb_title": "",
+        "eyebrow": "Explore Cookme",
+        "title": "Return <span class=\"it\">& Refund Policy</span>",
+        "description": ""
+      }
+    },
+    "custom_liquid_6y7yRG": {
+      "type": "custom-liquid",
+      "name": "t:sections.custom-liquid.presets.name",
+      "settings": {
+        "custom_liquid": "<!-- Return & Refund Content -->\n\n<section class=\"ck-privacy-content ck-return-refund-content\">\n\n  <div class=\"container\">\n\n<!-- Return & Exchange Note -->\n<div class=\"privacy-section\">\n\n  <div class=\"privacy-section-title\">\n    <h2>\n      <span>NOTE FOR RETURN &amp; EXCHANGE :</span>\n      <span></span>\n    </h2>\n\n  </div>\n\n\n  <div class=\"privacy-text\">\n\n    <p><span>* The items should be unused.</span></p>\n\n    <p>\n      <span>* The product should have the original packaging and tags in place. Items without the original tags will not be accepted.</span>\n    </p>\n\n    <p>\n      <span>* Customised products cannot be returned or exchanged</span>\n    </p>\n\n    <p>\n      <span>* Return/Exchange request that are not raised within 7 days of receiving the product would not be accepted.</span>\n    </p>\n\n    <p>\n      <span>* Products bought during sale are non-refundable</span>\n    </p>\n\n    <p>\n      <span>* Product can be returned/exchanged only in case of manufacturing defect, wrong Item, wrong SKU or specification or any defect/damage during shipment.</span>\n    </p>\n\n  </div>\n\n</div>\n\n\n<!-- Domestic Orders -->\n<div class=\"privacy-section\">\n\n  <div class=\"privacy-section-title\">\n\n    <h2>\n      <span>Domestic Orders</span>\n      <span></span>\n    </h2>\n\n  </div>\n\n</div>\n\n\n<!-- Cancellation Policy -->\n<div class=\"privacy-section\">\n\n  <div class=\"privacy-section-title\">\n\n    <span class=\"privacy-number\">1</span>\n\n    <h2>\n      <span>Cancellation Policy :</span>\n      <span></span>\n    </h2>\n\n  </div>\n\n\n  <div class=\"privacy-text\">\n\n    <p>\n      <span>1. Incase there is an order cancellation, please do so before it is shipped. Shipping charges are non-refundable once the order is dispatched.</span>\n    </p>\n\n    <p>\n      <span>2. You can request your order cancellation through the link: </span>\n      <a href=\"https://apps.returnprime.com/suta-in.myshopify.com/\">https://apps.returnprime.com/suta-in.myshopify.com/</a>\n    </p>\n\n  </div>\n\n</div>\n\n\n<!-- Return Policy -->\n<div class=\"privacy-section\">\n\n  <div class=\"privacy-section-title\">\n\n    <span class=\"privacy-number\">2</span>\n\n    <h2>\n      <span>Return Policy :</span>\n    </h2>\n\n  </div>\n\n\n  <div class=\"privacy-text\">\n\n    <p>\n      <span>1. If you have received the product in a bad condition or if the packaging is tampered with, please refuse the package. Mail us at xclusive@cookme.in mentioning your Order ID. The replacement will be issued to you with no additional cost.</span>\n    </p>\n\n    <p>\n      <span>2. Shipping and COD charges are non refundable</span>\n    </p>\n\n    <p>\n      <span>3. Raise your return request within 10 days of receiving the shipment through this link : https://apps.returnprime.com/suta-in.myshopify.com/ . If you receive any defective product, do contact us immediately by mailing us at xclusive@cookme.in with your Order ID and send us a snapshot of the defect. We will either provide you a credit note or refund the amount of the product.</span>\n    </p>\n\n    <p>\n      <span>4. If you have to cancel an order, please do so before your order is shipped</span>\n    </p>\n\n    <p>\n      <span>5. If you cancel your order before it has been shipped, we will refund the entire amount</span>\n    </p>\n\n    <p>\n      <span>6. The shipping charges for sending the products back has to be borne by the customer</span>\n    </p>\n\n    <p>\n      <span>7. Once we have received the products a quality check would be done by our team</span>\n    </p>\n\n    <p>\n      <span>8. The amount refunded to you would be only for the products not the shipping charges</span>\n    </p>\n\n    <p>\n      <span>9. If you do opt for a credit note, you cannot en-cash it later.</span>\n    </p>\n\n    <p>\n      <span>10. Incase we do not have pick up service available at your location, you would have to self ship the product. A maximum of 150 INR would be given to you as a credit note for reverse shipping.</span>\n    </p>\n\n    <p>\n      <span>11. For COD orders, the refund link will be sent to registered email and contact number. Incase of non redemption of the link, you can contact our customer service within 3 months for a new link.</span>\n    </p>\n\n    <p>\n      <span>12. Cash On Delivery (COD) will be applicable for orders above ₹999/- on a single order. Customers can avail COD facility only after the pending COD orders is delivered successfully.</span>\n    </p>\n\n    <p>\n      <span>13. In case of multiple orders from same person, the first COD pending order will be considered and remaining order might stand cancelled..</span>\n    </p>\n\n  </div>\n\n</div>\n  </div>\n\n</section>",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "main",
+    "inner_page_banner_fkqLjR",
+    "custom_liquid_6y7yRG"
+  ]
+}

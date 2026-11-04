@@ -1,0 +1,152 @@
+{%- comment -%}
+  Cookme Inner Page Banner
+  - Reusable on different templates/pages
+  - Breadcrumb
+  - Eyebrow
+  - Main heading
+  - Highlighted heading
+  - Description
+{%- endcomment -%}
+
+<section class="ck-inner-page-banner">
+
+  <!-- Breadcrumb -->
+  <div class="shop-breadcrumb">
+    <div class="container">
+
+      <a href="{{ routes.root_url }}">
+        Home
+      </a>
+
+      <i class="bi bi-chevron-right"></i>
+
+      <span>
+        {%- if section.settings.breadcrumb_title != blank -%}
+          {{ section.settings.breadcrumb_title }}
+
+        {%- elsif template.name == 'collection' -%}
+          {{ collection.title }}
+
+        {%- elsif template.name == 'product' -%}
+          {{ product.title }}
+
+        {%- elsif template.name == 'page' -%}
+          {{ page.title }}
+
+        {%- elsif template.name == 'blog' -%}
+          {{ blog.title }}
+
+        {%- elsif template.name == 'article' -%}
+          {{ article.title }}
+
+        {%- else -%}
+          {{ page_title }}
+        {%- endif -%}
+      </span>
+
+    </div>
+  </div>
+
+
+  <!-- Page Header -->
+  <section class="plp-head" style="
+    --banner-desktop: {% if section.settings.banner_image_desktop != blank %}url('{{ section.settings.banner_image_desktop | image_url: width: 2000 }}'){% else %}none{% endif %};
+    --banner-tablet: {% if section.settings.banner_image_tablet != blank %}url('{{ section.settings.banner_image_tablet | image_url: width: 1600 }}'){% else %}var(--banner-desktop){% endif %};
+    --banner-mobile: {% if section.settings.banner_image_mobile != blank %}url('{{ section.settings.banner_image_mobile | image_url: width: 1200 }}'){% else %}var(--banner-tablet){% endif %};
+  ">
+
+    <div class="container plp-head-content">
+
+      <div class="plp-head-row">
+
+        <div>
+
+          {%- if section.settings.eyebrow != blank -%}
+            <div class="eyebrow">
+              {{ section.settings.eyebrow }}
+            </div>
+          {%- endif -%}
+
+          <h1 class="section-title">
+            {%- if section.settings.title != blank -%}
+              {{ section.settings.title }}
+            {%- endif -%}
+          </h1>
+
+          {%- if section.settings.description != blank -%}
+            <p class="plp-desc">
+              {{ section.settings.description }}
+            </p>
+          {%- endif -%}
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</section>
+
+
+{% schema %}
+
+{
+  "name": "Inner Page Banner",
+
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "banner_image_desktop",
+      "label": "Banner Image - Desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_tablet",
+      "label": "Banner Image - Tablet"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_mobile",
+      "label": "Banner Image - Mobile"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_title",
+      "label": "Breadcrumb Title",
+      "info": "Leave blank to automatically use the current page, collection, product or blog title."
+    },
+
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Explore Cookme"
+    },
+
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Discover"
+    },
+
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Explore our range of authentic spices, pastes and home delights."
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Inner Page Banner"
+    }
+  ]
+
+}
+
+{% endschema %}
